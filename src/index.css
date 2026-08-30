@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Geist+Mono:wght@300;400;500;600;700&family=Geist:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-geist: "Geist", "Inter", sans-serif;
+
+  /* Refined forest green brand tokens mapped to zinc family to update whole app dynamically */
+  --color-zinc-50: #f4faf6;
+  --color-zinc-100: #e8f4ed;
+  --color-zinc-150: #dcece2;
+  --color-zinc-200: #dfe8e2;
+  --color-zinc-300: #cad5ce;
+  --color-zinc-400: #7c8a82;
+  --color-zinc-500: #5c6e64;
+  --color-zinc-600: #42534a;
+  --color-zinc-700: #2b3931;
+  --color-zinc-800: #1c2721;
+  --color-zinc-900: #064323;
+  --color-zinc-950: #052e1a;
+
+  --color-black: #052e1a;
+
+  --color-forest-50: #f4faf6;
+  --color-forest-100: #e8f4ed;
+  --color-forest-600: #1b7f47;
+  --color-forest-700: #116b3a;
+  --color-forest-800: #0b5a31;
+  --color-forest-900: #064323;
+  --color-forest-950: #052e1a;
+
+  --color-alert-red: #b42318;
+  --color-alert-red-soft: #fff1f0;
+  --color-alert-red-border: #f3b3ad;
+}
+
+/* Subtle scrollbar for executive feel */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cad5ce;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #7c8a82;
+}
+
+/* Base resets */
+body {
+  background-color: #f7faf8;
+  color: #07130c;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
