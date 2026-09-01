@@ -21,7 +21,7 @@ export default function Sidebar({ currentScreen, onScreenChange, variant = 'desk
   const menuItems = [
     {
       id: AppScreen.COMMAND_CENTER,
-      label: 'Command Center',
+      label: 'Overview',
       icon: LayoutDashboard,
     },
     {

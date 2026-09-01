@@ -1,4 +1,4 @@
-import React from 'react';
+content = """import React from 'react';
 import { ZoneData, InterventionMap } from '../types';
 import { DEVICES } from '../data';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
@@ -250,3 +250,7 @@ export default function CommandCenter({
     </div>
   );
 }
+"""
+
+with open('src/components/CommandCenter.tsx', 'w') as f:
+    f.write(content)
