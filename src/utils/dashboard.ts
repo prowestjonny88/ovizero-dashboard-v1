@@ -244,12 +244,7 @@ export const buildReportLogs = (
       { id: 'log-7d-4', timestamp: getDemoPastISO(4, 1), displayTime: '', tag: 'UI MOCK', message: 'Illustrative acoustic candidate value displayed; classifier not trained.', level: 'INFO' },
       { id: 'log-7d-5', timestamp: getDemoPastISO(5, 2), displayTime: '', tag: 'UI MOCK', message: 'Simulated intervention record created in the current session.', level: 'INFO' }
     ];
-    staticLogs = [
-    ];
-  } else {
-    staticLogs = [
-    ];
-  }
+    }
 
   staticLogs = staticLogs.map(log => ({ ...log, displayTime: formatLogDisplayTime(log.timestamp) }));
 

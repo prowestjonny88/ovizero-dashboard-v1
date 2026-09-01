@@ -72,14 +72,7 @@ export default function ZoneDetail({
 
   
   const valuesArray = zone?.trendData || [0,0,0,0,0,0,0];
-  let xLabels: string[];
-  
-  if (true) {
-    xLabels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-    xLabels = ["1st", "5th", "10th", "15th", "20th", "25th", "30th"];
-  } else {
-    xLabels = ["Week 1", "Week 3", "Week 5", "Week 7", "Week 9", "Week 11", "Week 13"];
-  }
+  const xLabels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
   const first = valuesArray[0];
   const last = valuesArray[valuesArray.length - 1];

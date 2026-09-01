@@ -8,7 +8,7 @@ export const ZONES: ZoneData[] = [
     demoPriorityBand: 'Critical',
     eggActivityChange: '+37%',
     actionRequired: 'Review nearby breeding sources and assign a field assessment.',
-    trigger: 'Simulated temperature and humidity provide contextual information alongside synthetic egg activity.',
+    trigger: 'Egg activity + local microclimate context',
     syntheticEggActivity: 127,
     temperature: 32.1,
     humidity: 84,
@@ -37,7 +37,7 @@ export const ZONES: ZoneData[] = [
       },
       {
         title: 'Local microclimate context',
-        description: 'Sustained high humidity following localized rainfall creates a proposed site-risk assumption for rapid larval development.'
+        description: 'Simulated temperature and humidity provide contextual information alongside synthetic egg activity.'
       }
     ],
     provenance: {
