@@ -32,6 +32,9 @@ export const getStatusColor = (status: InterventionStatus): string => {
     case 'Awaiting Verification': return 'bg-purple-100 text-purple-800 border-purple-200';
     case 'Activity decreased': return 'bg-green-100 text-green-800 border-green-200';
     case 'Little/no change': return 'bg-zinc-100 text-zinc-800 border-zinc-200';
+    case 'Activity increased': return 'bg-orange-100 text-orange-800 border-orange-200';
+    case 'Not comparable': return 'bg-zinc-100 text-zinc-600 border-zinc-200';
+    case 'Inconclusive': return 'bg-zinc-100 text-zinc-600 border-zinc-200';
     case 'Escalated': return 'bg-rose-100 text-rose-800 border-rose-200';
     default: return 'bg-gray-100 text-gray-800 border-gray-200';
   }

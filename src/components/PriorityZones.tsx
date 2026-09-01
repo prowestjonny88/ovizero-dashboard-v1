@@ -87,6 +87,16 @@ export default function PriorityZones({
               else currentStage = 'Follow-up recorded';
             }
 
+            let nextStepText = "Review the location and record a human decision.";
+            if (intervention) {
+              if (intervention.status === 'New Alert') nextStepText = "Review the location and record a human decision.";
+              else if (intervention.status === 'Reviewed') nextStepText = "Assign a field team and select the field action.";
+              else if (intervention.status === 'Assigned' || intervention.status === 'On Site') nextStepText = "Record field findings and action.";
+              else if (intervention.status === 'Action Completed' || intervention.status === 'Awaiting Verification') nextStepText = "Record the follow-up observation.";
+              else if (intervention.status === 'Escalated') nextStepText = "Additional human review required.";
+              else nextStepText = "Follow-up observation recorded.";
+            }
+
             return (
               <div 
                 key={zone.id}
@@ -123,7 +133,7 @@ export default function PriorityZones({
                   <div className="flex-1 min-w-[200px]">
                     <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest block mb-0.5">Next step</span>
                     <p className="text-xs font-medium text-zinc-600 leading-relaxed">
-                      {zone.actionRequired ? zone.actionRequired.charAt(0).toLowerCase() + zone.actionRequired.slice(1) : "review nearby breeding sources and assign a field assessment."}
+                      {nextStepText}
                     </p>
                   </div>
                   

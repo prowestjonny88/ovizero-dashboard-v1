@@ -19,6 +19,9 @@ const getStatusColor = (status: InterventionStatus) => {
     case 'Awaiting Verification': return 'text-purple-700 bg-purple-50 border-purple-200';
     case 'Activity decreased': return 'text-emerald-700 bg-emerald-50 border-emerald-200';
     case 'Little/no change': return 'text-rose-700 bg-rose-50 border-rose-200';
+    case 'Activity increased': return 'text-orange-700 bg-orange-50 border-orange-200';
+    case 'Not comparable': return 'text-zinc-700 bg-zinc-50 border-zinc-200';
+    case 'Inconclusive': return 'text-zinc-700 bg-zinc-50 border-zinc-200';
     case 'Escalated': return 'text-red-700 bg-red-100 border-red-300';
     default: return 'text-zinc-700 bg-zinc-50 border-zinc-200';
   }
@@ -106,7 +109,7 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
         <div>
           <h3 className="text-sm font-bold text-zinc-900 flex items-center gap-2">
             <Activity size={16} className="text-zinc-500" />
-            INTERVENTION WORKFLOW
+            FIELD ACTION WORKFLOW
           </h3>
           <p className="text-xs text-zinc-500 mt-1">Status and active requirements.</p>
         </div>
@@ -159,7 +162,7 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
                   <textarea value={reviewNote} onChange={e => setReviewNote(e.target.value)} className="w-full text-sm border border-red-200 rounded p-2 min-h-[60px]" placeholder="Required note..." />
                 </div>
                 <button onClick={handleReview} className="px-3 py-1.5 bg-red-600 text-white rounded text-xs font-bold hover:bg-red-700 transition-colors">
-                  Mark as Reviewed
+                  COMPLETE REVIEW
                 </button>
               </div>
             )}
@@ -265,10 +268,10 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
             
             {record.status === 'Awaiting Verification' && (
               <div className="bg-purple-50 p-4 rounded-xl border border-purple-200">
-                <p className="text-sm font-bold text-purple-900 mb-1 flex items-center gap-2"><Clock size={16} /> Action logged. Follow-up verification is pending.</p>
+                <p className="text-sm font-bold text-purple-900 mb-1 flex items-center gap-2"><Clock size={16} /> Action logged. Follow-up observation is pending.</p>
                 <div className="p-3 bg-white border border-purple-100 rounded-lg text-xs text-zinc-600 flex items-start gap-2">
                   <Info size={14} className="text-purple-500 shrink-0 mt-0.5" />
-                  <p>Completing an action does not automatically lower the illustrative scenario index or mark the issue resolved. Follow-up verification is required.</p>
+                  <p>Completing an action does not automatically lower the illustrative scenario index or mark the issue resolved. Follow-up observation is required.</p>
                 </div>
               </div>
             )}

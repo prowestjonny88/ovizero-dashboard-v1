@@ -187,7 +187,7 @@ export default function App() {
       if (status === 'On Site') updatedRecord.onSiteAt = now;
       if (status === 'Action Completed') updatedRecord.actionCompletedAt = now;
       if (status === 'Awaiting Verification') updatedRecord.verificationDueAt = now;
-      if (['Activity decreased', 'Little/no change', 'Escalated'].includes(status)) updatedRecord.closedAt = now;
+      if (['Activity decreased', 'Little/no change', 'Activity increased', 'Not comparable', 'Inconclusive', 'Escalated'].includes(status)) updatedRecord.closedAt = now;
 
       return {
         ...prev,
