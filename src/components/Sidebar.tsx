@@ -31,7 +31,7 @@ export default function Sidebar({ currentScreen, onScreenChange, variant = 'desk
     },
     {
       id: AppScreen.PRIORITY_ZONES,
-      label: 'Priority Zones',
+      label: 'Field Actions',
       icon: AlertTriangle,
     },
     {

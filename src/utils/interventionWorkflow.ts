@@ -9,6 +9,9 @@ export const ALLOWED_INTERVENTION_TRANSITIONS: Record<InterventionStatus, Interv
   'Awaiting Verification': [
     'Activity decreased',
     'Little/no change',
+    'Activity increased',
+    'Not comparable',
+    'Inconclusive',
     'Escalated'
   ],
   'Little/no change': ['Escalated'],

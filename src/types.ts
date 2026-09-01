@@ -258,12 +258,12 @@ export type InterventionStatus =
   | 'Escalated';
 
 export type InterventionActionType =
-  | 'Source Reduction'
-  | 'Drain Inspection'
-  | 'Container Removal'
-  | 'Larvicide Assessment'
-  | 'Resident Notification'
-  | 'Targeted Fogging Assessment'
+  | 'Inspect breeding sources'
+  | 'Drain inspection'
+  | 'Container removal / source reduction'
+  | 'Request larvicide assessment'
+  | 'Request vector-control authority assessment'
+  | 'Resident communication'
   | 'Other';
 
 export interface InterventionTimelineEvent {

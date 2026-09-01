@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import re
+
+content = """import React, { useState } from 'react';
 import { InterventionVerification, InterventionRecord, VerificationOutcome, ZoneData } from '../../types';
 import { ShieldCheck, Activity, Calendar, User, FileText, CheckCircle, AlertCircle, ShieldAlert } from 'lucide-react';
 
@@ -169,3 +171,8 @@ export default function VerificationPanel({ zoneId, zoneData, record, verificati
     </div>
   );
 }
+"""
+
+with open('src/components/interventions/VerificationPanel.tsx', 'w') as f:
+    f.write(content)
+

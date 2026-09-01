@@ -24,6 +24,18 @@ const getStatusColor = (status: InterventionStatus) => {
   }
 };
 
+const getTimelineLabel = (status: string) => {
+    switch (status) {
+      case 'New Alert': return 'Workflow started';
+      case 'Reviewed': return 'Review completed';
+      case 'Assigned': return 'Assigned';
+      case 'On Site': return 'Field action recorded'; // Since we simplified On Site and Action Completed
+      case 'Action Completed': return 'Field action recorded';
+      case 'Awaiting Verification': return 'Follow-up pending';
+      default: return 'Follow-up recorded';
+    }
+  };
+
 export default function InterventionWorkflowPanel({ zone, record, onCreate, onTransition }: InterventionWorkflowPanelProps) {
   // Review State
   const [reviewerName, setReviewerName] = useState(record?.reviewerName || 'System Admin');
@@ -52,10 +64,10 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
     return (
       <div className="bg-white rounded-xl border border-zinc-200 p-6 shadow-sm text-center">
         <Activity size={32} className="text-zinc-400 mx-auto mb-3" />
-        <h3 className="text-sm font-bold text-zinc-900 mb-1">No Active Intervention</h3>
-        <p className="text-xs text-zinc-500 mb-4">There is no active intervention workflow for {zone.name}.</p>
+        <h3 className="text-sm font-bold text-zinc-900 mb-1">No field action started</h3>
+        <p className="text-xs text-zinc-500 mb-4">There is no active field action for {zone.name}.</p>
         <button onClick={onCreate} className="px-4 py-2 bg-[#052e1a] text-white rounded-lg text-sm font-bold hover:bg-[#0a4226] transition-colors">
-          Create Manual Alert
+          START REVIEW
         </button>
       </div>
     );
@@ -124,9 +136,9 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
                 {i < record.timeline.length - 1 && (
                   <div className="absolute left-[3px] top-3 bottom-[-16px] w-0.5 bg-zinc-200" />
                 )}
-                <div className="text-xs font-bold text-zinc-900">{event.status}</div>
+                <div className="text-xs font-bold text-zinc-900">{getTimelineLabel(event.status)}</div>
                 <div className="text-[10px] text-zinc-500 font-mono mt-0.5">
-                  {new Date(event.timestamp).toLocaleTimeString()} · {event.actor}
+                  {new Date(event.timestamp).toLocaleDateString()} · Demo user
                 </div>
                 {event.note && (
                   <div className="mt-1 text-[10px] text-zinc-600 bg-white border border-zinc-200 rounded p-1.5 italic">
@@ -206,30 +218,17 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
             
             {record.status === 'Assigned' && (
               <div className="bg-yellow-50 p-4 rounded-xl border border-yellow-200 space-y-3">
-                <h4 className="text-sm font-bold text-yellow-900">Mark On-Site Arrival</h4>
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-[10px] font-bold text-yellow-800 uppercase mb-1">Arrival Time *</label>
-                    <input type="datetime-local" value={arrivalTimestamp} onChange={e => setArrivalTimestamp(e.target.value)} className="w-full text-sm border border-yellow-200 rounded p-2" />
-                  </div>
-                  <div className="flex items-center gap-2 mt-4">
-                    <input type="checkbox" checked={locationConfirmation} onChange={e => setLocationConfirmation(e.target.checked)} className="w-4 h-4 rounded border-yellow-300" id="loc-chk" />
-                    <label htmlFor="loc-chk" className="text-xs text-yellow-900 font-bold">Simulate GPS Match *</label>
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-[10px] font-bold text-yellow-800 uppercase mb-1">Initial Inspection Note *</label>
-                  <textarea value={inspectionNote} onChange={e => setInspectionNote(e.target.value)} className="w-full text-sm border border-yellow-200 rounded p-2 min-h-[50px]" placeholder="Required..." />
-                </div>
+                <h4 className="text-sm font-bold text-yellow-900">Record Field Action</h4>
+                <div className="text-xs text-yellow-800 mb-2">Team is assigned. Record the outcome of the field visit here.</div>
                 <button onClick={handleOnSite} className="px-3 py-1.5 bg-yellow-600 text-white rounded text-xs font-bold hover:bg-yellow-700">
-                  Mark On Site
+                  Begin Field Action Record
                 </button>
               </div>
-            )}
+            )}}
             
             {record.status === 'On Site' && (
               <div className="space-y-3">
-                <h4 className="text-sm font-bold text-zinc-900 mb-2">Complete Action</h4>
+                <h4 className="text-sm font-bold text-zinc-900 mb-2">Record Field Action</h4>
                 <div>
                   <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Findings *</label>
                   <textarea value={findings} onChange={e => setFindings(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2 min-h-[60px]" placeholder="Required: Detailed findings..." />
@@ -239,8 +238,8 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
                   <textarea value={actionsPerformed} onChange={e => setActionsPerformed(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2 min-h-[50px]" placeholder="Required: Actions performed..." />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Completion Notes *</label>
-                  <textarea value={completionNotes} onChange={e => setCompletionNotes(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2 min-h-[50px]" placeholder="Required: Completion notes..." />
+                  <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Notes *</label>
+                  <textarea value={completionNotes} onChange={e => setCompletionNotes(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2 min-h-[50px]" placeholder="Required: Additional notes..." />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
@@ -248,7 +247,7 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
                     <input type="date" value={followUpDate} onChange={e => setFollowUpDate(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2" />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Verification Owner *</label>
+                    <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Responsible Person *</label>
                     <input type="text" value={verificationOwner} onChange={e => setVerificationOwner(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2" />
                   </div>
                 </div>
@@ -260,7 +259,7 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
                   Mark Action Completed
                 </button>
               </div>
-            )}
+            )}}
             
             {record.status === 'Action Completed' && (
               <div className="bg-indigo-50 p-4 rounded-xl border border-indigo-200 space-y-3">

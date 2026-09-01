@@ -1,55 +1,14 @@
-import ScenarioPeriodLabel from "./ScenarioPeriodLabel";
-import React from 'react';
-import { ZoneData, InterventionMap, InterventionStatus } from '../types';
-import { getTopPriorityZones, getInterventionForZone, getPilotDisplayLocationForMetricZone } from '../utils/dashboard';
-import { PILOT_NODES } from '../data';
-import InterventionStatusBadge from './interventions/InterventionStatusBadge';
-import { 
-  CheckCircle, 
-  TrendingUp, 
-  Clock, 
-  Activity, 
-  Compass, 
-  ChevronRight,
-  ShieldCheck
-} from 'lucide-react';
+import re
 
-interface PriorityZonesProps {
-  zones: ZoneData[];
-  interventions: InterventionMap;
-  onZoneSelect: (zoneId: string) => void;
-  
-}
+with open('src/components/PriorityZones.tsx', 'r') as f:
+    content = f.read()
 
-export default function PriorityZones({ 
-  zones, 
-  interventions, 
-  onZoneSelect,
-}: PriorityZonesProps) {
-  
-  // Rank mock profiles by illustrative scenario index descending
-  const sortedZones = getTopPriorityZones(zones, zones.length);
+# Replace Header and subtitle
+content = content.replace("Intervention Priority Matrix", "FIELD ACTIONS")
+content = content.replace("Sort zones by synthetic index or operational action window.", "Human-reviewed inspection, assignment and follow-up workflow.")
 
-  return (
-    <div className="space-y-8 max-w-7xl mx-auto pb-12">
-      
-      {/* Page Header Info */}
-      <section className="bg-white p-6 rounded-xl border border-zinc-200/50 shadow-[0_1px_2px_rgba(0,0,0,0.01)] flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest font-mono">Intervention Planning</span>
-          <h1 className="text-xl font-extrabold text-zinc-950 tracking-tight mt-1">FIELD ACTIONS</h1>
-          <p className="text-xs text-zinc-500 font-medium mt-1 mb-2">
-            Priority ordering uses simulated scenario values and provisional interface bands.
-          </p>
-          <ScenarioPeriodLabel  mode="selected-period" />
-        </div>
-        <div className="flex items-center gap-2 bg-zinc-50 px-3.5 py-2 rounded-lg border border-zinc-150 text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">
-          <Compass className="w-4 h-4 text-zinc-400" />
-          <span>Ranked by illustrative scenario index</span>
-        </div>
-      </section>
-
-            <div className="bg-white p-4 rounded-xl border border-zinc-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+# Add Process Strip
+process_strip = """      <div className="bg-white p-4 rounded-xl border border-zinc-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center gap-2 lg:gap-4 overflow-x-auto whitespace-nowrap scrollbar-hidden w-full text-xs font-bold text-zinc-500 uppercase tracking-widest">
           <div className="flex items-center gap-2"><div className="w-5 h-5 rounded-full bg-[#e8f4ed] text-[#052e1a] flex items-center justify-center font-mono text-[10px]">1</div>REVIEW</div>
           <div className="w-8 h-px bg-zinc-200 hidden sm:block"></div>
@@ -60,24 +19,22 @@ export default function PriorityZones({
           <div className="flex items-center gap-2"><div className="w-5 h-5 rounded-full bg-[#e8f4ed] text-[#052e1a] flex items-center justify-center font-mono text-[10px]">4</div>RECORD FOLLOW-UP</div>
         </div>
       </div>
+"""
+content = re.sub(r'\{/\* Priority Matrix List \*/\}', process_strip + '\n      {/* Priority Matrix List */}', content)
 
-      {/* Priority Matrix List */}
-      <div className="space-y-4">
-        {sortedZones.length === 0 ? (
-          <div className="bg-white rounded-xl border border-zinc-200/50 p-12 text-center shadow-[0_1px_2px_rgba(0,0,0,0.01)] flex flex-col items-center justify-center">
-            <ShieldCheck className="w-8 h-8 text-zinc-300 mb-3" />
-            <h3 className="text-sm font-bold text-zinc-900 uppercase tracking-widest mb-1">No Priority Locations</h3>
-            <p className="text-xs text-zinc-500 max-w-[250px] font-medium">
-              No priority locations are available.
-            </p>
-          </div>
-        ) : (
-          sortedZones.map((zone, index) => {
-            const priorityRank = index + 1;
-            const isCritical = zone.demoPriorityBand === 'Critical' || zone.demoPriorityBand === 'High';
-            const intervention = getInterventionForZone(zone.id, interventions);
-            const loc = getPilotDisplayLocationForMetricZone(zone.id, PILOT_NODES, zones);
-            const displayName = loc ? `${loc.parentZone} · ${loc.sublocation}` : zone.name;
+# Modify Empty State
+content = content.replace("No Priority Zones", "No Priority Locations")
+content = content.replace("No priority zones are available.", "No priority locations are available.")
+
+
+# Find the map body and replace the whole card.
+start_marker = "const displayName = loc ? `${loc.parentZone} · ${loc.sublocation}` : zone.name;"
+end_marker = "        })\n        )}\n      </div>"
+
+start_idx = content.find(start_marker)
+end_idx = content.find(end_marker)
+
+new_card = """const displayName = loc ? `${loc.parentZone} · ${loc.sublocation}` : zone.name;
             
             // Map internal intervention status to the 4 stages for display
             let currentStage = 'Needs review';
@@ -144,10 +101,10 @@ export default function PriorityZones({
                 </div>
               </div>
             );
-        })
-        )}
-      </div>
+"""
 
-    </div>
-  );
-}
+content = content[:start_idx] + new_card + content[end_idx:]
+
+with open('src/components/PriorityZones.tsx', 'w') as f:
+    f.write(content)
+

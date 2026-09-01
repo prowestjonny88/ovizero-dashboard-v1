@@ -13,10 +13,7 @@ import {
    
   MapPin, 
    
-  ArrowUpRight, 
-  
-  ChevronDown,
-  ChevronUp
+  ArrowUpRight,
 } from 'lucide-react';
 
 interface RiskMapProps {
@@ -41,7 +38,6 @@ export default function RiskMap({
   const [selectedDeviceId, setSelectedDeviceId] = useState<string | null>('OZ-041');
 
   // Expandable details states for mobile
-  const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const [showLegend, setShowLegend] = useState(false);
 
   const viewModels = useMemo(() => 
