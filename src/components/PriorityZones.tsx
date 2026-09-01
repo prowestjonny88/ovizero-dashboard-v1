@@ -1,15 +1,9 @@
 import React from 'react';
-import { ZoneData, InterventionMap, InterventionStatus } from '../types';
+import { ZoneData, InterventionMap } from '../types';
 import { getTopPriorityZones, getInterventionForZone, getPilotDisplayLocationForMetricZone } from '../utils/dashboard';
 import { PILOT_NODES } from '../data';
-import InterventionStatusBadge from './interventions/InterventionStatusBadge';
 import { 
-  CheckCircle, 
-  TrendingUp, 
-  Clock, 
-  Activity, 
-  Compass, 
-  ChevronRight,
+  Compass,
   ShieldCheck
 } from 'lucide-react';
 
@@ -38,7 +32,7 @@ export default function PriorityZones({
           <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest font-mono">Intervention Planning</span>
           <h1 className="text-xl font-extrabold text-zinc-950 tracking-tight mt-1">FIELD ACTIONS</h1>
           <p className="text-xs text-zinc-500 font-medium mt-1 mb-2">
-            Priority ordering uses simulated scenario values and provisional interface bands.
+            Human-reviewed inspection, assignment and follow-up workflow.
           </p>
         </div>
         <div className="flex items-center gap-2 bg-zinc-50 px-3.5 py-2 rounded-lg border border-zinc-150 text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { InterventionVerification, InterventionRecord, VerificationOutcome, ZoneData } from '../../types';
-import { ShieldCheck, Activity, Calendar, User, FileText, CheckCircle, AlertCircle, ShieldAlert } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
+import { DEMO_SNAPSHOT_AT } from '../../utils/dashboard';
 
 interface VerificationPanelProps {
   zone: ZoneData;
@@ -33,8 +34,8 @@ export default function VerificationPanel({ zone, intervention, verification, on
   ].includes(intervention.status);
 
   const handleOutcome = (outcome: VerificationOutcome) => {
-    if (!inspectionResult || !officerNote) {
-      alert("Please fill in inspection result and reviewer note.");
+    if (!followUpDate || !inspector || !inspectionResult || !officerNote) {
+      alert("Please fill in follow-up date, inspector, inspection result, and reviewer note.");
       return;
     }
     
@@ -49,7 +50,7 @@ export default function VerificationPanel({ zone, intervention, verification, on
       evidencePhotoName: evidenceFilename,
       outcome,
       before: {
-        recordedAt: new Date().toISOString(),
+        recordedAt: DEMO_SNAPSHOT_AT,
         dataSource: 'Simulated',
         syntheticEggActivity: zone.syntheticEggActivity,
         eggActivityChange: zone.eggActivityChange,
@@ -57,7 +58,7 @@ export default function VerificationPanel({ zone, intervention, verification, on
         riskBand: zone.demoPriorityBand
       },
       after: {
-        recordedAt: new Date().toISOString(),
+        recordedAt: followUpDate ? new Date(followUpDate).toISOString() : new Date().toISOString(),
         dataSource: 'Manual Entry',
         syntheticEggActivity: afterEggCount ? parseInt(afterEggCount, 10) : null,
         eggActivityChange: null,

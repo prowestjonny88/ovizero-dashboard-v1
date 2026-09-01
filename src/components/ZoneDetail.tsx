@@ -1,13 +1,9 @@
-import ScenarioPeriodLabel from "./ScenarioPeriodLabel";
 import React from 'react';
-import { getInterventionForZone, getDeviceForMetricZone, getPilotDisplayLocationForMetricZone } from '../utils/dashboard';
-import { DEVICES, PILOT_NODES, ZONES } from '../data';
-import EdgeAIEvidencePanel from './evidence/EdgeAIEvidencePanel';
-import RiskExplanationPanel from './evidence/RiskExplanationPanel';
+import { getInterventionForZone, getPilotDisplayLocationForMetricZone } from '../utils/dashboard';
+import { PILOT_NODES, ZONES } from '../data';
 import InterventionWorkflowPanel from './interventions/InterventionWorkflowPanel';
 import VerificationPanel from './interventions/VerificationPanel';
 import InterventionStatusBadge from './interventions/InterventionStatusBadge';
-import { getRiskBand } from '../utils/riskExplanation';
 import { ZoneData, InterventionMap } from '../types';
 import { 
   ArrowLeft, 
@@ -21,7 +17,6 @@ import {
   ChevronRight,
   ShieldAlert
 } from 'lucide-react';
-
 import { InterventionStatus, InterventionTransitionPayload, VerificationOutcome, InterventionVerificationMap, InterventionVerification } from '../types';
 
 interface ZoneDetailProps {
@@ -54,9 +49,10 @@ export default function ZoneDetail({
   
   // Custom SVG coordinates generator for specific zone trend
   const trendMax = 150;
-  const selectedZoneDevice = zone ? getDeviceForMetricZone(zone.id, PILOT_NODES, DEVICES) : null;
   const loc = zone ? getPilotDisplayLocationForMetricZone(zone.id, PILOT_NODES, zones) : null;
-  const displayName = loc ? `${loc.parentZone} · ${loc.sublocation}` : zone?.name;
+  const displayName = loc 
+    ? (loc.parentZone === loc.sublocation ? loc.parentZone : `${loc.parentZone} · ${loc.sublocation}`) 
+    : zone?.name;
 
   const getDisplayLocation = (zId: string, fallback: string) => {
     const l = getPilotDisplayLocationForMetricZone(zId, PILOT_NODES, zones);
@@ -94,7 +90,7 @@ export default function ZoneDetail({
           onClick={onBackToCommandCenter}
           className="bg-zinc-950 text-white px-5 py-2.5 rounded-lg text-[10px] font-bold uppercase tracking-wider hover:bg-zinc-800 cursor-pointer shadow-sm"
         >
-          Return to Priority Zones
+          Return to Field Actions
         </button>
       </div>
     );
@@ -155,10 +151,10 @@ export default function ZoneDetail({
         </div>
         
         <div className="bg-white rounded-xl border border-zinc-200 p-5 shadow-sm">
-          <h3 className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest mb-2">Simulated Egg Activity (7D)</h3>
+          <h3 className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest mb-2">Synthetic egg activity</h3>
           <div className="flex items-center gap-2">
             <span className="text-2xl font-bold text-zinc-950">{last}</span>
-            <span className="text-sm font-bold text-zinc-500">eggs</span>
+            <span className="text-sm font-bold text-zinc-500">demo eggs</span>
           </div>
           <div className="flex items-center gap-1 mt-1 text-xs font-bold text-zinc-600">
             <TrendingUp className="w-3.5 h-3.5" />
@@ -178,7 +174,10 @@ export default function ZoneDetail({
               <span>{zone.humidity}%</span>
             </div>
             <div className="flex justify-between text-xs text-zinc-600">
-              <span className="font-bold">Rainfall (48h)</span>
+              <div className="flex flex-col">
+                <span className="font-bold">External rainfall context</span>
+                <span className="text-[9px] text-zinc-400 mt-0.5">External demo input</span>
+              </div>
               <span>{zone.rainfall}</span>
             </div>
           </div>

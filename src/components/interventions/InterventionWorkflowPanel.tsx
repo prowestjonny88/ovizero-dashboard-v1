@@ -261,7 +261,7 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
                 <p className="text-xs text-indigo-800 font-medium">Findings:</p>
                 <p className="text-xs text-indigo-700 bg-white/50 p-2 rounded italic">{record.findings || 'No findings recorded.'}</p>
                 <button onClick={handleAwaitingVerification} className="px-3 py-1.5 bg-indigo-600 text-white rounded text-xs font-bold hover:bg-indigo-700 mt-2">
-                  Move to Awaiting Verification
+                  CONTINUE TO FOLLOW-UP
                 </button>
               </div>
             )}
@@ -271,7 +271,7 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
                 <p className="text-sm font-bold text-purple-900 mb-1 flex items-center gap-2"><Clock size={16} /> Action logged. Follow-up observation is pending.</p>
                 <div className="p-3 bg-white border border-purple-100 rounded-lg text-xs text-zinc-600 flex items-start gap-2">
                   <Info size={14} className="text-purple-500 shrink-0 mt-0.5" />
-                  <p>Completing an action does not automatically lower the illustrative scenario index or mark the issue resolved. Follow-up observation is required.</p>
+                  <p>Completing an action does not automatically lower the illustrative intervention priority or mark the issue resolved. Follow-up observation is required.</p>
                 </div>
               </div>
             )}
@@ -290,7 +290,7 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
             
             {record.status === 'Activity increased' && (
               <div className="bg-orange-50 p-4 rounded-xl border border-orange-200">
-                <p className="text-sm font-bold text-orange-900 flex items-center gap-2"><AlertCircle size={16} /> Follow-up outcome recorded: Activity increased. Priority escalation recommended.</p>
+                <p className="text-sm font-bold text-orange-900 flex items-center gap-2"><AlertCircle size={16} /> Follow-up outcome recorded: Activity increased. Additional human review may be required.</p>
               </div>
             )}
             
