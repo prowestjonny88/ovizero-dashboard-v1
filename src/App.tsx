@@ -25,7 +25,7 @@ import EvidenceValidation from './components/EvidenceValidation';
 import Settings from './components/Settings';
 import { CheckCircle, Info, X, Menu } from 'lucide-react';
 import SimulationBanner from './components/SimulationBanner';
-import { getRiskDistribution, getDeviceHealthSummary, getInterventionSummary, buildDashboardExportPayload, getPilotDisplayLocationForMetricZone } from './utils/dashboard';
+import { getRiskDistribution, getDeviceHealthSummary, getInterventionSummary, buildDashboardExportPayload, getPilotDisplayLocationForMetricZone, DEMO_SNAPSHOT_AT } from './utils/dashboard';
 import { downloadPdfReport } from './utils/pdfReport';
 import { ALLOWED_INTERVENTION_TRANSITIONS } from './utils/interventionWorkflow';
 
@@ -73,6 +73,11 @@ export default function App() {
       return () => clearTimeout(timer);
     }
   }, [toast]);
+
+  const getDemoTimestamp = (timelineLength: number = 0) => {
+    const baseTime = new Date(DEMO_SNAPSHOT_AT).getTime();
+    return new Date(baseTime + timelineLength * 15 * 60 * 1000).toISOString();
+  };
 
   // Action Triggers
   const handleExport = async (format: ExportFormat): Promise<void> => {
@@ -141,11 +146,11 @@ export default function App() {
         id: `INT-${Date.now()}`,
         zoneId,
         status: 'New Alert',
-        createdAt: new Date().toISOString(),
+        createdAt: getDemoTimestamp(0),
         timeline: [{
           id: `EV-${Date.now()}`,
           status: 'New Alert',
-          timestamp: new Date().toISOString(),
+          timestamp: getDemoTimestamp(0),
           actor: 'System'
         }]
       }
@@ -165,16 +170,16 @@ export default function App() {
       }
       
       allowed = true;
+      const nextTimestamp = getDemoTimestamp(record.timeline.length);
       
       const newEvent = {
         id: `EV-${Date.now()}`,
         status,
-        timestamp: new Date().toISOString(),
+        timestamp: nextTimestamp,
         actor: payload.reviewerName || payload.assignedTeam || payload.verificationOwner || 'System',
         note: payload.reviewNote || payload.completionNotes || payload.inspectionNote || ''
       };
 
-      const now = new Date().toISOString();
       const updatedRecord = {
         ...record,
         ...payload,
@@ -182,12 +187,12 @@ export default function App() {
         timeline: [...record.timeline, newEvent]
       };
 
-      if (status === 'Reviewed') updatedRecord.reviewedAt = now;
-      if (status === 'Assigned') updatedRecord.assignedAt = now;
-      if (status === 'On Site') updatedRecord.onSiteAt = now;
-      if (status === 'Action Completed') updatedRecord.actionCompletedAt = now;
-      if (status === 'Awaiting Verification') updatedRecord.verificationDueAt = now;
-      if (['Activity decreased', 'Little/no change', 'Activity increased', 'Not comparable', 'Inconclusive', 'Escalated'].includes(status)) updatedRecord.closedAt = now;
+      if (status === 'Reviewed') updatedRecord.reviewedAt = nextTimestamp;
+      if (status === 'Assigned') updatedRecord.assignedAt = nextTimestamp;
+      if (status === 'On Site') updatedRecord.onSiteAt = nextTimestamp;
+      if (status === 'Action Completed') updatedRecord.actionCompletedAt = nextTimestamp;
+      if (status === 'Awaiting Verification') updatedRecord.verificationDueAt = nextTimestamp;
+      if (['Activity decreased', 'Little/no change', 'Activity increased', 'Not comparable', 'Inconclusive', 'Escalated'].includes(status)) updatedRecord.closedAt = nextTimestamp;
 
       return {
         ...prev,

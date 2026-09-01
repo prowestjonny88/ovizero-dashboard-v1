@@ -11,7 +11,7 @@ interface VerificationPanelProps {
 }
 
 export default function VerificationPanel({ zone, intervention, verification, onSave }: VerificationPanelProps) {
-  const [followUpDate, setFollowUpDate] = useState(verification?.followUpDate || new Date().toISOString().split('T')[0]);
+  const [followUpDate, setFollowUpDate] = useState(verification?.followUpDate || intervention?.followUpDate || new Date(new Date(DEMO_SNAPSHOT_AT).getTime() + 7 * 86400000).toISOString().split('T')[0]);
   const [inspector, setInspector] = useState(verification?.inspector || '');
   const [afterEggCount, setAfterEggCount] = useState(verification?.after?.syntheticEggActivity?.toString() || '');
   const [inspectionResult, setInspectionResult] = useState(verification?.inspectionResult || '');
@@ -58,7 +58,7 @@ export default function VerificationPanel({ zone, intervention, verification, on
         riskBand: zone.demoPriorityBand
       },
       after: {
-        recordedAt: followUpDate ? new Date(followUpDate).toISOString() : new Date().toISOString(),
+        recordedAt: followUpDate ? new Date(followUpDate).toISOString() : new Date(DEMO_SNAPSHOT_AT).toISOString(),
         dataSource: 'Manual Entry',
         syntheticEggActivity: afterEggCount ? parseInt(afterEggCount, 10) : null,
         eggActivityChange: null,

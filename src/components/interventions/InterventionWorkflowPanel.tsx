@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ZoneData, InterventionRecord, InterventionStatus, InterventionTransitionPayload, InterventionActionType } from '../../types';
 import { AlertCircle, CheckCircle, Info, Activity, Clock, ShieldAlert } from 'lucide-react';
+import { DEMO_SNAPSHOT_AT } from '../../utils/dashboard';
 
 interface InterventionWorkflowPanelProps {
   zone: ZoneData;
@@ -47,14 +48,14 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
   // Assign State
   const [assignedTeam, setAssignedTeam] = useState(record?.assignedTeam || 'Vector Team A');
   const [actionType, setActionType] = useState<InterventionActionType>(record?.actionType || 'Inspect breeding sources');
-  const [dueDate, setDueDate] = useState(record?.dueDate || new Date(Date.now() + 86400000).toISOString().split('T')[0]);
+  const [dueDate, setDueDate] = useState(record?.dueDate || new Date(new Date(DEMO_SNAPSHOT_AT).getTime() + 2 * 86400000).toISOString().split('T')[0]);
   const [responseSla, setResponseSla] = useState(record?.responseSla || '48h');
   
   // Completion State
   const [findings, setFindings] = useState(record?.findings || '');
   const [actionsPerformed, setActionsPerformed] = useState(record?.actionsPerformed || '');
   const [completionNotes, setCompletionNotes] = useState(record?.completionNotes || '');
-  const [followUpDate, setFollowUpDate] = useState(record?.followUpDate || new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0]);
+  const [followUpDate, setFollowUpDate] = useState(record?.followUpDate || new Date(new Date(DEMO_SNAPSHOT_AT).getTime() + 7 * 86400000).toISOString().split('T')[0]);
   const [verificationOwner, setVerificationOwner] = useState(record?.verificationOwner || 'Public Health Officer');
   const [evidenceFilename, setEvidenceFilename] = useState(record?.evidenceFilename || '');
 

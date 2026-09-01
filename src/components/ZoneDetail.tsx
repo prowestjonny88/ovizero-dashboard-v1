@@ -8,14 +8,7 @@ import { ZoneData, InterventionMap } from '../types';
 import { 
   ArrowLeft, 
   AlertTriangle, 
-  MapPin, 
-  TrendingUp, 
-  Clock, 
-  CheckCircle,
-  Cpu,
-  Info,
-  ChevronRight,
-  ShieldAlert
+  TrendingUp,
 } from 'lucide-react';
 import { InterventionStatus, InterventionTransitionPayload, VerificationOutcome, InterventionVerificationMap, InterventionVerification } from '../types';
 
@@ -47,8 +40,6 @@ export default function ZoneDetail({
   verifications,
 }: ZoneDetailProps) {
   
-  // Custom SVG coordinates generator for specific zone trend
-  const trendMax = 150;
   const loc = zone ? getPilotDisplayLocationForMetricZone(zone.id, PILOT_NODES, zones) : null;
   const displayName = loc 
     ? (loc.parentZone === loc.sublocation ? loc.parentZone : `${loc.parentZone} · ${loc.sublocation}`) 
@@ -58,23 +49,6 @@ export default function ZoneDetail({
     const l = getPilotDisplayLocationForMetricZone(zId, PILOT_NODES, zones);
     return l ? `Illustrative scenario · ${l.sublocation}` : fallback;
   };
-  const getSvgCoordinates = (points: number[]) => {
-    return points.map((val, i) => {
-      const x = (i / (points.length - 1)) * 100;
-      const y = 100 - (val / trendMax) * 80; // scale down
-      return `${x},${y}`;
-    }).join(' ');
-  };
-
-  
-  const valuesArray = zone?.trendData || [0,0,0,0,0,0,0];
-  const xLabels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
-  const first = valuesArray[0];
-  const last = valuesArray[valuesArray.length - 1];
-  const changePct = first > 0 ? Math.round(((last - first) / first) * 100) : null;
-  
-  const isCritical = zone?.demoPriorityBand === 'Critical' || zone?.demoPriorityBand === 'High';
 
   const activeIntervention = zone ? getInterventionForZone(zone.id, interventions) : null;
 
@@ -153,12 +127,12 @@ export default function ZoneDetail({
         <div className="bg-white rounded-xl border border-zinc-200 p-5 shadow-sm">
           <h3 className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest mb-2">Synthetic egg activity</h3>
           <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold text-zinc-950">{last}</span>
+            <span className="text-2xl font-bold text-zinc-950">{zone.syntheticEggActivity}</span>
             <span className="text-sm font-bold text-zinc-500">demo eggs</span>
           </div>
           <div className="flex items-center gap-1 mt-1 text-xs font-bold text-zinc-600">
             <TrendingUp className="w-3.5 h-3.5" />
-            <span>{changePct !== null ? `${changePct > 0 ? '+' : ''}${changePct}% change` : 'N/A'}</span>
+            <span>{zone.eggActivityChange} &middot; 7-day synthetic change</span>
           </div>
         </div>
 
