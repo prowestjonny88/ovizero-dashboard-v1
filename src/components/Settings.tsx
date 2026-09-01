@@ -141,7 +141,7 @@ export default function Settings() {
             <div className="divide-y divide-zinc-100 text-xs">
               <div className="py-2.5 flex justify-between items-center">
                 <span className="text-zinc-500">Deployment</span>
-                <span className="font-semibold text-zinc-800 text-right">Illustrative PPR Seri Anggerik Pilot</span>
+                <span className="font-semibold text-zinc-800 text-right">Illustrative residential-community scenario</span>
               </div>
               <div className="py-2.5 flex justify-between items-center">
                 <span className="text-zinc-500">Mock Data</span>
@@ -446,7 +446,7 @@ export default function Settings() {
                 <div className="py-3 flex items-center justify-between">
                   <div>
                     <h4 className="font-semibold text-xs text-zinc-800">Demo Coordinates (Preview only)</h4>
-                    <p className="text-[10px] text-zinc-400 mt-0.5">Illustrative PPR Seri Anggerik pilot coordinates</p>
+                    <p className="text-[10px] text-zinc-400 mt-0.5">Illustrative residential-community scenario coordinates</p>
                   </div>
                   <button 
                     onClick={() => handleToggle('demoCoordinates')}

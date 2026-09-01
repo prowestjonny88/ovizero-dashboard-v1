@@ -83,3 +83,11 @@ The application now compiles perfectly with TypeScript (`tsc --noEmit`), builds 
 ## Next Steps
 The data consistency pass is complete. The application is now in a structurally sound state to begin visual redesign work.
 **Awaiting approval to proceed.**
+
+## Repair Summary (Round 2)
+* Removed legacy `getDynamicZones` substitution.
+* Unified all uses around the canonical scenario in `src/data.ts`.
+* Removed legacy `aedesConfidence`, `predictions`, predictive biology wording, and relative timestamps.
+* Eliminated all traces of PPR Seri Anggerik replacing it with 'Illustrative residential-community scenario'.
+* `OVIZERO_DASHBOARD_SOURCE_OF_TRUTH.md` has been created.
+* 100% of legacy terms have been systematically eradicated from the runtime source.

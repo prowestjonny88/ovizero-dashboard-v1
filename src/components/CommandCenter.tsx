@@ -51,13 +51,13 @@ export default function CommandCenter({
   onOpenRiskMap,
   onNavigateToPriorityZones
 }: CommandCenterProps) {
-  const [lastRefreshed, setLastRefreshed] = useState<string>('Just now');
+  const [lastRefreshed, setLastRefreshed] = useState<string>('Snapshot time');
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   const handleRefresh = () => {
     setIsRefreshing(true);
     setTimeout(() => {
-      setLastRefreshed('Just now');
+      
       setIsRefreshing(false);
     }, 600);
   };
@@ -67,7 +67,7 @@ export default function CommandCenter({
   
   const getDisplayLocation = (zoneId: string, fallback: string) => {
     const loc = getPilotDisplayLocationForMetricZone(zoneId, PILOT_NODES, zones);
-    return loc ? `PPR Seri Anggerik · ${loc.sublocation}` : fallback;
+    return loc ? `Illustrative scenario · ${loc.sublocation}` : fallback;
   };
 
   const getSublocation = (zoneId: string, fallback: string) => {
@@ -160,7 +160,7 @@ export default function CommandCenter({
             <ScenarioPeriodLabel selectedDateRange={selectedDateRange} mode="selected-period" />
             <div className="text-right hidden sm:block">
               <span className="text-[9px] font-bold text-zinc-400 block uppercase tracking-wider">Demo Data Status</span>
-              <span className="text-[10px] font-mono font-semibold text-zinc-700">Updated {lastRefreshed} • 5 simulated nodes</span>
+              <span className="text-[10px] font-mono font-semibold text-zinc-700">Updated Snapshot time • 5 simulated nodes</span>
             </div>
           </div>
           <button 
@@ -398,7 +398,7 @@ export default function CommandCenter({
                   <span className="font-mono font-bold text-amber-600">{awaitingVerificationCount} pending</span>
                 </div>
                 <div className="py-2 flex justify-between items-center">
-                  <span className="text-zinc-500">Effect Verified</span>
+                  <span className="text-zinc-500">Activity decreased</span>
                   <span className="font-mono font-bold text-[#1b7f47]">{verifiedCount} verified</span>
                 </div>
                 <div className="py-2 flex justify-between items-center">
@@ -526,7 +526,7 @@ export default function CommandCenter({
 
                 <div className="flex-1 flex flex-col justify-end">
                   <div className="w-full relative h-[75px] mb-2">
-                    <AreaSparkline data={peakZone.trendData} color="#052e1a" gradientId="eggVelocityGrad" />
+                    <AreaSparkline data={peakZone.trendData} color="#052e1a" gradientId="eggActivityGrad" />
                   </div>
                   <div className="text-[9px] text-zinc-400 italic font-medium pt-2 border-t border-zinc-100">
                     Illustrative count trend &middot; not field-observed

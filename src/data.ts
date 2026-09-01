@@ -8,7 +8,7 @@ export const ZONES: ZoneData[] = [
     demoPriorityBand: 'Critical',
     eggActivityChange: '+37%',
     actionRequired: 'Review nearby breeding sources and assign a field assessment.',
-    trigger: 'Humidity spike + egg count rise',
+    trigger: 'Correlated activity rise',
     syntheticEggActivity: 127,
     temperature: 32.1,
     humidity: 84,
@@ -23,7 +23,7 @@ export const ZONES: ZoneData[] = [
       label: 'Integration pending',
       owner: 'teammate'
     },
-    candidateAcousticTrigger: '497 Hz (Simulated)',
+    candidateAcousticTrigger: 'Candidate acoustic trigger — simulated',
     trendData: [64, 72, 81, 93, 105, 119, 127],
     avg7DayTrend: [60, 65, 71, 78, 86, 95, 104],
     whyRising: [
@@ -36,14 +36,10 @@ export const ZONES: ZoneData[] = [
         description: 'Simulated signal pattern is consistent with a candidate wingbeat frequency, requiring future field validation.'
       },
       {
-        title: 'Optimal Incubation Climate',
+        title: 'Climate Threshold Reached',
         description: 'Sustained high humidity following localized rainfall creates a proposed site-risk assumption for rapid larval development.'
       }
     ],
-    predictions: {
-      next3Days: 'Elevated',
-      next7Days: 'High'
-    },
     provenance: {
       interventionPriority: 'stored-demo-output',
       eggActivity: 'synthetic-observation',
@@ -73,7 +69,7 @@ export const ZONES: ZoneData[] = [
       label: 'Integration pending',
       owner: 'teammate'
     },
-    candidateAcousticTrigger: '492 Hz (Simulated)',
+    candidateAcousticTrigger: 'Candidate acoustic trigger — simulated',
     trendData: [55, 62, 70, 78, 85, 94, 102],
     avg7DayTrend: [52, 58, 63, 69, 75, 82, 89],
     whyRising: [
@@ -82,10 +78,6 @@ export const ZONES: ZoneData[] = [
         description: 'Simulated urban layout suggests structural blockages encouraging continuous stagnant water pools.'
       }
     ],
-    predictions: {
-      next3Days: 'Elevated',
-      next7Days: 'High'
-    },
     provenance: {
       interventionPriority: 'stored-demo-output',
       eggActivity: 'synthetic-observation',
@@ -115,7 +107,7 @@ export const ZONES: ZoneData[] = [
       label: 'Integration pending',
       owner: 'teammate'
     },
-    candidateAcousticTrigger: '495 Hz (Simulated)',
+    candidateAcousticTrigger: 'Candidate acoustic trigger — simulated',
     trendData: [45, 52, 59, 68, 74, 82, 88],
     avg7DayTrend: [40, 46, 51, 57, 63, 69, 75],
     whyRising: [
@@ -124,10 +116,6 @@ export const ZONES: ZoneData[] = [
         description: 'Proposed site-risk assumption of market water discharge points accumulating stagnant runoffs.'
       }
     ],
-    predictions: {
-      next3Days: 'Stable',
-      next7Days: 'Elevated'
-    },
     provenance: {
       interventionPriority: 'stored-demo-output',
       eggActivity: 'synthetic-observation',
@@ -157,7 +145,7 @@ export const ZONES: ZoneData[] = [
       label: 'Integration pending',
       owner: 'teammate'
     },
-    candidateAcousticTrigger: '489 Hz (Simulated)',
+    candidateAcousticTrigger: 'Candidate acoustic trigger — simulated',
     trendData: [38, 42, 49, 53, 58, 64, 69],
     avg7DayTrend: [35, 39, 43, 47, 51, 56, 61],
     whyRising: [
@@ -166,10 +154,6 @@ export const ZONES: ZoneData[] = [
         description: 'Simulated OZ-077 battery drops to 22%, causing a theoretical delay in diagnostics. Physical inspection proposed.'
       }
     ],
-    predictions: {
-      next3Days: 'Stable',
-      next7Days: 'Elevated'
-    },
     provenance: {
       interventionPriority: 'stored-demo-output',
       eggActivity: 'synthetic-observation',
@@ -199,7 +183,7 @@ export const ZONES: ZoneData[] = [
       label: 'Integration pending',
       owner: 'teammate'
     },
-    candidateAcousticTrigger: '485 Hz (Simulated)',
+    candidateAcousticTrigger: 'Candidate acoustic trigger — simulated',
     trendData: [24, 28, 30, 33, 36, 39, 41],
     avg7DayTrend: [22, 25, 27, 29, 32, 35, 38],
     whyRising: [
@@ -208,10 +192,6 @@ export const ZONES: ZoneData[] = [
         description: 'Simulated school courtyard garden features an slow-dripping ornamental structure with minor peripheral pools.'
       }
     ],
-    predictions: {
-      next3Days: 'Stable',
-      next7Days: 'Watch'
-    },
     provenance: {
       interventionPriority: 'stored-demo-output',
       eggActivity: 'synthetic-observation',
@@ -229,7 +209,7 @@ export const DEVICES: DeviceData[] = [
     battery: 86,
     solarStatus: 'Charging',
     loraSignal: 'Strong',
-    lastSync: '4 min ago',
+    lastSync: 'Snapshot time',
     lastSeenMinutes: 4,
     maintenanceState: 'Normal',
     diagnostics: {
@@ -248,7 +228,7 @@ export const DEVICES: DeviceData[] = [
     battery: 73,
     solarStatus: 'Charging',
     loraSignal: 'Strong',
-    lastSync: '8 min ago',
+    lastSync: 'Snapshot time',
     lastSeenMinutes: 8,
     maintenanceState: 'Normal',
     diagnostics: {
@@ -267,7 +247,7 @@ export const DEVICES: DeviceData[] = [
     battery: 61,
     solarStatus: 'Stable',
     loraSignal: 'Medium',
-    lastSync: '12 min ago',
+    lastSync: 'Snapshot time',
     lastSeenMinutes: 12,
     maintenanceState: 'Normal',
     diagnostics: {
@@ -286,7 +266,7 @@ export const DEVICES: DeviceData[] = [
     battery: 22,
     solarStatus: 'Low Solar',
     loraSignal: 'Weak',
-    lastSync: '31 min ago',
+    lastSync: 'Snapshot time',
     lastSeenMinutes: 31,
     maintenanceState: 'Maintenance Required',
     diagnostics: {
@@ -305,7 +285,7 @@ export const DEVICES: DeviceData[] = [
     battery: 92,
     solarStatus: 'Charging',
     loraSignal: 'Strong',
-    lastSync: '6 min ago',
+    lastSync: 'Snapshot time',
     lastSeenMinutes: 6,
     maintenanceState: 'Normal',
     diagnostics: {

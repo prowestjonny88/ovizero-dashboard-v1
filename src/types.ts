@@ -42,10 +42,6 @@ export interface ZoneData {
     title: string;
     description: string;
   }[];
-  predictions: {
-    next3Days: string;
-    next7Days: string;
-  };
   provenance: {
     interventionPriority: 'stored-demo-output';
     eggActivity: 'synthetic-observation';

@@ -138,7 +138,7 @@ export const downloadPdfReport = async (
     { title: 'Simulated Node Records', value: payload.devices.length.toString() },
     { title: 'High-Priority Sublocations', value: (summary.riskDistribution.critical + summary.riskDistribution.high).toString() },
     { title: 'Active intervention records', value: summary.interventions.active.toString() },
-    { title: 'Effect Verified', value: summary.interventions.verified.toString() }
+    { title: 'Activity decreased', value: summary.interventions.verified.toString() }
   ];
 
   for (let i = 0; i < metrics.length; i++) {

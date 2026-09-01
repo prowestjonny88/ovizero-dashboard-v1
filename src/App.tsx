@@ -41,7 +41,7 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentScreen]);
 
-  const [selectedZoneId, setSelectedZoneId] = useState<string>('ppr-seri-anggerik');
+  const [selectedZoneId, setSelectedZoneId] = useState<string>('north-residential-block');
   const [selectedDateRange, setSelectedDateRange] = useState<string>('7d');
   
   // Dynamic intervention status map
@@ -61,51 +61,7 @@ export default function App() {
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'info' | 'error' } | null>(null);
   const [diagnosticResult, setDiagnosticResult] = useState<{ [key: string]: string }>({});
 
-  // Generate dynamic zones data depending on selectedDateRange
-  const getDynamicZones = (): ZoneData[] => {
-    return ZONES.map(z => {
-      let velocity = z.eggActivityChange;
-      let trendData = [...z.trendData];
-      let temp = z.temperature;
-      let humidity = z.humidity;
-      let rainfall = z.rainfall;
-      let status = z.demoPriorityBand;
-      let risk = z.interventionPriority;
-      
-      if (selectedDateRange === '7d') {
-        if (z.id === 'ppr-seri-anggerik') velocity = '+37%';
-        else if (z.id === 'block-c-taman-muda') velocity = '+30%';
-        else if (z.id === 'market-zone-4') velocity = '+25%';
-        else if (z.id === 'flat-sri-murni') velocity = '+19%';
-        else if (z.id === 'school-zone-2') velocity = '+12%';
-      } else if (selectedDateRange === '30d') {
-        if (z.id === 'ppr-seri-anggerik') { velocity = '+24%'; trendData = [55, 62, 70, 78, 85, 92, 100]; temp = 31.5; humidity = 80; rainfall = '+15%'; risk = 88; status = 'Critical'; }
-        else if (z.id === 'block-c-taman-muda') { velocity = '+20%'; trendData = [60, 68, 72, 75, 78, 82, 85]; temp = 32.1; humidity = 78; rainfall = '+10%'; risk = 82; status = 'High'; }
-        else if (z.id === 'market-zone-4') { velocity = '+16%'; trendData = [40, 45, 52, 60, 65, 70, 75]; temp = 31.8; humidity = 75; risk = 75; status = 'Elevated'; }
-        else if (z.id === 'flat-sri-murni') { velocity = '+12%'; trendData = [35, 38, 42, 48, 55, 60, 65]; risk = 68; status = 'Elevated'; }
-        else if (z.id === 'school-zone-2') { velocity = '+8%'; trendData = [20, 22, 25, 30, 32, 35, 40]; risk = 55; status = 'Watch'; }
-      } else if (selectedDateRange === '90d') {
-        if (z.id === 'ppr-seri-anggerik') { velocity = '+18%'; trendData = [40, 48, 55, 62, 70, 78, 85]; temp = 30.2; humidity = 75; rainfall = '+8%'; risk = 78; status = 'High'; }
-        else if (z.id === 'block-c-taman-muda') { velocity = '+14%'; trendData = [50, 52, 55, 58, 62, 65, 70]; temp = 30.5; humidity = 70; rainfall = '+5%'; risk = 72; status = 'Elevated'; }
-        else if (z.id === 'market-zone-4') { velocity = '+11%'; trendData = [30, 32, 35, 40, 45, 50, 55]; temp = 31.0; humidity = 68; risk = 65; status = 'Elevated'; }
-        else if (z.id === 'flat-sri-murni') { velocity = '+8%'; trendData = [25, 28, 30, 32, 35, 38, 42]; risk = 58; status = 'Watch'; }
-        else if (z.id === 'school-zone-2') { velocity = '+5%'; trendData = [15, 18, 20, 22, 25, 28, 30]; risk = 45; status = 'Stable'; }
-      }
-      
-      return {
-        ...z,
-        eggVelocity: velocity,
-        trendData,
-        temperature: temp,
-        humidity,
-        rainfall,
-        status,
-        risk
-      };
-    });
-  };
-
-  const dynamicZones = getDynamicZones();
+  const dynamicZones = ZONES;
   const activeZone = dynamicZones.find((z) => z.id === selectedZoneId) ?? null;
 
   // Auto-dismiss toast helper
@@ -447,7 +403,7 @@ export default function App() {
         {/* Top Navbar Header */}
         <Header
           currentScreen={currentScreen}
-          activeZoneName={activeZone ? (getPilotDisplayLocationForMetricZone(activeZone.id, PILOT_NODES, dynamicZones) ? `PPR Seri Anggerik · ${getPilotDisplayLocationForMetricZone(activeZone.id, PILOT_NODES, dynamicZones)!.sublocation}` : activeZone.name) : 'No zone selected'}
+          activeZoneName={activeZone ? (getPilotDisplayLocationForMetricZone(activeZone.id, PILOT_NODES, dynamicZones) ? `Illustrative scenario · ${getPilotDisplayLocationForMetricZone(activeZone.id, PILOT_NODES, dynamicZones)!.sublocation}` : activeZone.name) : 'No zone selected'}
           onExport={handleExport}
           exportingFormat={exportingFormat}
           selectedDateRange={selectedDateRange}

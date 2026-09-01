@@ -61,7 +61,7 @@ export default function ZoneDetail({
 
   const getDisplayLocation = (zId: string, fallback: string) => {
     const l = getPilotDisplayLocationForMetricZone(zId, PILOT_NODES, zones);
-    return l ? `PPR Seri Anggerik · ${l.sublocation}` : fallback;
+    return l ? `Illustrative scenario · ${l.sublocation}` : fallback;
   };
   const getSvgCoordinates = (points: number[]) => {
     return points.map((val, i) => {
@@ -489,13 +489,13 @@ export default function ZoneDetail({
                     <span className="text-[8px] font-bold text-zinc-400 uppercase tracking-wider block mb-1">
                       Next 3 Days
                     </span>
-                    <span className="text-xs font-bold text-zinc-950 font-mono">{zone.predictions.next3Days}</span>
+                    <span className="text-xs font-bold text-zinc-950 font-mono">{'-'}</span>
                   </div>
                   <div className="bg-zinc-100 p-3 rounded-lg border border-zinc-200/30 text-center">
                     <span className="text-[8px] font-bold text-zinc-400 uppercase tracking-wider block mb-1">
                       Next 7 Days
                     </span>
-                    <span className="text-xs font-bold text-zinc-950 font-mono">{zone.predictions.next7Days}</span>
+                    <span className="text-xs font-bold text-zinc-950 font-mono">{'-'}</span>
                   </div>
                 </div>
               </div>

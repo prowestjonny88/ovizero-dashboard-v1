@@ -252,7 +252,7 @@ export default function DeviceFleet({
                             const pilotNode = PILOT_NODES.find(n => n.deviceId === device.id);
                             return pilotNode ? (
                               <div className="flex flex-col">
-                                <span>PPR Seri Anggerik</span>
+                                <span>Illustrative residential-community scenario</span>
                                 <span className="text-[10px] text-zinc-500 font-normal">{pilotNode.sublocation}</span>
                               </div>
                             ) : device.location;

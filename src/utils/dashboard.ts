@@ -54,7 +54,7 @@ export const getPilotDisplayLocationForDevice = (
   placements: import('../types').PilotNodePlacement[]
 ): string | null => {
   const placement = placements.find(p => p.deviceId === deviceId);
-  return placement ? `PPR Seri Anggerik · ${placement.sublocation}` : null;
+  return placement ? `Illustrative scenario · ${placement.sublocation}` : null;
 };
 
 export interface ZoneNodeMeta {
@@ -68,11 +68,11 @@ export interface ZoneNodeMeta {
 }
 
 export const ZONE_NODE_META: ZoneNodeMeta[] = [
-  { zoneId: 'ppr-seri-anggerik', lat: "3°08'52\"N", lng: "101°41'12\"E", nodeId: 'OZ-041', gateway: 'GW-01', x: 30, y: 25 },
-  { zoneId: 'block-c-taman-muda', lat: "3°08'41\"N", lng: "101°41'58\"E", nodeId: 'OZ-052', gateway: 'GW-01', x: 75, y: 30 },
-  { zoneId: 'market-zone-4', lat: "3°08'09\"N", lng: "101°41'02\"E", nodeId: 'OZ-018', gateway: 'GW-01', x: 22, y: 58 },
-  { zoneId: 'flat-sri-murni', lat: "3°07'55\"N", lng: "101°41'42\"E", nodeId: 'OZ-077', gateway: 'GW-01', x: 65, y: 65 },
-  { zoneId: 'school-zone-2', lat: "3°07'22\"N", lng: "101°41'15\"E", nodeId: 'OZ-099', gateway: 'GW-01', x: 42, y: 85 },
+  { zoneId: 'north-residential-block', lat: "3°08'52\"N", lng: "101°41'12\"E", nodeId: 'OZ-041', gateway: 'GW-01', x: 30, y: 25 },
+  { zoneId: 'drain-corridor', lat: "3°08'41\"N", lng: "101°41'58\"E", nodeId: 'OZ-052', gateway: 'GW-01', x: 75, y: 30 },
+  { zoneId: 'community-courtyard', lat: "3°08'09\"N", lng: "101°41'02\"E", nodeId: 'OZ-018', gateway: 'GW-01', x: 22, y: 58 },
+  { zoneId: 'playground-area', lat: "3°07'55\"N", lng: "101°41'42\"E", nodeId: 'OZ-077', gateway: 'GW-01', x: 65, y: 65 },
+  { zoneId: 'community-hall', lat: "3°07'22\"N", lng: "101°41'15\"E", nodeId: 'OZ-099', gateway: 'GW-01', x: 42, y: 85 },
 ];
 
 export const ZONE_NODE_MAP: Record<string, ZoneNodeMeta> = ZONE_NODE_META.reduce((acc, curr) => {
@@ -270,7 +270,7 @@ export const buildDashboardExportPayload = (
   zones: ZoneData[],
   devices: DeviceData[],
   interventions: InterventionMap,
-  locationLabel = 'Illustrative PPR Seri Anggerik Pilot'
+  locationLabel = 'Illustrative residential-community scenario'
 ): DashboardExportPayload => {
   return {
     generatedAt: new Date().toISOString(),
