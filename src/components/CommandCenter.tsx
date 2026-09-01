@@ -77,9 +77,9 @@ export default function CommandCenter({
 
   const riskDist = getRiskDistribution(zones);
   const viewModels = buildPilotNodeViewModels(PILOT_NODES, zones, DEVICES, PROPOSED_GATEWAYS);
-  const criticalZones = zones.filter(z => z.status === 'Critical' || z.status === 'High');
-  const elevatedZones = zones.filter(z => z.status === 'Elevated');
-  const watchZones = zones.filter(z => z.status === 'Watch' || z.status === 'Stable');
+  const criticalZones = zones.filter(z => z.demoPriorityBand === 'Critical' || z.demoPriorityBand === 'High');
+  const elevatedZones = zones.filter(z => z.demoPriorityBand === 'Elevated');
+  const watchZones = zones.filter(z => z.demoPriorityBand === 'Watch' || z.demoPriorityBand === 'Stable');
   
   const peakZone = topPriorityZones[0] || zones[0];
   const actionRequiredCount = riskDist.critical + riskDist.high + riskDist.elevated;
@@ -182,16 +182,16 @@ export default function CommandCenter({
             Illustrative scenario index
           </span>
           <div className="flex items-baseline gap-1 mt-2">
-            <span className="text-3xl font-extrabold text-[#052e1a] font-mono tracking-tight">{peakZone.risk}</span>
+            <span className="text-3xl font-extrabold text-[#052e1a] font-mono tracking-tight">{peakZone.interventionPriority}</span>
             <span className="text-[10px] text-zinc-400 font-mono">/ 100</span>
           </div>
           <div className="mt-3 flex flex-col gap-1">
             <div className="w-full h-1 bg-zinc-100 rounded-full overflow-hidden">
-              <div className="h-full rounded-full transition-all" style={{ width: `${peakZone.risk}%`, backgroundColor: getRiskBorderColor(peakZone.status) }} />
+              <div className="h-full rounded-full transition-all" style={{ width: `${peakZone.interventionPriority}%`, backgroundColor: getRiskBorderColor(peakZone.demoPriorityBand) }} />
             </div>
             <div className="flex justify-between items-center text-[8px] font-bold text-zinc-400 uppercase tracking-wider mt-0.5">
               <span>Peak: {getSublocation(peakZone.id, peakZone.name)}</span>
-              <span className="font-extrabold" style={{ color: getRiskBorderColor(peakZone.status) }}>{peakZone.status}</span>
+              <span className="font-extrabold" style={{ color: getRiskBorderColor(peakZone.demoPriorityBand) }}>{peakZone.demoPriorityBand}</span>
             </div>
           </div>
         </div>
@@ -202,7 +202,7 @@ export default function CommandCenter({
             Mock rolling growth indicator
           </span>
           <div className="flex items-baseline gap-1 mt-2">
-            <span className="text-3xl font-extrabold text-[#052e1a] font-mono tracking-tight">{peakZone.eggVelocity}</span>
+            <span className="text-3xl font-extrabold text-[#052e1a] font-mono tracking-tight">{peakZone.eggActivityChange}</span>
           </div>
           <p className="text-[9px] text-zinc-500 mt-3 font-medium">
             {selectedDateRange.toUpperCase()} rolling growth rate
@@ -215,7 +215,7 @@ export default function CommandCenter({
             Illustrative action window
           </span>
           <div className="mt-2">
-            <span className="text-3xl font-extrabold font-mono tracking-tight text-zinc-900">{peakZone.predictions.actionWindow}</span>
+            <span className="text-3xl font-extrabold font-mono tracking-tight text-zinc-900">{'-'}</span>
           </div>
           <p className="text-[9px] text-zinc-500 mt-3 font-medium">
             Based on the highest-priority mock profile
@@ -252,7 +252,6 @@ export default function CommandCenter({
             </div>
           </div>
           <p className="text-[9px] text-[#052e1a] font-bold mt-2 uppercase tracking-wider">
-            Hatching Risk: {peakZone.hatchingRate}
           </p>
         </div>
 
@@ -323,19 +322,19 @@ export default function CommandCenter({
                         </td>
                         <td className="py-3">
                           <div className="flex items-center gap-2">
-                            <span className="font-mono text-xs font-bold text-zinc-800">{zone.risk}</span>
+                            <span className="font-mono text-xs font-bold text-zinc-800">{zone.interventionPriority}</span>
                             <div className="w-12 h-1 bg-zinc-100 rounded-full overflow-hidden hidden sm:block">
-                              <div className="h-full rounded-full" style={{ width: `${zone.risk}%`, backgroundColor: getRiskBorderColor(zone.status) }} />
+                              <div className="h-full rounded-full" style={{ width: `${zone.interventionPriority}%`, backgroundColor: getRiskBorderColor(zone.demoPriorityBand) }} />
                             </div>
                           </div>
                         </td>
                         <td className="py-3 font-mono text-xs font-bold text-zinc-800">
-                          {zone.eggVelocity}
+                          {zone.eggActivityChange}
                         </td>
                         <td className="py-3">
                           <span className={`inline-flex items-center px-2 py-0.5 rounded text-[9px] font-bold font-mono uppercase tracking-wider`}
-                            style={{ backgroundColor: getRiskColor(zone.status), color: getRiskBorderColor(zone.status) }}>
-                            {zone.status}
+                            style={{ backgroundColor: getRiskColor(zone.demoPriorityBand), color: getRiskBorderColor(zone.demoPriorityBand) }}>
+                            {zone.demoPriorityBand}
                           </span>
                         </td>
                         <td className="py-3 text-right">
@@ -702,7 +701,7 @@ export default function CommandCenter({
                   <span>High Vector Activity (Simulated)</span>
                   <span>10m ago</span>
                 </div>
-                <p className="text-[10px] text-[#42534a]">{getDisplayLocation(peakZone.id, peakZone.name)} ({getNodeForZone(peakZone.id)}) mock rolling growth indicator is {peakZone.eggVelocity}.<br/><span className="text-[9px] text-[#647067] italic mt-1 block">This stored mock indicator is separate from the start-to-current percentage calculated from the displayed trend series.</span></p>
+                <p className="text-[10px] text-[#42534a]">{getDisplayLocation(peakZone.id, peakZone.name)} ({getNodeForZone(peakZone.id)}) mock rolling growth indicator is {peakZone.eggActivityChange}.<br/><span className="text-[9px] text-[#647067] italic mt-1 block">This stored mock indicator is separate from the start-to-current percentage calculated from the displayed trend series.</span></p>
               </div>
 
               <div className="p-3 bg-zinc-50 border border-zinc-200/50 rounded-lg space-y-1">

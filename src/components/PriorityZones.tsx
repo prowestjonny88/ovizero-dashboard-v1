@@ -63,7 +63,7 @@ export default function PriorityZones({
         ) : (
           sortedZones.map((zone, index) => {
             const priorityRank = index + 1;
-            const isCritical = zone.status === 'Critical' || zone.status === 'High';
+            const isCritical = zone.demoPriorityBand === 'Critical' || zone.demoPriorityBand === 'High';
             const intervention = getInterventionForZone(zone.id, interventions);
             const loc = getPilotDisplayLocationForMetricZone(zone.id, PILOT_NODES, zones);
             const displayName = loc ? `${loc.parentZone} · ${loc.sublocation}` : zone.name;
@@ -111,7 +111,7 @@ export default function PriorityZones({
                   <div>
                     <span className="text-[8px] font-bold text-zinc-400 uppercase tracking-widest block mb-1">Illustrative scenario index</span>
                     <div className="flex items-baseline gap-1">
-                      <span className="text-xl font-bold text-zinc-950 font-geist">{zone.risk}</span>
+                      <span className="text-xl font-bold text-zinc-950 font-geist">{zone.interventionPriority}</span>
                       <span className="text-[10px] font-mono text-zinc-400 font-bold">/100</span>
                     </div>
                   </div>
@@ -120,7 +120,7 @@ export default function PriorityZones({
                     <span className="text-[8px] font-bold text-zinc-400 uppercase tracking-widest block mb-1">Mock Growth</span>
                     <div className="flex items-center gap-1">
                       <TrendingUp className="w-3.5 h-3.5 text-zinc-400" />
-                      <span className="text-xl font-bold text-zinc-950 font-mono">{zone.eggVelocity}</span>
+                      <span className="text-xl font-bold text-zinc-950 font-mono">{zone.eggActivityChange}</span>
                     </div>
                   </div>
 
@@ -128,18 +128,18 @@ export default function PriorityZones({
                     <span className="text-[8px] font-bold text-zinc-400 uppercase tracking-widest block mb-1">Illustrative action window</span>
                     <div className="flex items-center gap-1.5">
                       <Clock className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
-                      <span className="font-bold text-zinc-950 font-mono text-sm">{zone.predictions.actionWindow}</span>
+                      <span className="font-bold text-zinc-950 font-mono text-sm">{'48 hours'}</span>
                     </div>
                   </div>
 
                   <div>
                     <span className="text-[8px] font-bold text-zinc-400 uppercase tracking-widest block mb-1">Risk band</span>
                     <span className={`inline-block font-extrabold uppercase tracking-widest text-[8px] mt-1.5 ${
-                      zone.status === 'Critical' 
+                      zone.demoPriorityBand === 'Critical' 
                         ? 'text-zinc-950 font-black' 
                         : 'text-zinc-500'
                     }`}>
-                      {zone.status}
+                      {zone.demoPriorityBand}
                     </span>
                   </div>
 
@@ -173,7 +173,7 @@ export default function PriorityZones({
                         <span className="font-bold text-zinc-800">{new Date(intervention.createdAt).toLocaleString()}</span>
                       </div>
                     </div>
-                    {['Action Completed', 'Awaiting Verification', 'Effect Verified', 'No Effect', 'Escalated'].includes(intervention.status) ? (
+                    {['Action Completed', 'Awaiting Verification', 'Activity decreased', 'Little/no change', 'Escalated'].includes(intervention.status) ? (
                       <div className="flex items-center gap-1.5 text-zinc-600 font-semibold bg-white border border-zinc-200 px-2.5 py-1 rounded-lg">
                         <ShieldCheck className="w-3.5 h-3.5 text-[#052e1a] shrink-0" />
                         <span>Workflow status: {intervention.status}</span>

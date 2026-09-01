@@ -82,15 +82,15 @@ export const ZONE_NODE_MAP: Record<string, ZoneNodeMeta> = ZONE_NODE_META.reduce
 
 
 export const getTopPriorityZones = (zones: ZoneData[], limit: number): ZoneData[] => {
-  return [...zones].sort((a, b) => b.risk - a.risk).slice(0, limit);
+  return [...zones].sort((a, b) => b.interventionPriority - a.interventionPriority).slice(0, limit);
 };
 
 export const getRiskDistribution = (zones: ZoneData[]): RiskDistributionSummary => {
   return {
-    critical: zones.filter(z => z.status === 'Critical').length,
-    high: zones.filter(z => z.status === 'High').length,
-    elevated: zones.filter(z => z.status === 'Elevated').length,
-    watch: zones.filter(z => z.status === 'Watch' || z.status === 'Stable').length,
+    critical: zones.filter(z => z.demoPriorityBand === 'Critical').length,
+    high: zones.filter(z => z.demoPriorityBand === 'High').length,
+    elevated: zones.filter(z => z.demoPriorityBand === 'Elevated').length,
+    watch: zones.filter(z => z.demoPriorityBand === 'Watch' || z.demoPriorityBand === 'Stable').length,
   };
 };
 
@@ -130,8 +130,8 @@ export const getInterventionSummary = (interventions: InterventionMap): Interven
     total: vals.length,
     active: vals.filter(i => activeStatuses.includes(i.status)).length,
     awaitingVerification: vals.filter(i => i.status === 'Awaiting Verification').length,
-    verified: vals.filter(i => i.status === 'Effect Verified').length,
-    noEffect: vals.filter(i => i.status === 'No Effect').length,
+    verified: vals.filter(i => i.status === 'Activity decreased').length,
+    noEffect: vals.filter(i => i.status === 'Little/no change').length,
     escalated: vals.filter(i => i.status === 'Escalated').length,
   };
 };
@@ -200,13 +200,13 @@ export const buildReportLogs = (
         message = `Simulated action record is awaiting follow-up verification.`;
         timestamp = inv.actionCompletedAt || inv.assignedAt || inv.createdAt;
         break;
-      case 'Effect Verified':
-        message = `Simulated follow-up outcome recorded: Effect Verified.`;
+      case 'Activity decreased':
+        message = `Simulated follow-up outcome recorded: Activity decreased.`;
         timestamp = inv.closedAt || inv.createdAt;
         level = 'SUCCESS';
         break;
-      case 'No Effect':
-        message = `Simulated follow-up outcome recorded: No Effect.`;
+      case 'Little/no change':
+        message = `Simulated follow-up outcome recorded: Little/no change.`;
         timestamp = inv.closedAt || inv.createdAt;
         level = 'WARNING';
         break;
@@ -312,7 +312,7 @@ export const buildPilotNodeViewModels = (
       device,
       gateway,
       signalQuality: device ? device.loraSignal : 'Not assessed',
-      risk: riskProfile?.risk ?? 0
+      interventionPriority: riskProfile?.interventionPriority ?? 0
     } as PilotNodeViewModel;
   }).filter(vm => vm.riskProfile !== undefined);
 };

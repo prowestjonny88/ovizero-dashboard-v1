@@ -87,7 +87,7 @@ export default function ZoneDetail({
   const last = valuesArray[valuesArray.length - 1];
   const changePct = first > 0 ? Math.round(((last - first) / first) * 100) : null;
   
-  const isCritical = zone?.status === 'Critical' || zone?.status === 'High';
+  const isCritical = zone?.demoPriorityBand === 'Critical' || zone?.demoPriorityBand === 'High';
 
   const activeIntervention = zone ? getInterventionForZone(zone.id, interventions) : null;
 
@@ -177,11 +177,11 @@ export default function ZoneDetail({
               
               <div className="my-auto">
                 <p className="text-xl font-bold text-zinc-950 uppercase tracking-wider mb-2">
-                  {zone.status}
+                  {zone.demoPriorityBand}
                 </p>
                 <div className="flex items-baseline gap-1">
                   <span className="text-sm font-bold text-zinc-600 font-mono">
-                    {zone.risk} / 100
+                    {zone.interventionPriority} / 100
                   </span>
                 </div>
                 <p className="text-[10px] text-zinc-500 mt-1 uppercase tracking-wider">
@@ -202,7 +202,7 @@ export default function ZoneDetail({
                 <div className="flex justify-between mt-2 text-[9px] font-bold text-zinc-400 mt-1 uppercase tracking-wider">
                   <span>Baseline</span>
                   <span>Threshold</span>
-                  <span className="text-zinc-900 font-extrabold">Current ({zone.risk})</span>
+                  <span className="text-zinc-900 font-extrabold">Current ({zone.interventionPriority})</span>
                 </div>
               </div>
             </div>
@@ -405,7 +405,7 @@ export default function ZoneDetail({
                   <div className="flex justify-between items-center border-b border-zinc-100 pb-2.5">
                     <span className="font-medium text-zinc-500">Illustrative signal</span>
                     <strong className="font-bold text-zinc-950 font-mono text-[11px]">
-                      {selectedZoneDevice?.wingbeatMatch || '497'} Hz
+                      {zone.candidateAcousticTrigger} Hz
                     </strong>
                   </div>
                   
@@ -472,7 +472,7 @@ export default function ZoneDetail({
                     Estimated Hatching Acceleration
                   </span>
                   <span className="text-sm font-bold text-zinc-950 uppercase tracking-wide">
-                    {zone.hatchingRate}
+                    -
                   </span>
                 </div>
               </div>
@@ -502,12 +502,12 @@ export default function ZoneDetail({
               <div className="space-y-2.5 pt-4 border-t border-zinc-100 mt-4 text-xs">
                 <div className="flex justify-between items-center">
                   <span className="font-medium text-zinc-500">Illustrative biological timing assumption:</span>
-                  <strong className="text-zinc-950 font-bold">{zone.predictions.adultEmergence}</strong>
+                  <strong className="text-zinc-950 font-bold">-</strong>
                 </div>
                 <div className="flex justify-between items-center border-t border-zinc-100 pt-2.5">
                   <span className="font-bold text-zinc-950">Intervention window target:</span>
                   <strong className="text-zinc-950 font-bold flex items-center gap-1 font-mono">
-                    <Clock className="w-3.5 h-3.5 text-zinc-950" /> {zone.predictions.actionWindow}
+                    <Clock className="w-3.5 h-3.5 text-zinc-950" /> -
                   </strong>
                 </div>
                 

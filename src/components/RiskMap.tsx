@@ -64,10 +64,10 @@ export default function RiskMap({
       if (mapMode === 'network') return true;
       if (activeFilter === 'ALL') return true;
       if (activeFilter === 'Watch') {
-        return vm.riskProfile.status === 'Watch' || vm.riskProfile.status === 'Stable';
+        return vm.riskProfile.demoPriorityBand === 'Watch' || vm.riskProfile.demoPriorityBand === 'Stable';
       }
-      return vm.riskProfile.status === activeFilter;
-    }).sort((a, b) => b.risk - a.risk || a.deviceId.localeCompare(b.deviceId));
+      return vm.riskProfile.demoPriorityBand === activeFilter;
+    }).sort((a, b) => b.interventionPriority - a.interventionPriority || a.deviceId.localeCompare(b.deviceId));
   }, [viewModels, activeFilter, mapMode]);
 
   useEffect(() => {
@@ -225,7 +225,7 @@ export default function RiskMap({
               {mapMode === 'risk' && showIllustrativeEggCount && (
                 <>
                    {(() => {
-                  const counts = viewModels.map(vm => vm.riskProfile.eggCount || 0).sort((a, b) => a - b);
+                  const counts = viewModels.map(vm => vm.interventionPriorityProfile.syntheticEggActivity || 0).sort((a, b) => a - b);
                   const min = counts[0];
                   const max = counts[counts.length - 1];
                   const mid = counts[Math.floor(counts.length / 2)];
@@ -289,16 +289,16 @@ export default function RiskMap({
                 <div className="mt-3">
                   <span 
                     className="inline-block px-2.5 py-1 text-xs font-bold rounded uppercase tracking-wider" 
-                    style={{ backgroundColor: getRiskColor(selectedVM.riskProfile.status), color: getRiskBorderColor(selectedVM.riskProfile.status), border: `1px solid ${getRiskBorderColor(selectedVM.riskProfile.status)}` }}
+                    style={{ backgroundColor: getRiskColor(selectedVM.riskProfile.demoPriorityBand), color: getRiskBorderColor(selectedVM.riskProfile.demoPriorityBand), border: `1px solid ${getRiskBorderColor(selectedVM.riskProfile.demoPriorityBand)}` }}
                   >
-                    {selectedVM.riskProfile.status}
+                    {selectedVM.riskProfile.demoPriorityBand}
                   </span>
                   <p className="text-xs font-bold text-zinc-700 mt-1">Simulated risk scenario</p>
                 </div>
 
                 <div className="mt-4">
                   <p className="text-xs text-zinc-600">
-                    <span className="font-bold">Illustrative scenario index:</span> <span className="font-mono text-zinc-900">{selectedVM.riskProfile.risk} / 100</span>
+                    <span className="font-bold">Illustrative scenario index:</span> <span className="font-mono text-zinc-900">{selectedVM.interventionPriorityProfile.interventionPriority} / 100</span>
                   </p>
                   <p className="text-[10px] text-zinc-500 mt-0.5">Stored mock value &mdash; not calculated or calibrated.</p>
                 </div>
@@ -355,17 +355,17 @@ export default function RiskMap({
                     <div className="space-y-3">
                       <div className="flex items-center justify-between p-2.5 rounded-lg border border-zinc-100 bg-zinc-50/50">
                         <span className="text-xs text-zinc-500">Mock Growth</span>
-                        <span className={`text-xs font-bold ${getTrendBucket(selectedVM.riskProfile.eggVelocity) === 'Rapid' ? 'text-red-600' : 'text-[#052e1a]'}`}>
-                          {selectedVM.riskProfile.eggVelocity}
+                        <span className={`text-xs font-bold ${getTrendBucket(selectedVM.interventionPriorityProfile.eggActivityChange) === 'Rapid' ? 'text-red-600' : 'text-[#052e1a]'}`}>
+                          {selectedVM.interventionPriorityProfile.eggActivityChange}
                         </span>
                       </div>
                       <div className="flex items-center justify-between p-2.5 rounded-lg border border-zinc-100 bg-zinc-50/50">
                         <span className="text-xs text-zinc-500">Weekly Count</span>
-                        <span className="text-xs font-bold text-zinc-800">{selectedVM.riskProfile.eggCount}</span>
+                        <span className="text-xs font-bold text-zinc-800">{selectedVM.interventionPriorityProfile.syntheticEggActivity}</span>
                       </div>
                       <div className="flex items-center justify-between p-2.5 rounded-lg border border-zinc-100 bg-zinc-50/50 group relative cursor-help">
                         <span className="text-xs text-zinc-500">Illustrative Match Score</span>
-                        <span className="text-xs font-bold text-zinc-800">{selectedVM.riskProfile.aedesConfidence}% <span className="text-[10px] text-zinc-400">— not calibrated</span></span>
+                        <span className="text-xs font-bold text-zinc-800">{selectedVM.interventionPriorityProfile.aedesConfidence}% <span className="text-[10px] text-zinc-400">— not calibrated</span></span>
                       </div>
                     </div>
                   </Accordion>
@@ -376,17 +376,17 @@ export default function RiskMap({
                     <div className="space-y-3">
                       <div className="flex items-center justify-between p-2.5 rounded-lg border border-zinc-100 bg-zinc-50/50">
                         <span className="text-xs text-zinc-500">Mock Growth</span>
-                        <span className={`text-xs font-bold ${getTrendBucket(selectedVM.riskProfile.eggVelocity) === 'Rapid' ? 'text-red-600' : 'text-[#052e1a]'}`}>
-                          {selectedVM.riskProfile.eggVelocity}
+                        <span className={`text-xs font-bold ${getTrendBucket(selectedVM.interventionPriorityProfile.eggActivityChange) === 'Rapid' ? 'text-red-600' : 'text-[#052e1a]'}`}>
+                          {selectedVM.interventionPriorityProfile.eggActivityChange}
                         </span>
                       </div>
                       <div className="flex items-center justify-between p-2.5 rounded-lg border border-zinc-100 bg-zinc-50/50">
                         <span className="text-xs text-zinc-500">Weekly Count</span>
-                        <span className="text-xs font-bold text-zinc-800">{selectedVM.riskProfile.eggCount}</span>
+                        <span className="text-xs font-bold text-zinc-800">{selectedVM.interventionPriorityProfile.syntheticEggActivity}</span>
                       </div>
                       <div className="flex items-center justify-between p-2.5 rounded-lg border border-zinc-100 bg-zinc-50/50 group relative cursor-help">
                         <span className="text-xs text-zinc-500">Illustrative Match Score</span>
-                        <span className="text-xs font-bold text-zinc-800">{selectedVM.riskProfile.aedesConfidence}% <span className="text-[10px] text-zinc-400">— not calibrated</span></span>
+                        <span className="text-xs font-bold text-zinc-800">{selectedVM.interventionPriorityProfile.aedesConfidence}% <span className="text-[10px] text-zinc-400">— not calibrated</span></span>
                       </div>
                     </div>
                   </Accordion>
@@ -394,15 +394,15 @@ export default function RiskMap({
                     <div className="grid grid-cols-2 gap-3">
                       <div className="p-2.5 rounded-lg border border-zinc-100 bg-zinc-50/50">
                         <span className="text-[10px] text-zinc-500 block mb-0.5">Temperature</span>
-                        <span className="text-xs font-mono font-bold text-zinc-800">{selectedVM.riskProfile.temperature}°C</span>
+                        <span className="text-xs font-mono font-bold text-zinc-800">{selectedVM.interventionPriorityProfile.temperature}°C</span>
                       </div>
                       <div className="p-2.5 rounded-lg border border-zinc-100 bg-zinc-50/50">
                         <span className="text-[10px] text-zinc-500 block mb-0.5">Humidity</span>
-                        <span className="text-xs font-mono font-bold text-zinc-800">{selectedVM.riskProfile.humidity}%</span>
+                        <span className="text-xs font-mono font-bold text-zinc-800">{selectedVM.interventionPriorityProfile.humidity}%</span>
                       </div>
                       <div className="p-2.5 rounded-lg border border-zinc-100 bg-zinc-50/50 col-span-2">
                         <span className="text-[10px] text-zinc-500 block mb-0.5">Rainfall</span>
-                        <span className="text-xs font-mono font-bold text-zinc-800">{selectedVM.riskProfile.rainfall}</span>
+                        <span className="text-xs font-mono font-bold text-zinc-800">{selectedVM.interventionPriorityProfile.rainfall}</span>
                       </div>
                     </div>
                   </Accordion>
@@ -412,7 +412,7 @@ export default function RiskMap({
                 <span className="text-[9px] font-bold uppercase tracking-wider text-zinc-400 block">
                   Recommended Action (applies to zone)
                 </span>
-                <p className="text-xs font-bold text-zinc-800 mt-0.5">{selectedVM.riskProfile.actionRequired}</p>
+                <p className="text-xs font-bold text-zinc-800 mt-0.5">{selectedVM.interventionPriorityProfile.actionRequired}</p>
                 <p className="text-[10px] text-zinc-500 mt-1">This task applies to the pilot zone, not only the selected device.</p>
               </div>
             </div>

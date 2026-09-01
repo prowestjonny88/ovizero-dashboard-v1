@@ -12,19 +12,30 @@ export enum AppScreen {
 export interface ZoneData {
   id: string;
   name: string;
-  risk: number; // 0 to 100
-  status: 'Critical' | 'High' | 'Elevated' | 'Watch' | 'Stable';
-  eggVelocity: string; // e.g. "+48%"
+  interventionPriority: number; // 0 to 100
+  demoPriorityBand: 'Critical' | 'High' | 'Elevated' | 'Watch' | 'Stable';
+  eggActivityChange: string; // e.g. "+37%"
   actionRequired: string;
   trigger?: string;
-  aedesConfidence: number; // percentage
-  wingbeatMatch: number; // Hz
-  eggCount: number;
-  species: string;
+  syntheticEggActivity: number;
   temperature: number;
   humidity: number;
   rainfall: string; // e.g. "+22%"
-  hatchingRate: 'Critical' | 'High' | 'Elevated' | 'Watch' | 'Stable';
+  
+  adultVision: {
+    status: 'placeholder';
+    label: string;
+    owner: 'teammate';
+  };
+  
+  eggVision: {
+    status: 'placeholder';
+    label: string;
+    owner: 'teammate';
+  };
+
+  candidateAcousticTrigger?: string;
+  
   trendData: number[]; // 7 values for Mon-Sun
   avg7DayTrend: number[]; // 7 values
   whyRising: {
@@ -34,8 +45,13 @@ export interface ZoneData {
   predictions: {
     next3Days: string;
     next7Days: string;
-    adultEmergence: string;
-    actionWindow: string;
+  };
+  provenance: {
+    interventionPriority: 'stored-demo-output';
+    eggActivity: 'synthetic-observation';
+    temperature: 'simulated-node-input';
+    humidity: 'simulated-node-input';
+    rainfall: 'external-demo-input';
   };
 }
 
@@ -46,15 +62,11 @@ export interface ZoneData {
 export interface DeviceData {
   id: string;
   location: string;
-  riskScore: number;
   battery: number;
   solarStatus: 'Charging' | 'Stable' | 'Low Solar';
   loraSignal: 'Strong' | 'Medium' | 'Weak';
   lastSync: string;
   lastSeenMinutes: number;
-  wingbeatMatch?: number;
-  eggCount: number;
-  aedesConfidence: number;
   maintenanceState: 'Normal' | 'Maintenance Required';
   diagnostics: {
     power: string;
@@ -148,7 +160,7 @@ export interface PilotNodeViewModel {
   device: DeviceData | null;
   gateway: ProposedGateway | null;
   signalQuality: DeviceData['loraSignal'] | 'Not assessed';
-  risk: number;
+  interventionPriority: number;
 }
 
 export type MaturityStatus =
@@ -193,7 +205,7 @@ export interface RiskContribution {
 export interface RiskExplanation {
   zoneId: string;
   scenarioIndex: number;
-  riskBand: ZoneData['status'];
+  riskBand: ZoneData['demoPriorityBand'];
   modelVersion: string;
   calculationType: 'Stored Mock Scenario';
   dataCompleteness: 'Partial' | 'Complete';
@@ -245,8 +257,8 @@ export type InterventionStatus =
   | 'On Site'
   | 'Action Completed'
   | 'Awaiting Verification'
-  | 'Effect Verified'
-  | 'No Effect'
+  | 'Activity decreased'
+  | 'Little/no change' | 'Activity increased' | 'Not comparable' | 'Inconclusive'
   | 'Escalated';
 
 export type InterventionActionType =
@@ -307,17 +319,17 @@ export interface InterventionRecord {
 
 export type VerificationOutcome =
   | 'Pending'
-  | 'Effect Verified'
-  | 'No Effect'
+  | 'Activity decreased'
+  | 'Little/no change' | 'Activity increased' | 'Not comparable' | 'Inconclusive'
   | 'Escalated';
 
 export interface ObservationSnapshot {
   recordedAt: string;
   dataSource: 'Simulated' | 'Manual Entry';
-  eggCount: number | null;
-  eggVelocity: string | null;
+  syntheticEggActivity: number | null;
+  eggActivityChange: string | null;
   scenarioIndex: number | null;
-  riskBand: ZoneData['status'] | null;
+  riskBand: ZoneData['demoPriorityBand'] | null;
 }
 
 export interface InterventionVerification {

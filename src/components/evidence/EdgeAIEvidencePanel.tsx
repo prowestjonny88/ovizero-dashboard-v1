@@ -19,7 +19,7 @@ export default function EdgeAIEvidencePanel({ device }: EdgeAIEvidencePanelProps
     capturedAt: capturedDate,
     dataSource: 'Simulated',
     imageQuality: 'Acceptable',
-    estimatedEggCount: device.eggCount,
+    estimatedEggCount: '0' as any,
     manualReferenceCount: null,
     matchScore: null,
     matchScoreStatus: 'Not Calibrated',
@@ -128,7 +128,7 @@ export default function EdgeAIEvidencePanel({ device }: EdgeAIEvidencePanelProps
               </div>
               <div className="flex justify-between border-b border-zinc-100 pb-2">
                 <span className="font-medium text-zinc-500">Illustrative frequency</span>
-                <span className="font-mono text-zinc-800">{device.wingbeatMatch || '492 Hz'}</span>
+                <span className="font-mono text-zinc-800">'-'</span>
               </div>
               <div className="flex justify-between border-b border-zinc-100 pb-2">
                 <span className="font-medium text-zinc-500">Classifier status</span>

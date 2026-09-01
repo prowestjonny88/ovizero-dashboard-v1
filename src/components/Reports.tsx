@@ -75,7 +75,7 @@ export default function Reports({
                 return loc ? `${loc.parentZone} · ${loc.sublocation}` : topZone.name;
               })() : 'None'}
             </span>
-            <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider font-mono mt-1 block">Illustrative scenario index: {topZone?.risk}</span>
+            <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider font-mono mt-1 block">Illustrative scenario index: {topZone?.interventionPriority}</span>
           </div>
         </div>
 
@@ -154,11 +154,11 @@ export default function Reports({
                 <div className="flex items-center gap-6">
                   <div className="text-right">
                     <span className="text-[8px] font-bold text-zinc-400 uppercase tracking-widest block">Scenario index</span>
-                    <span className="font-bold font-mono text-xs text-zinc-900">{zone.risk}/100</span>
+                    <span className="font-bold font-mono text-xs text-zinc-900">{zone.interventionPriority}/100</span>
                   </div>
                   <div className="text-right hidden sm:block">
                     <span className="text-[8px] font-bold text-zinc-400 uppercase tracking-widest block">Mock Growth</span>
-                    <span className="font-mono text-xs text-zinc-900">{zone.eggVelocity}</span>
+                    <span className="font-mono text-xs text-zinc-900">{zone.eggActivityChange}</span>
                   </div>
                   <ChevronRight className="w-4 h-4 text-zinc-400 group-hover:text-zinc-900 transition-colors" />
                 </div>

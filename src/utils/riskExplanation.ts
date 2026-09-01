@@ -1,7 +1,7 @@
 import { DEMO_SNAPSHOT_AT } from './dashboard';
 import { ZoneData, RiskExplanation, ContributionLevel } from '../types';
 
-export const getRiskBand = (score: number): ZoneData['status'] => {
+export const getRiskBand = (score: number): ZoneData['demoPriorityBand'] => {
   if (score >= 88) return 'Critical';
   if (score >= 78) return 'High';
   if (score >= 65) return 'Elevated';
@@ -52,8 +52,8 @@ export const generateRiskExplanation = (zone: ZoneData): RiskExplanation => {
 
   return {
     zoneId: zone.id,
-    scenarioIndex: zone.risk,
-    riskBand: getRiskBand(zone.risk),
+    scenarioIndex: zone.interventionPriority,
+    riskBand: getRiskBand(zone.interventionPriority),
     modelVersion: 'demo-scenario-v0.1',
     calculationType: 'Stored Mock Scenario',
     dataCompleteness: 'Partial',
@@ -70,14 +70,14 @@ export const generateRiskExplanation = (zone: ZoneData): RiskExplanation => {
     contributions: [
       {
         input: 'Mock rolling growth indicator',
-        currentCondition: zone.eggVelocity,
-        contribution: classifyEggVelocity(zone.eggVelocity),
+        currentCondition: zone.eggActivityChange,
+        contribution: classifyEggVelocity(zone.eggActivityChange),
         included: true
       },
       {
         input: 'Weekly egg count',
-        currentCondition: zone.eggCount.toString(),
-        contribution: classifyEggCount(zone.eggCount),
+        currentCondition: zone.syntheticEggActivity.toString(),
+        contribution: classifyEggCount(zone.syntheticEggActivity),
         included: true
       },
       {

@@ -1,4 +1,7 @@
-import { ZoneData, DeviceData, PilotNodePlacement, ProposedGateway } from './types';
+import json
+import re
+
+content = """import { ZoneData, DeviceData, PilotNodePlacement, ProposedGateway } from './types';
 
 export const ZONES: ZoneData[] = [
   {
@@ -331,3 +334,8 @@ export const PILOT_NODES: PilotNodePlacement[] = [
 export const PROPOSED_GATEWAYS: ProposedGateway[] = [
   { id: 'GW-01', latitude: 3.0850, longitude: 101.7395, stage: 'Proposed' },
 ];
+"""
+with open('src/data.ts', 'w') as f:
+    f.write(content)
+
+print("rewrote data.ts")

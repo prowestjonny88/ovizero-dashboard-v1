@@ -264,15 +264,15 @@ export default function DeviceFleet({
                             <div className="w-8 bg-zinc-100 h-1.5 rounded-full overflow-hidden">
                               <div 
                                 className="h-full rounded-full bg-zinc-950" 
-                                style={{ width: `${device.riskScore}%` }}
+                                style={{ width: `${device.interventionPriorityScore}%` }}
                               ></div>
                             </div>
-                            <span className="font-bold text-zinc-950 font-mono">{device.riskScore}</span>
+                            <span className="font-bold text-zinc-950 font-mono">{device.interventionPriorityScore}</span>
                           </div>
                         </td>
                         {/* Egg Count */}
                         <td className="px-4 py-4 whitespace-nowrap font-bold text-zinc-950 font-mono">
-                          {device.eggCount} eggs
+                          {device.syntheticEggActivity} eggs
                         </td>
                         {/* Mock Match Score */}
                         <td className="px-4 py-4 whitespace-nowrap font-bold text-zinc-950 font-mono">

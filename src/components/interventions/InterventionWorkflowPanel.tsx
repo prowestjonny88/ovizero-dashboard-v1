@@ -17,8 +17,8 @@ const getStatusColor = (status: InterventionStatus) => {
     case 'On Site': return 'text-blue-700 bg-blue-50 border-blue-200';
     case 'Action Completed': return 'text-indigo-700 bg-indigo-50 border-indigo-200';
     case 'Awaiting Verification': return 'text-purple-700 bg-purple-50 border-purple-200';
-    case 'Effect Verified': return 'text-emerald-700 bg-emerald-50 border-emerald-200';
-    case 'No Effect': return 'text-rose-700 bg-rose-50 border-rose-200';
+    case 'Activity decreased': return 'text-emerald-700 bg-emerald-50 border-emerald-200';
+    case 'Little/no change': return 'text-rose-700 bg-rose-50 border-rose-200';
     case 'Escalated': return 'text-red-700 bg-red-100 border-red-300';
     default: return 'text-zinc-700 bg-zinc-50 border-zinc-200';
   }
@@ -285,15 +285,15 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
               </div>
             )}
             
-            {record.status === 'Effect Verified' && (
+            {record.status === 'Activity decreased' && (
               <div className="bg-emerald-50 p-4 rounded-xl border border-emerald-200">
-                <p className="text-sm font-bold text-emerald-900 flex items-center gap-2"><CheckCircle size={16} /> Follow-up outcome recorded: Effect Verified.</p>
+                <p className="text-sm font-bold text-emerald-900 flex items-center gap-2"><CheckCircle size={16} /> Follow-up outcome recorded: Activity decreased.</p>
               </div>
             )}
             
-            {record.status === 'No Effect' && (
+            {record.status === 'Little/no change' && (
               <div className="bg-amber-50 p-4 rounded-xl border border-amber-200">
-                <p className="text-sm font-bold text-amber-900 flex items-center gap-2"><AlertCircle size={16} /> Follow-up outcome recorded: No Effect. Further action may be required.</p>
+                <p className="text-sm font-bold text-amber-900 flex items-center gap-2"><AlertCircle size={16} /> Follow-up outcome recorded: Little/no change. Further action may be required.</p>
               </div>
             )}
             

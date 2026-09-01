@@ -64,13 +64,13 @@ export default function App() {
   // Generate dynamic zones data depending on selectedDateRange
   const getDynamicZones = (): ZoneData[] => {
     return ZONES.map(z => {
-      let velocity = z.eggVelocity;
+      let velocity = z.eggActivityChange;
       let trendData = [...z.trendData];
       let temp = z.temperature;
       let humidity = z.humidity;
       let rainfall = z.rainfall;
-      let status = z.status;
-      let risk = z.risk;
+      let status = z.demoPriorityBand;
+      let risk = z.interventionPriority;
       
       if (selectedDateRange === '7d') {
         if (z.id === 'ppr-seri-anggerik') velocity = '+37%';
@@ -231,7 +231,7 @@ export default function App() {
       if (status === 'On Site') updatedRecord.onSiteAt = now;
       if (status === 'Action Completed') updatedRecord.actionCompletedAt = now;
       if (status === 'Awaiting Verification') updatedRecord.verificationDueAt = now;
-      if (['Effect Verified', 'No Effect', 'Escalated'].includes(status)) updatedRecord.closedAt = now;
+      if (['Activity decreased', 'Little/no change', 'Escalated'].includes(status)) updatedRecord.closedAt = now;
 
       return {
         ...prev,
@@ -258,9 +258,12 @@ export default function App() {
     // Validate transition first if attempting to set a final outcome
     if (verification.outcome !== 'Pending' && intervention) {
       const statusMap: Record<Exclude<VerificationOutcome, 'Pending'>, InterventionStatus> = {
-        'Effect Verified': 'Effect Verified',
-        'No Effect': 'No Effect',
-        'Escalated': 'Escalated'
+        'Activity decreased': 'Activity decreased',
+        'Little/no change': 'Little/no change',
+        'Escalated': 'Escalated',
+        'Activity increased': 'Activity increased',
+        'Not comparable': 'Not comparable',
+        'Inconclusive': 'Inconclusive'
       };
       
       const finalStatus = statusMap[verification.outcome as Exclude<VerificationOutcome, 'Pending'>];

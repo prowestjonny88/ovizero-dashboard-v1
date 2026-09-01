@@ -14,10 +14,10 @@ export default function VerificationPanel({ zone, intervention: record, verifica
   // Form State
   const [followUpDate, setFollowUpDate] = useState(verification?.followUpDate || new Date().toISOString().split('T')[0]);
   const [inspector, setInspector] = useState(verification?.inspector || 'Verification Officer');
-  const [afterEggCount, setAfterEggCount] = useState<string>(verification?.after?.eggCount?.toString() || '');
-  const [afterEggVelocity, setAfterEggVelocity] = useState<string>(verification?.after?.eggVelocity || '');
+  const [afterEggCount, setAfterEggCount] = useState<string>(verification?.after?.syntheticEggActivity?.toString() || '');
+  const [afterEggVelocity, setAfterEggVelocity] = useState<string>(verification?.after?.eggActivityChange || '');
   const [afterScenarioIndex, setAfterScenarioIndex] = useState<string>(verification?.after?.scenarioIndex?.toString() || '');
-  const [afterRiskBand, setAfterRiskBand] = useState<ZoneData['status'] | ''>(verification?.after?.riskBand || '');
+  const [afterRiskBand, setAfterRiskBand] = useState<ZoneData['demoPriorityBand'] | ''>(verification?.after?.riskBand || '');
   const [inspectionResult, setInspectionResult] = useState(verification?.inspectionResult || '');
   const [evidenceFilename, setEvidenceFilename] = useState(verification?.evidencePhotoName || '');
   const [officerNote, setOfficerNote] = useState(verification?.outcomeNote || '');
@@ -28,8 +28,8 @@ export default function VerificationPanel({ zone, intervention: record, verifica
     if (verification) {
       setFollowUpDate(verification.followUpDate);
       setInspector(verification.inspector || 'Verification Officer');
-      setAfterEggCount(verification.after?.eggCount?.toString() || '');
-      setAfterEggVelocity(verification.after?.eggVelocity || '');
+      setAfterEggCount(verification.after?.syntheticEggActivity?.toString() || '');
+      setAfterEggVelocity(verification.after?.eggActivityChange || '');
       setAfterScenarioIndex(verification.after?.scenarioIndex?.toString() || '');
       setAfterRiskBand(verification.after?.riskBand || '');
       setInspectionResult(verification.inspectionResult || '');
@@ -38,17 +38,17 @@ export default function VerificationPanel({ zone, intervention: record, verifica
     }
   }, [verification]);
 
-  const canVerify = record && ['Awaiting Verification', 'Effect Verified', 'No Effect', 'Escalated'].includes(record.status);
+  const canVerify = record && ['Awaiting Verification', 'Activity decreased', 'Little/no change', 'Escalated'].includes(record.status);
   
-  const isFinalOutcome = record && ['Effect Verified', 'No Effect', 'Escalated'].includes(record.status);
+  const isFinalOutcome = record && ['Activity decreased', 'Little/no change', 'Escalated'].includes(record.status);
   
   const isReadOnly = (isFinalOutcome && !isEditing);
 
   const before = {
-    eggCount: zone.eggCount,
-    velocity: zone.eggVelocity,
-    scenarioIndex: zone.risk,
-    riskBand: zone.status
+    syntheticEggActivity: zone.syntheticEggActivity,
+    eggActivityChange: zone.eggActivityChange,
+    scenarioIndex: zone.interventionPriority,
+    riskBand: zone.demoPriorityBand
   };
 
   const handleOutcome = (outcome: VerificationOutcome) => {
@@ -59,8 +59,8 @@ export default function VerificationPanel({ zone, intervention: record, verifica
     
     let pctChange = 0;
     const afterCount = parseInt(afterEggCount, 10);
-    if (!isNaN(afterCount) && before.eggCount > 0) {
-      pctChange = Math.round(((afterCount - before.eggCount) / before.eggCount) * 100);
+    if (!isNaN(afterCount) && before.syntheticEggActivity > 0) {
+      pctChange = Math.round(((afterCount - before.syntheticEggActivity) / before.syntheticEggActivity) * 100);
     }
     
     onSave({
@@ -70,18 +70,18 @@ export default function VerificationPanel({ zone, intervention: record, verifica
       before: {
         recordedAt: new Date(Date.now() - 7 * 86400000).toISOString(),
         dataSource: 'Simulated',
-        eggCount: before.eggCount,
-        eggVelocity: before.velocity,
+        syntheticEggActivity: before.syntheticEggActivity,
+        eggActivityChange: before.eggActivityChange,
         scenarioIndex: before.scenarioIndex,
         riskBand: before.riskBand
       },
       after: {
         recordedAt: new Date().toISOString(),
         dataSource: 'Manual Entry',
-        eggCount: parseInt(afterEggCount, 10),
-        eggVelocity: afterEggVelocity || null,
+        syntheticEggActivity: parseInt(afterEggCount, 10),
+        eggActivityChange: afterEggVelocity || null,
         scenarioIndex: afterScenarioIndex ? parseInt(afterScenarioIndex, 10) : null,
-        riskBand: (afterRiskBand as ZoneData['status']) || null
+        riskBand: (afterRiskBand as ZoneData['demoPriorityBand']) || null
       },
       inspectionCompletedAt: new Date().toISOString(),
       percentageEggChange: pctChange,
@@ -97,7 +97,7 @@ export default function VerificationPanel({ zone, intervention: record, verifica
   const calculateChange = () => {
     if (!afterEggCount || isNaN(parseInt(afterEggCount, 10))) return null;
     const afterCount = parseInt(afterEggCount, 10);
-    const beforeCount = before.eggCount;
+    const beforeCount = before.syntheticEggActivity;
     if (beforeCount === 0) return null;
     
     const pctChange = Math.round(((afterCount - beforeCount) / beforeCount) * 100);
@@ -121,10 +121,10 @@ export default function VerificationPanel({ zone, intervention: record, verifica
         ) : (
           record?.status === 'Awaiting Verification' ? (
             <span className="text-[10px] font-bold uppercase text-amber-700 bg-amber-50 border border-amber-200 px-2 py-1 rounded">Pending Verification</span>
-          ) : record?.status === 'Effect Verified' ? (
-            <span className="text-[10px] font-bold uppercase text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-1 rounded">Effect Verified</span>
-          ) : record?.status === 'No Effect' ? (
-            <span className="text-[10px] font-bold uppercase text-rose-700 bg-rose-50 border border-rose-200 px-2 py-1 rounded">No Effect</span>
+          ) : record?.status === 'Activity decreased' ? (
+            <span className="text-[10px] font-bold uppercase text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-1 rounded">Activity decreased</span>
+          ) : record?.status === 'Little/no change' ? (
+            <span className="text-[10px] font-bold uppercase text-rose-700 bg-rose-50 border border-rose-200 px-2 py-1 rounded">Little/no change</span>
           ) : record?.status === 'Escalated' ? (
             <span className="text-[10px] font-bold uppercase text-red-700 bg-red-100 border border-red-300 px-2 py-1 rounded">Escalated</span>
           ) : null
@@ -145,8 +145,8 @@ export default function VerificationPanel({ zone, intervention: record, verifica
                 <div className="flex justify-between items-start mb-4">
                   <div>
                     <h4 className="text-sm font-bold text-zinc-900 flex items-center gap-2">
-                      <CheckCircle size={16} className={record?.status === 'Effect Verified' ? 'text-emerald-600' : 'text-zinc-500'} /> 
-                      {record?.status === 'Effect Verified' ? 'Follow-up outcome recorded: Effect Verified.' : record?.status === 'No Effect' ? 'Follow-up outcome recorded: No Effect. Further action may be required.' : 'Follow-up outcome recorded: Escalated for additional review.'}
+                      <CheckCircle size={16} className={record?.status === 'Activity decreased' ? 'text-emerald-600' : 'text-zinc-500'} /> 
+                      {record?.status === 'Activity decreased' ? 'Follow-up outcome recorded: Activity decreased.' : record?.status === 'Little/no change' ? 'Follow-up outcome recorded: Little/no change. Further action may be required.' : 'Follow-up outcome recorded: Escalated for additional review.'}
                     </h4>
                   </div>
                   <button onClick={() => setIsEditing(true)} className="text-xs font-bold text-blue-600 hover:text-blue-800 uppercase tracking-wider">
@@ -215,7 +215,7 @@ export default function VerificationPanel({ zone, intervention: record, verifica
                 </div>
                 <div className="col-span-2">
                   <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">After Risk Band</label>
-                  <select value={afterRiskBand} onChange={e => setAfterRiskBand(e.target.value as ZoneData['status'] | '')} className="w-full text-sm border border-zinc-200 rounded p-2">
+                  <select value={afterRiskBand} onChange={e => setAfterRiskBand(e.target.value as ZoneData['demoPriorityBand'] | '')} className="w-full text-sm border border-zinc-200 rounded p-2">
                     <option value="">-- Select --</option>
                     <option value="Critical">Critical</option>
                     <option value="High">High</option>
@@ -250,14 +250,14 @@ export default function VerificationPanel({ zone, intervention: record, verifica
                     <tbody className="divide-y divide-zinc-100">
                       <tr>
                         <td className="px-3 py-2 font-medium text-zinc-700">Egg count</td>
-                        <td className="px-3 py-2 font-mono text-zinc-900 text-right">{before.eggCount}</td>
+                        <td className="px-3 py-2 font-mono text-zinc-900 text-right">{before.syntheticEggActivity}</td>
                         <td className="px-3 py-2 font-mono text-zinc-900 text-right">
                           {afterEggCount ? <span className="text-emerald-700">{afterEggCount}</span> : <span className="text-zinc-400 italic">Not available</span>}
                         </td>
                       </tr>
                       <tr>
                         <td className="px-3 py-2 font-medium text-zinc-700">Mock growth</td>
-                        <td className="px-3 py-2 font-mono text-zinc-900 text-right">{before.velocity}</td>
+                        <td className="px-3 py-2 font-mono text-zinc-900 text-right">{before.eggActivityChange}</td>
                         <td className="px-3 py-2 font-mono text-zinc-900 text-right">
                           {afterEggVelocity ? <span className="text-emerald-700">{afterEggVelocity}</span> : <span className="text-zinc-400 italic">Not available</span>}
                         </td>
@@ -315,11 +315,11 @@ export default function VerificationPanel({ zone, intervention: record, verifica
                     </button>
                   ) : (
                     <>
-                      <button onClick={() => handleOutcome('Effect Verified')} className="px-3 py-2 bg-emerald-600 text-white rounded text-xs font-bold hover:bg-emerald-700">
-                        Effect Verified
+                      <button onClick={() => handleOutcome('Activity decreased')} className="px-3 py-2 bg-emerald-600 text-white rounded text-xs font-bold hover:bg-emerald-700">
+                        Activity decreased
                       </button>
-                      <button onClick={() => handleOutcome('No Effect')} className="px-3 py-2 bg-amber-600 text-white rounded text-xs font-bold hover:bg-amber-700">
-                        No Effect
+                      <button onClick={() => handleOutcome('Little/no change')} className="px-3 py-2 bg-amber-600 text-white rounded text-xs font-bold hover:bg-amber-700">
+                        Little/no change
                       </button>
                       <button onClick={() => handleOutcome('Escalated')} className="px-3 py-2 bg-red-600 text-white rounded text-xs font-bold hover:bg-red-700">
                         Escalate Issue

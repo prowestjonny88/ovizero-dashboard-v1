@@ -139,8 +139,8 @@ export default function GoogleRiskMap({
   // Helper for Egg Count bubble sizing
   const getEggBubbleRadius = (eggCount: number, isSvg: boolean = false): number => {
     if (viewModels.length === 0) return isSvg ? 3 : 15;
-    const minEggCount = Math.min(...viewModels.map(n => n.riskProfile.eggCount || 0));
-    const maxEggCount = Math.max(...viewModels.map(n => n.riskProfile.eggCount || 0));
+    const minEggCount = Math.min(...viewModels.map(n => n.riskProfile.syntheticEggActivity || 0));
+    const maxEggCount = Math.max(...viewModels.map(n => n.riskProfile.syntheticEggActivity || 0));
     
     const minRadius = isSvg ? 3 : 14;
     const maxRadius = isSvg ? 8 : 34;
@@ -361,8 +361,8 @@ export default function GoogleRiskMap({
       // Nodes & Overlays
       filteredNodes.forEach(vm => {
         const isSelected = selectedDeviceId === vm.deviceId;
-        const color = getRiskColor(vm.riskProfile.status);
-        const borderColor = getRiskBorderColor(vm.riskProfile.status);
+        const color = getRiskColor(vm.riskProfile.demoPriorityBand);
+        const borderColor = getRiskBorderColor(vm.riskProfile.demoPriorityBand);
         const isDimmed = false;
 
         // Illustrative Egg Count Bubbles (Risk View)
@@ -375,7 +375,7 @@ export default function GoogleRiskMap({
             fillOpacity: 0.08,
             map,
             center: { lat: vm.latitude, lng: vm.longitude },
-            radius: getEggBubbleRadius(vm.riskProfile.eggCount || 0, false),
+            radius: getEggBubbleRadius(vm.riskProfile.syntheticEggActivity || 0, false),
             zIndex: 4,
             clickable: false
           });
@@ -499,7 +499,7 @@ export default function GoogleRiskMap({
             {mapMode === 'risk' && showIllustrativeEggCount && filteredNodes.map((vm, i) => {
               const { x: nx, y: ny } = project(vm.latitude, vm.longitude);
               return (
-                <circle key={`egg-${i}`} cx={nx} cy={ny} r={getEggBubbleRadius(vm.riskProfile.eggCount || 0, true)} fill="#3BA7A0" fillOpacity={0.08} stroke="#2C7F79" strokeOpacity={0.25} strokeWidth={0.5} />
+                <circle key={`egg-${i}`} cx={nx} cy={ny} r={getEggBubbleRadius(vm.riskProfile.syntheticEggActivity || 0, true)} fill="#3BA7A0" fillOpacity={0.08} stroke="#2C7F79" strokeOpacity={0.25} strokeWidth={0.5} />
               );
             })}
 
@@ -507,8 +507,8 @@ export default function GoogleRiskMap({
             {filteredNodes.map((vm, i) => {
               const { x: nx, y: ny } = project(vm.latitude, vm.longitude);
               const isSelected = selectedDeviceId === vm.deviceId;
-              const color = getRiskColor(vm.riskProfile.status);
-              const borderColor = getRiskBorderColor(vm.riskProfile.status);
+              const color = getRiskColor(vm.riskProfile.demoPriorityBand);
+              const borderColor = getRiskBorderColor(vm.riskProfile.demoPriorityBand);
               
               return (
                 <g 

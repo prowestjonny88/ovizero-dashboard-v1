@@ -125,7 +125,7 @@ export const downloadPdfReport = async (
   };
 
   const rankedZones = getTopPriorityZones(payload.zones, payload.zones.length);
-  const topRiskScore = rankedZones.length > 0 ? rankedZones[0].risk.toString() : 'N/A';
+  const topRiskScore = rankedZones.length > 0 ? rankedZones[0].interventionPriority.toString() : 'N/A';
   
   const formatZoneName = (zoneId: string, fallbackName: string) => {
     const loc = getPilotDisplayLocationForMetricZone(zoneId, PILOT_NODES, payload.zones);
@@ -201,10 +201,10 @@ export const downloadPdfReport = async (
     body: rankedZones.map((z, i) => [
       i + 1,
       sanitizePdfText(formatZoneName(z.id, z.name)),
-      z.risk,
-      z.status,
-      z.eggVelocity,
-      z.eggCount,
+      z.interventionPriority,
+      z.demoPriorityBand,
+      z.eggActivityChange,
+      z.syntheticEggActivity,
       `${z.temperature}°C`,
       `${z.humidity}%`,
       sanitizePdfText(z.actionRequired)
@@ -240,12 +240,12 @@ export const downloadPdfReport = async (
     body: payload.devices.map(d => [
       d.id,
       sanitizePdfText(getPilotDisplayLocationForDevice(d.id, PILOT_NODES) || d.location),
-      d.riskScore,
+      "-",
       `${d.battery}%`,
       d.solarStatus,
       d.loraSignal,
       d.lastSync,
-      d.eggCount,
+      "-",
       `Not calibrated`,
       d.maintenanceState
     ]),
