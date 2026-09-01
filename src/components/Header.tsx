@@ -8,8 +8,8 @@ interface HeaderProps {
   activeZoneName: string;
   onExport: (format: ExportFormat) => Promise<void> | void;
   exportingFormat: ExportFormat | null;
-  selectedDateRange: string;
-  onDateRangeChange: (range: string) => void;
+  
+  
 }
 
 
@@ -25,8 +25,8 @@ export default function Header({
   activeZoneName, 
   onExport, 
   exportingFormat,
-  selectedDateRange,
-  onDateRangeChange 
+  
+   
 }: HeaderProps) {
   
   // Dynamic header title based on current screen
@@ -54,8 +54,6 @@ export default function Header({
 
   const dateRanges = [
     { label: '7D', value: '7d' },
-    { label: '30D', value: '30d' },
-    { label: '90D', value: '90d' },
   ];
 
   const titleText = getHeaderTitle();
@@ -84,9 +82,9 @@ export default function Header({
             {dateRanges.map((range) => (
             <button
               key={range.value}
-              onClick={() => onDateRangeChange(range.value)}
+              
               className={`px-3 py-1.5 text-[9px] font-bold rounded-md transition-all uppercase tracking-wider ${
-                selectedDateRange === range.value
+                true
                   ? 'bg-white text-black border border-zinc-200/30'
                   : 'text-zinc-400 hover:text-black'
               }`}

@@ -42,7 +42,7 @@ export default function App() {
   }, [currentScreen]);
 
   const [selectedZoneId, setSelectedZoneId] = useState<string>('north-residential-block');
-  const [selectedDateRange, setSelectedDateRange] = useState<string>('7d');
+  
   
   // Dynamic intervention status map
   const [interventions, setInterventions] = useState<InterventionMap>({});
@@ -81,7 +81,7 @@ export default function App() {
     
     try {
       const payload = buildDashboardExportPayload(
-        selectedDateRange,
+        
         dynamicZones,
         DEVICES,
         interventions
@@ -90,14 +90,14 @@ export default function App() {
       const dateStr = new Date().toISOString().split('T')[0];
       
       if (format === 'pdf') {
-        const filename = `ovizero-risk-report-${selectedDateRange}-${dateStr}.pdf`;
+        const filename = `ovizero-risk-report-${dateStr}.pdf`;
         await downloadPdfReport(payload, filename);
         setToast({
           message: 'PDF report exported successfully.',
           type: 'success',
         });
       } else if (format === 'json') {
-        const filename = `ovizero-simulated-scenario-${selectedDateRange}-${dateStr}.json`;
+        const filename = `ovizero-simulated-scenario-${dateStr}.json`;
         const jsonPayload = {
           simulationDisclosure: {
             isSimulated: true,
@@ -272,8 +272,8 @@ export default function App() {
           <CommandCenter
             zones={dynamicZones} 
             onZoneSelect={handleZoneSelect} 
-            selectedDateRange={selectedDateRange}
-            onDateRangeChange={(range) => setSelectedDateRange(range)}
+            
+            
             interventions={interventions}
             onOpenRiskMap={() => setCurrentScreen(AppScreen.RISK_MAP)}
             onNavigateToPriorityZones={() => setCurrentScreen(AppScreen.PRIORITY_ZONES)}
@@ -285,7 +285,7 @@ export default function App() {
             zones={dynamicZones}
             interventions={interventions}
             onZoneSelect={handleZoneSelect}
-            selectedDateRange={selectedDateRange}
+            
           />
         );
       case AppScreen.ZONE_DETAIL:
@@ -300,7 +300,7 @@ export default function App() {
             onRecordVerification={handleRecordVerification}
             interventions={interventions}
             verifications={verifications}
-            selectedDateRange={selectedDateRange}
+            
           />
         );
       case AppScreen.DEVICES:
@@ -325,7 +325,7 @@ export default function App() {
           <Reports
             zones={dynamicZones}
             devices={DEVICES}
-            selectedDateRange={selectedDateRange}
+            
             onExport={handleExport}
             exportingFormat={exportingFormat}
             onZoneSelect={handleZoneSelect}
@@ -406,8 +406,8 @@ export default function App() {
           activeZoneName={activeZone ? (getPilotDisplayLocationForMetricZone(activeZone.id, PILOT_NODES, dynamicZones) ? `Illustrative scenario · ${getPilotDisplayLocationForMetricZone(activeZone.id, PILOT_NODES, dynamicZones)!.sublocation}` : activeZone.name) : 'No zone selected'}
           onExport={handleExport}
           exportingFormat={exportingFormat}
-          selectedDateRange={selectedDateRange}
-          onDateRangeChange={(range) => setSelectedDateRange(range)}
+          
+          
         />
 
         <SimulationBanner />

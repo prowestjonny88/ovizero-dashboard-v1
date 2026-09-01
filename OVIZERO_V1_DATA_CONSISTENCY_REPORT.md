@@ -91,3 +91,11 @@ The data consistency pass is complete. The application is now in a structurally 
 * Eliminated all traces of PPR Seri Anggerik replacing it with 'Illustrative residential-community scenario'.
 * `OVIZERO_DASHBOARD_SOURCE_OF_TRUTH.md` has been created.
 * 100% of legacy terms have been systematically eradicated from the runtime source.
+
+## Pre-Redesign Cleanup (Round 3)
+* Disabled 30D and 90D reporting to focus on a coherent 7-day simulated scenario.
+* Unified the snapshot timestamp strictly to `DEMO_SNAPSHOT_AT` across all dashboard views, formatted as `Scenario timestamp: 5 Aug 2026 · 08:36 MYT`.
+* Removed legacy market-stall and school-courtyard narrative descriptions in favor of generic residential community context.
+* Replaced 'Climate Threshold Reached' with 'Local microclimate context'.
+* Ensured zero occurrences of legacy terminology, location strings, and fake confidence scores in the source code.
+* Verified that `npm run lint` and `npm run build` pass without errors.

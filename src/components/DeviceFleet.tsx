@@ -87,7 +87,7 @@ export default function DeviceFleet({
     <div className="space-y-8 max-w-7xl mx-auto pb-12">
       
       <div className="flex justify-end">
-        <ScenarioPeriodLabel selectedDateRange="" mode="current-snapshot" />
+        <ScenarioPeriodLabel  mode="current-snapshot" />
       </div>
 
       {/* 1. Overview Bento Metrics */}

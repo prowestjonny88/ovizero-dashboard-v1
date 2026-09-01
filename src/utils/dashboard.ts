@@ -154,7 +154,7 @@ export const formatLogDisplayTime = (timestamp: string): string => {
 };
 
 export const buildReportLogs = (
-  selectedDateRange: string,
+  
   zones: ZoneData[],
   interventions: InterventionMap,
   
@@ -236,7 +236,7 @@ export const buildReportLogs = (
     return new Date(snapshotDate.getTime() - days * 86400000 - hours * 3600000).toISOString();
   };
 
-  if (selectedDateRange === '7d') {
+  if (true) {
     staticLogs = [
       { id: 'log-7d-1', timestamp: getDemoPastISO(0, 4), displayTime: '', tag: 'UI MOCK', message: 'Mock OZ-041 profile loaded with an illustrative egg-count value of 127.', level: 'INFO' },
       { id: 'log-7d-2', timestamp: getDemoPastISO(2, 6), displayTime: '', tag: 'UI MOCK', message: 'OZ-077 simulated maintenance scenario flags low battery and weak signal.', level: 'WARNING' },
@@ -244,19 +244,10 @@ export const buildReportLogs = (
       { id: 'log-7d-4', timestamp: getDemoPastISO(4, 1), displayTime: '', tag: 'UI MOCK', message: 'Illustrative acoustic candidate value displayed; classifier not trained.', level: 'INFO' },
       { id: 'log-7d-5', timestamp: getDemoPastISO(5, 2), displayTime: '', tag: 'UI MOCK', message: 'Simulated intervention record created in the current session.', level: 'INFO' }
     ];
-  } else if (selectedDateRange === '30d') {
     staticLogs = [
-      { id: 'log-30d-1', timestamp: getDemoPastISO(1, 4), displayTime: '', tag: 'UI MOCK', message: 'Mock OZ-041 profile loaded with an illustrative egg-count value of 127.', level: 'INFO' },
-      { id: 'log-30d-2', timestamp: getDemoPastISO(15, 6), displayTime: '', tag: 'UI MOCK', message: 'OZ-077 simulated maintenance scenario flags low battery and weak signal.', level: 'WARNING' },
-      { id: 'log-30d-3', timestamp: getDemoPastISO(22, 2), displayTime: '', tag: 'UI MOCK', message: 'Proposed LoRaWAN packet schema displayed for demonstration.', level: 'INFO' },
-      { id: 'log-30d-4', timestamp: getDemoPastISO(27, 8), displayTime: '', tag: 'UI MOCK', message: 'Illustrative acoustic candidate value displayed; classifier not trained.', level: 'INFO' }
     ];
   } else {
     staticLogs = [
-      { id: 'log-90d-1', timestamp: getDemoPastISO(7, 4), displayTime: '', tag: 'UI MOCK', message: 'Mock OZ-041 profile loaded with an illustrative egg-count value of 127.', level: 'INFO' },
-      { id: 'log-90d-2', timestamp: getDemoPastISO(22, 6), displayTime: '', tag: 'UI MOCK', message: 'OZ-077 simulated maintenance scenario flags low battery and weak signal.', level: 'WARNING' },
-      { id: 'log-90d-3', timestamp: getDemoPastISO(40, 2), displayTime: '', tag: 'UI MOCK', message: 'Proposed LoRaWAN packet schema displayed for demonstration.', level: 'INFO' },
-      { id: 'log-90d-4', timestamp: getDemoPastISO(76, 8), displayTime: '', tag: 'UI MOCK', message: 'Illustrative acoustic candidate value displayed; classifier not trained.', level: 'INFO' }
     ];
   }
 
@@ -266,7 +257,7 @@ export const buildReportLogs = (
 };
 
 export const buildDashboardExportPayload = (
-  selectedDateRange: string,
+  
   zones: ZoneData[],
   devices: DeviceData[],
   interventions: InterventionMap,
@@ -274,12 +265,12 @@ export const buildDashboardExportPayload = (
 ): DashboardExportPayload => {
   return {
     generatedAt: new Date().toISOString(),
-    selectedDateRange,
+    
     locationLabel,
     zones,
     devices,
     interventions,
-    reportLogs: buildReportLogs(selectedDateRange, zones, interventions),
+    reportLogs: buildReportLogs( zones, interventions),
     summaries: {
       riskDistribution: getRiskDistribution(zones),
       deviceHealth: getDeviceHealthSummary(devices),

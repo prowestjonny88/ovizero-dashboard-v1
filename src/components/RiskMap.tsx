@@ -119,7 +119,7 @@ export default function RiskMap({
       <div className="bg-white border border-zinc-200/60 rounded-xl p-2 shadow-xs">
         <div className="flex flex-col gap-2">
           
-          <ScenarioPeriodLabel selectedDateRange="" mode="current-snapshot" />
+          <ScenarioPeriodLabel  mode="current-snapshot" />
 
           {/* Mode Switch & Filters */}
           <div className="flex flex-row items-center gap-4 overflow-x-auto whitespace-nowrap scrollbar-hidden snap-x">

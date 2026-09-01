@@ -37,7 +37,7 @@ interface ZoneDetailProps {
   ) => void;
   interventions: InterventionMap;
   verifications: InterventionVerificationMap;
-  selectedDateRange: string;
+  
 }
 
 export default function ZoneDetail({ 
@@ -50,7 +50,6 @@ export default function ZoneDetail({
   onRecordVerification,
   interventions,
   verifications,
-  selectedDateRange
 }: ZoneDetailProps) {
   
   // Custom SVG coordinates generator for specific zone trend
@@ -71,13 +70,12 @@ export default function ZoneDetail({
     }).join(' ');
   };
 
-  const selectedRangeUpper = selectedDateRange.toUpperCase();
+  
   const valuesArray = zone?.trendData || [0,0,0,0,0,0,0];
   let xLabels: string[];
   
-  if (selectedRangeUpper === '7D') {
+  if (true) {
     xLabels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-  } else if (selectedRangeUpper === '30D') {
     xLabels = ["1st", "5th", "10th", "15th", "20th", "25th", "30th"];
   } else {
     xLabels = ["Week 1", "Week 3", "Week 5", "Week 7", "Week 9", "Week 11", "Week 13"];
@@ -149,7 +147,7 @@ export default function ZoneDetail({
 
         {/* Status indicator */}
         <div className="text-right flex flex-col items-end gap-1.5">
-          <ScenarioPeriodLabel selectedDateRange={selectedDateRange} mode="selected-period" />
+          <ScenarioPeriodLabel  mode="selected-period" />
           <p className="text-[9px] text-zinc-400 font-bold uppercase tracking-widest mb-1.5">
             Intervention Status
           </p>
@@ -264,7 +262,7 @@ export default function ZoneDetail({
             {/* Ovitrap Egg count trend */}
             <div 
               className="bg-white rounded-xl border border-zinc-200/55 p-5 flex flex-col shadow-[0_1px_2px_rgba(0,0,0,0.01)]"
-              aria-label={`Illustrative egg-count trend ${changePct !== null && changePct > 0 ? 'rising' : 'falling'} from ${first} to ${last} over the selected ${selectedRangeUpper === '7D' ? 'seven-day' : selectedRangeUpper === '30D' ? 'thirty-day' : 'ninety-day'} period.`}
+              aria-label={`Illustrative egg-count trend ${changePct !== null && changePct > 0 ? 'rising' : 'falling'} from ${first} to ${last} over the 7-day period.`}
             >
               {/* Header row */}
               <div className="flex justify-between items-start mb-3">
@@ -272,7 +270,7 @@ export default function ZoneDetail({
                   EGG ACTIVITY TREND
                 </h3>
                 <span className="text-[8px] font-bold font-mono text-zinc-400 bg-zinc-50 border border-zinc-100 px-1.5 py-0.5 rounded tracking-wider uppercase">
-                  {selectedRangeUpper} &middot; SIMULATED
+                  7D &middot; SIMULATED
                 </span>
               </div>
 

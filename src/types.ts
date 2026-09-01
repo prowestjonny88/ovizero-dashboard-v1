@@ -114,7 +114,7 @@ export interface InterventionSummary {
 
 export interface DashboardExportPayload {
   generatedAt: string;
-  selectedDateRange: string;
+  
   locationLabel: string;
   zones: ZoneData[];
   devices: DeviceData[];

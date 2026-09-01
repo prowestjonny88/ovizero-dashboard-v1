@@ -63,7 +63,7 @@ export const downloadPdfReport = async (
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(9);
     doc.setTextColor(mutedGray);
-    const dateText = `Period: ${payload.selectedDateRange} | Location: ${payload.locationLabel}`;
+    const dateText = `Period: 7-Day | Location: ${payload.locationLabel}`;
     doc.text(dateText, margin, margin + 26);
     
     const genDate = new Date(payload.generatedAt).toLocaleString();
@@ -84,7 +84,7 @@ export const downloadPdfReport = async (
       doc.setTextColor(mutedGray);
       
       const genDate = new Date(payload.generatedAt).toLocaleDateString();
-      const footerTextLeft = `Generated: ${genDate} | Period: ${payload.selectedDateRange}`;
+      const footerTextLeft = `Generated: ${genDate} | Period: 7-Day`;
       const footerTextRight = `Page ${i} of ${totalPages}`;
       
       const pageHeight = doc.internal.pageSize.height;

@@ -8,7 +8,7 @@ export const ZONES: ZoneData[] = [
     demoPriorityBand: 'Critical',
     eggActivityChange: '+37%',
     actionRequired: 'Review nearby breeding sources and assign a field assessment.',
-    trigger: 'Correlated activity rise',
+    trigger: 'Simulated temperature and humidity provide contextual information alongside synthetic egg activity.',
     syntheticEggActivity: 127,
     temperature: 32.1,
     humidity: 84,
@@ -36,7 +36,7 @@ export const ZONES: ZoneData[] = [
         description: 'Simulated signal pattern is consistent with a candidate wingbeat frequency, requiring future field validation.'
       },
       {
-        title: 'Climate Threshold Reached',
+        title: 'Local microclimate context',
         description: 'Sustained high humidity following localized rainfall creates a proposed site-risk assumption for rapid larval development.'
       }
     ],
@@ -113,7 +113,7 @@ export const ZONES: ZoneData[] = [
     whyRising: [
       {
         title: 'Waste Management Spillage',
-        description: 'Proposed site-risk assumption of market water discharge points accumulating stagnant runoffs.'
+        description: 'Proposed site-risk assumption of residential courtyard drainage issues accumulating stagnant runoffs.'
       }
     ],
     provenance: {
@@ -189,7 +189,7 @@ export const ZONES: ZoneData[] = [
     whyRising: [
       {
         title: 'Ornamental Pond Seep',
-        description: 'Simulated school courtyard garden features an slow-dripping ornamental structure with minor peripheral pools.'
+        description: 'Simulated community hall area features slow-dripping ornamental structure with minor peripheral pools.'
       }
     ],
     provenance: {
@@ -209,7 +209,7 @@ export const DEVICES: DeviceData[] = [
     battery: 86,
     solarStatus: 'Charging',
     loraSignal: 'Strong',
-    lastSync: 'Snapshot time',
+    lastSync: '5 Aug 2026 · 08:36 MYT',
     lastSeenMinutes: 4,
     maintenanceState: 'Normal',
     diagnostics: {
@@ -228,7 +228,7 @@ export const DEVICES: DeviceData[] = [
     battery: 73,
     solarStatus: 'Charging',
     loraSignal: 'Strong',
-    lastSync: 'Snapshot time',
+    lastSync: '5 Aug 2026 · 08:36 MYT',
     lastSeenMinutes: 8,
     maintenanceState: 'Normal',
     diagnostics: {
@@ -247,7 +247,7 @@ export const DEVICES: DeviceData[] = [
     battery: 61,
     solarStatus: 'Stable',
     loraSignal: 'Medium',
-    lastSync: 'Snapshot time',
+    lastSync: '5 Aug 2026 · 08:36 MYT',
     lastSeenMinutes: 12,
     maintenanceState: 'Normal',
     diagnostics: {
@@ -266,7 +266,7 @@ export const DEVICES: DeviceData[] = [
     battery: 22,
     solarStatus: 'Low Solar',
     loraSignal: 'Weak',
-    lastSync: 'Snapshot time',
+    lastSync: '5 Aug 2026 · 08:36 MYT',
     lastSeenMinutes: 31,
     maintenanceState: 'Maintenance Required',
     diagnostics: {
@@ -285,7 +285,7 @@ export const DEVICES: DeviceData[] = [
     battery: 92,
     solarStatus: 'Charging',
     loraSignal: 'Strong',
-    lastSync: 'Snapshot time',
+    lastSync: '5 Aug 2026 · 08:36 MYT',
     lastSeenMinutes: 6,
     maintenanceState: 'Normal',
     diagnostics: {

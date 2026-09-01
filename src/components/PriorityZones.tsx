@@ -18,14 +18,13 @@ interface PriorityZonesProps {
   zones: ZoneData[];
   interventions: InterventionMap;
   onZoneSelect: (zoneId: string) => void;
-  selectedDateRange: string;
+  
 }
 
 export default function PriorityZones({ 
   zones, 
   interventions, 
   onZoneSelect,
-  selectedDateRange
 }: PriorityZonesProps) {
   
   // Rank mock profiles by illustrative scenario index descending
@@ -42,7 +41,7 @@ export default function PriorityZones({
           <p className="text-xs text-zinc-500 font-medium mt-1 mb-2">
             Priority ordering uses simulated scenario values and provisional interface bands.
           </p>
-          <ScenarioPeriodLabel selectedDateRange={selectedDateRange} mode="selected-period" />
+          <ScenarioPeriodLabel  mode="selected-period" />
         </div>
         <div className="flex items-center gap-2 bg-zinc-50 px-3.5 py-2 rounded-lg border border-zinc-150 text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">
           <Compass className="w-4 h-4 text-zinc-400" />

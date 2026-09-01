@@ -35,8 +35,8 @@ import {
 interface CommandCenterProps {
   zones: ZoneData[];
   onZoneSelect: (zoneId: string) => void;
-  selectedDateRange: string;
-  onDateRangeChange?: (range: string) => void;
+  
+  
   interventions: InterventionMap;
   onOpenRiskMap?: () => void;
   onNavigateToPriorityZones?: () => void;
@@ -45,14 +45,13 @@ interface CommandCenterProps {
 export default function CommandCenter({ 
   zones, 
   onZoneSelect, 
-  selectedDateRange,
-  onDateRangeChange,
+  
+  
   interventions,
   onOpenRiskMap,
   onNavigateToPriorityZones
 }: CommandCenterProps) {
-  const [lastRefreshed, setLastRefreshed] = useState<string>('Snapshot time');
-  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+    const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   const handleRefresh = () => {
     setIsRefreshing(true);
@@ -126,12 +125,7 @@ export default function CommandCenter({
     return ZONE_NODE_MAP[id]?.nodeId || PILOT_NODES.find(n => n.metricZoneId === id)?.deviceId || 'Unknown';
   };
 
-  const rangeEndLabel =
-    selectedDateRange === '7d'
-      ? 'Day 7'
-      : selectedDateRange === '30d'
-      ? 'Day 30'
-      : 'Day 90';
+  const rangeEndLabel = 'Day 7';
 
   const startValue = peakZone.trendData[0];
   const currentValue = peakZone.trendData[peakZone.trendData.length - 1];
@@ -157,10 +151,10 @@ export default function CommandCenter({
 
         <div className="flex items-center gap-3">
           <div className="flex flex-col items-end gap-1">
-            <ScenarioPeriodLabel selectedDateRange={selectedDateRange} mode="selected-period" />
+            <ScenarioPeriodLabel  mode="selected-period" />
             <div className="text-right hidden sm:block">
               <span className="text-[9px] font-bold text-zinc-400 block uppercase tracking-wider">Demo Data Status</span>
-              <span className="text-[10px] font-mono font-semibold text-zinc-700">Updated Snapshot time • 5 simulated nodes</span>
+              <span className="text-[10px] font-mono font-semibold text-zinc-700">Scenario timestamp: 5 Aug 2026 · 08:36 MYT • 5 simulated nodes</span>
             </div>
           </div>
           <button 
@@ -205,7 +199,7 @@ export default function CommandCenter({
             <span className="text-3xl font-extrabold text-[#052e1a] font-mono tracking-tight">{peakZone.eggActivityChange}</span>
           </div>
           <p className="text-[9px] text-zinc-500 mt-3 font-medium">
-            {selectedDateRange.toUpperCase()} rolling growth rate
+            7D rolling growth rate
           </p>
         </div>
 
@@ -469,14 +463,12 @@ export default function CommandCenter({
               <div className="flex items-center bg-zinc-50 p-0.5 rounded-lg border border-zinc-200/50 shrink-0 self-start sm:self-auto">
                 {[
                   { label: '7D', value: '7d' },
-                  { label: '30D', value: '30d' },
-                  { label: '90D', value: '90d' }
                 ].map((range) => (
                   <button
                     key={range.value}
-                    onClick={() => onDateRangeChange && onDateRangeChange(range.value)}
+                    
                     className={`px-3 py-1.5 text-[11px] font-bold rounded-md transition-all uppercase tracking-wider ${
-                      selectedDateRange === range.value
+                      true
                         ? 'bg-white text-zinc-900 border border-zinc-200/50 shadow-sm'
                         : 'text-zinc-500 hover:text-zinc-900'
                     }`}
@@ -496,7 +488,7 @@ export default function CommandCenter({
                     EGG ACTIVITY TREND
                   </span>
                   <span className="text-[8px] font-bold font-mono text-zinc-400 bg-zinc-50 border border-zinc-100 px-1.5 py-0.5 rounded tracking-wider uppercase">
-                    {selectedDateRange.toUpperCase()} &middot; SIMULATED
+                    7D &middot; SIMULATED
                   </span>
                 </div>
 

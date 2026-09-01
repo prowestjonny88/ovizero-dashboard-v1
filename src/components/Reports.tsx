@@ -10,7 +10,7 @@ import { ChevronRight, Sparkles } from 'lucide-react';
 interface ReportsProps {
   zones: ZoneData[];
   devices: DeviceData[];
-  selectedDateRange: string;
+  
   onExport: (format: ExportFormat) => Promise<void> | void;
   exportingFormat: ExportFormat | null;
   onZoneSelect: (zoneId: string) => void;
@@ -20,7 +20,7 @@ interface ReportsProps {
 export default function Reports({ 
   zones, 
   devices, 
-  selectedDateRange, 
+   
   onExport,
   exportingFormat,
   onZoneSelect,
@@ -28,13 +28,12 @@ export default function Reports({
 }: ReportsProps) {
   
   const getRangeLabel = () => {
-    if (selectedDateRange === '7d') return '7-Day';
-    if (selectedDateRange === '30d') return '30-Day';
+    return '7-Day';
     return '90-Day';
   };
 
   const rankedZones = getTopPriorityZones(zones, 5);
-  const reportLogs = buildReportLogs(selectedDateRange, zones, interventions);
+  const reportLogs = buildReportLogs( zones, interventions);
   const topZone = rankedZones[0];
   const deviceHealth = getDeviceHealthSummary(devices);
   const activeNodesCount = deviceHealth.total;
@@ -57,7 +56,7 @@ export default function Reports({
           <p className="text-xs text-zinc-500 font-medium mt-1 mb-2">
             Selected-period simulated scenario and mock activity.
           </p>
-          <ScenarioPeriodLabel selectedDateRange={selectedDateRange} mode="selected-period" />
+          <ScenarioPeriodLabel  mode="selected-period" />
         </div>
         <ExportMenu onExport={onExport} exportingFormat={exportingFormat} />
       </section>
