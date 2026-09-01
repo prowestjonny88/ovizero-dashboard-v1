@@ -1,12 +1,11 @@
 import React from 'react';
-import { ZoneData, InterventionMap } from '../types';
-import { DEVICES } from '../data';
+import { ZoneData } from '../types';
+import { DEVICES, PROPOSED_GATEWAYS } from '../data';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
 
 interface CommandCenterProps {
   zones: ZoneData[];
   onZoneSelect: (zoneId: string) => void;
-  interventions: InterventionMap;
   onOpenRiskMap?: () => void;
   onNavigateToPriorityZones?: () => void;
 }
@@ -14,7 +13,6 @@ interface CommandCenterProps {
 export default function CommandCenter({ 
   zones, 
   onZoneSelect,
-  interventions,
   onOpenRiskMap,
   onNavigateToPriorityZones
 }: CommandCenterProps) {
@@ -24,7 +22,9 @@ export default function CommandCenter({
   const peakZone = topPriorityZones[0] || zones[0];
 
   const actionRequiredCount = zones.filter(z => z.demoPriorityBand === 'Critical' || z.demoPriorityBand === 'High' || z.demoPriorityBand === 'Elevated').length;
-  const needsAttentionCount = 1; // Device needs attention mock
+  const needsAttentionCount = DEVICES.filter(d => d.maintenanceState === 'Maintenance Required' || d.battery < 30).length;
+  const totalNodesCount = DEVICES.length;
+  const totalGatewaysCount = PROPOSED_GATEWAYS.length;
 
   const getRiskColor = (status: string) => {
     switch (status) {
@@ -61,11 +61,7 @@ export default function CommandCenter({
             Biological and environmental signals → explainable field priorities.
           </p>
         </div>
-        <div className="text-left md:text-right">
-          <span className="inline-block text-[10px] font-mono font-semibold text-zinc-700 bg-zinc-100 px-2 py-1 rounded border border-zinc-200 uppercase tracking-wider">
-            SIMULATED SCENARIO · NO LIVE DEVICES
-          </span>
-        </div>
+
       </div>
 
       {/* 2. Dominant Priority Hero */}
@@ -184,11 +180,11 @@ export default function CommandCenter({
         </div>
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-blue-500"></span>
-          <span><strong className="text-zinc-900">5</strong> simulated nodes</span>
+          <span><strong className="text-zinc-900">{totalNodesCount}</strong> simulated nodes</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-indigo-500"></span>
-          <span><strong className="text-zinc-900">1</strong> proposed gateway</span>
+          <span><strong className="text-zinc-900">{totalGatewaysCount}</strong> proposed gateway</span>
         </div>
       </section>
 

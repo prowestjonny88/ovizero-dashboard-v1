@@ -274,23 +274,23 @@ export default function App() {
             onZoneSelect={handleZoneSelect} 
             
             
-            interventions={interventions}
+            
             onOpenRiskMap={() => setCurrentScreen(AppScreen.RISK_MAP)}
             onNavigateToPriorityZones={() => setCurrentScreen(AppScreen.PRIORITY_ZONES)}
           />
         );
       case AppScreen.PRIORITY_ZONES:
         return (
-          <PriorityZones
+          <PriorityZones interventions={interventions}
             zones={dynamicZones}
-            interventions={interventions}
+            
             onZoneSelect={handleZoneSelect}
             
           />
         );
       case AppScreen.ZONE_DETAIL:
         return (
-          <ZoneDetail
+          <ZoneDetail interventions={interventions}
             zone={activeZone}
             zones={dynamicZones}
             onBackToCommandCenter={() => setCurrentScreen(AppScreen.PRIORITY_ZONES)}
@@ -298,7 +298,7 @@ export default function App() {
             onCreateIntervention={handleCreateIntervention}
             onInterventionTransition={handleInterventionTransition}
             onRecordVerification={handleRecordVerification}
-            interventions={interventions}
+            
             verifications={verifications}
             
           />
@@ -313,23 +313,23 @@ export default function App() {
         );
       case AppScreen.RISK_MAP:
         return (
-          <RiskMap
+          <RiskMap interventions={interventions}
             zones={ZONES}
             onZoneSelect={handleZoneSelect}
-            interventions={interventions}
+            
             onAssignIntervention={handleCreateIntervention}
           />
         );
       case AppScreen.REPORTS:
         return (
-          <Reports
+          <Reports interventions={interventions}
             zones={dynamicZones}
             devices={DEVICES}
             
             onExport={handleExport}
             exportingFormat={exportingFormat}
             onZoneSelect={handleZoneSelect}
-            interventions={interventions}
+            
           />
         );
       case AppScreen.EVIDENCE_VALIDATION:

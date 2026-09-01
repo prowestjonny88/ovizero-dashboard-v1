@@ -67,7 +67,7 @@ export default function Sidebar({ currentScreen, onScreenChange, variant = 'desk
           </span>
         </h1>
         <p className="text-[9px] font-semibold text-[#cad5ce] uppercase tracking-[0.2em] mt-1.5">
-          Risk Intelligence Engine
+          Mosquito Surveillance
         </p>
       </div>
 
