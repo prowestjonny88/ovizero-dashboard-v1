@@ -26,7 +26,7 @@ export default function Sidebar({ currentScreen, onScreenChange, variant = 'desk
     },
     {
       id: AppScreen.RISK_MAP,
-      label: 'Risk Map',
+      label: 'Priority Map',
       icon: Map,
     },
     {

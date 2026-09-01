@@ -119,46 +119,38 @@ export default function RiskMap({
       <div className="bg-white border border-zinc-200/60 rounded-xl p-2 shadow-xs">
         <div className="flex flex-col gap-2">
           
-          <ScenarioPeriodLabel  mode="current-snapshot" />
+          <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-2">7-day simulated scenario &middot; 5 monitoring nodes</div>
 
           {/* Mode Switch & Filters */}
-          <div className="flex flex-row items-center gap-4 overflow-x-auto whitespace-nowrap scrollbar-hidden snap-x">
-            <div className="flex items-center gap-1 bg-zinc-100/80 p-1 rounded-lg shrink-0">
-              <button
-                onClick={() => handleModeChange('risk')}
-                aria-pressed={mapMode === 'risk'}
-                className={`px-4 py-2 min-h-[40px] text-xs font-bold rounded-md transition-colors ${mapMode === 'risk' ? 'bg-[#052e1a] text-white shadow-sm' : 'text-zinc-600 hover:text-zinc-900'}`}
-              >
-                Risk View
-              </button>
-              <button
-                onClick={() => handleModeChange('network')}
-                aria-pressed={mapMode === 'network'}
-                className={`px-4 py-2 min-h-[40px] text-xs font-bold rounded-md transition-colors ${mapMode === 'network' ? 'bg-[#052e1a] text-white shadow-sm' : 'text-zinc-600 hover:text-zinc-900'}`}
-              >
-                Network View
-              </button>
+          <div className="flex flex-row items-center justify-between gap-4 overflow-x-auto whitespace-nowrap scrollbar-hidden snap-x w-full">
+            <div className="flex items-center gap-2 shrink-0">
+              {mapMode === 'risk' && (
+                <div className="flex items-center gap-1 shrink-0">
+                  {['ALL', 'Critical', 'High', 'Elevated', 'Watch'].map((filter) => (
+                    <button
+                      key={filter}
+                      onClick={() => setActiveFilter(filter as 'ALL' | 'Critical' | 'High' | 'Elevated' | 'Watch')}
+                      className={`px-4 py-1.5 min-h-[36px] text-xs font-bold rounded-lg transition-colors border ${
+                        activeFilter === filter
+                          ? 'bg-zinc-800 text-white border-zinc-800 shadow-sm'
+                          : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-50'
+                      }`}
+                    >
+                      {filter}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
             
-            <div className="h-6 w-px bg-zinc-200 shrink-0"></div>
-            
-            {mapMode === 'risk' && (
-              <div className="flex items-center gap-1 shrink-0">
-                {['ALL', 'Critical', 'High', 'Elevated', 'Watch'].map((filter) => (
-                  <button
-                    key={filter}
-                    onClick={() => setActiveFilter(filter as 'ALL' | 'Critical' | 'High' | 'Elevated' | 'Watch')}
-                    className={`px-4 py-2 min-h-[40px] text-xs font-bold rounded-lg transition-colors border ${
-                      activeFilter === filter
-                        ? 'bg-zinc-800 text-white border-zinc-800 shadow-sm'
-                        : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-50'
-                    }`}
-                  >
-                    {filter}
-                  </button>
-                ))}
-              </div>
-            )}
+            <div className="flex items-center gap-2 shrink-0 border-l border-zinc-200 pl-4 ml-auto">
+               <button
+                onClick={() => handleModeChange(mapMode === 'risk' ? 'network' : 'risk')}
+                className={`px-3 py-1.5 min-h-[36px] text-xs font-bold rounded-md transition-colors border ${mapMode === 'network' ? 'bg-[#e8f4ed] text-[#052e1a] border-[#0b5a31]' : 'bg-zinc-50 text-zinc-500 border-zinc-200 hover:bg-zinc-100'}`}
+              >
+                {mapMode === 'risk' ? 'Network Topology' : 'Exit Network Topology'}
+              </button>
+            </div>
           </div>
 
           {/* Layer Toggles */}
@@ -169,7 +161,7 @@ export default function RiskMap({
                 aria-pressed={showIllustrativeEggCount}
                 className={`px-4 py-2 min-h-[40px] rounded-full text-xs font-bold transition-colors shrink-0 border ${showIllustrativeEggCount ? 'bg-[#e8f4ed] text-[#052e1a] border-[#0b5a31]' : 'bg-zinc-50 text-zinc-500 border-zinc-200'}`}
               >
-                Illustrative Egg Count
+                Synthetic egg activity
               </button>
             )}
             {mapMode === 'network' && (
@@ -217,10 +209,10 @@ export default function RiskMap({
           {/* Map Legend */}
           <div id="risk-map-legend" className={`bg-white border border-zinc-200/60 rounded-xl p-3 shadow-xs ${showLegend ? 'block' : 'hidden lg:block'}`}>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[10px] font-medium text-zinc-600">
-              <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full border border-[#ef4444] bg-[#ffffff]"></div> Critical device</div>
-              <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full border border-[#f97316] bg-[#ffffff]"></div> High-risk device</div>
-              <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full border border-[#f59e0b] bg-[#ffffff]"></div> Elevated device</div>
-              <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full border border-[#22c55e] bg-[#ffffff]"></div> Watch device</div>
+              <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full border border-[#ef4444] bg-[#ffffff]"></div> Critical priority</div>
+              <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full border border-[#f97316] bg-[#ffffff]"></div> High priority</div>
+              <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full border border-[#f59e0b] bg-[#ffffff]"></div> Elevated priority</div>
+              <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full border border-[#22c55e] bg-[#ffffff]"></div> Watch location</div>
               
               {mapMode === 'risk' && showIllustrativeEggCount && (
                 <>
@@ -231,9 +223,9 @@ export default function RiskMap({
                   const mid = counts[Math.floor(counts.length / 2)];
                   return (
                     <> 
-                       <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full border border-[#2C7F79] bg-[#3BA7A0] opacity-30"></div> {min} eggs</div>
-                       <div className="flex items-center gap-1.5"><div className="w-3.5 h-3.5 rounded-full border border-[#2C7F79] bg-[#3BA7A0] opacity-30"></div> {mid} eggs</div>
-                       <div className="flex items-center gap-1.5"><div className="w-5 h-5 rounded-full border border-[#2C7F79] bg-[#3BA7A0] opacity-30"></div> {max} eggs</div>
+                       <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full border border-[#2C7F79] bg-[#3BA7A0] opacity-30"></div> {min} synthetic eggs</div>
+                       <div className="flex items-center gap-1.5"><div className="w-3.5 h-3.5 rounded-full border border-[#2C7F79] bg-[#3BA7A0] opacity-30"></div> {mid} synthetic eggs</div>
+                       <div className="flex items-center gap-1.5"><div className="w-5 h-5 rounded-full border border-[#2C7F79] bg-[#3BA7A0] opacity-30"></div> {max} synthetic eggs</div>
                     </>
                   );
                 })()}
@@ -261,7 +253,7 @@ export default function RiskMap({
               <span className="block mb-1 text-zinc-600 font-bold">Outlined area &mdash; illustrative pilot deployment envelope:</span>
               <span className="block mb-2">The outline follows the five mock device placements and does not represent validated surveillance coverage.</span>
               One node represents one physical OviZero monitoring device.
-              {mapMode === 'risk' && showIllustrativeEggCount && ' Bubble size represents illustrative weekly egg count, not spatial density.'}
+              {mapMode === 'risk' && showIllustrativeEggCount && ' Bubble size represents synthetic egg activity in this demo, not spatial mosquito density.'}
               {mapMode === 'network' && ' Gateway placement and links are illustrative and not field-validated.'}
             </p>
           </div>
@@ -283,46 +275,69 @@ export default function RiskMap({
             {/* Compact Summary for Mobile - shown immediately below map or as top card */}
             <div className="bg-white lg:border border-zinc-200/60 lg:rounded-xl lg:p-4 shadow-sm lg:shadow-xs mb-4">
               <div className="mb-4">
-                <h3 className="text-xl font-bold text-zinc-900 font-mono tracking-tight">{selectedVM.deviceId}</h3>
-                <p className="text-sm text-zinc-500 mt-0.5">{selectedVM.parentZoneName} &middot; {selectedVM.sublocation}</p>
+                <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-2 block">
+                  Selected Location
+                </span>
+                <h3 className="text-2xl font-extrabold text-[#052e1a] tracking-tight">{selectedVM.parentZoneName}</h3>
+                <p className="text-xs text-zinc-500 mt-0.5 font-mono">Node {selectedVM.deviceId} &middot; {selectedVM.sublocation}</p>
                 
-                <div className="mt-3">
+                <div className="mt-4 flex items-center gap-2">
                   <span 
-                    className="inline-block px-2.5 py-1 text-xs font-bold rounded uppercase tracking-wider" 
-                    style={{ backgroundColor: getRiskColor(selectedVM.riskProfile.demoPriorityBand), color: getRiskBorderColor(selectedVM.riskProfile.demoPriorityBand), border: `1px solid ${getRiskBorderColor(selectedVM.riskProfile.demoPriorityBand)}` }}
+                    className="inline-block px-2.5 py-1 text-[10px] font-bold font-mono rounded uppercase tracking-wider border" 
+                    style={{ backgroundColor: getRiskColor(selectedVM.riskProfile.demoPriorityBand), color: getRiskBorderColor(selectedVM.riskProfile.demoPriorityBand), borderColor: getRiskBorderColor(selectedVM.riskProfile.demoPriorityBand) }}
                   >
                     {selectedVM.riskProfile.demoPriorityBand}
                   </span>
-                  <p className="text-xs font-bold text-zinc-700 mt-1">Simulated risk scenario</p>
+                  <p className="text-[10px] font-bold text-zinc-700 uppercase tracking-wider">Critical demo priority</p>
                 </div>
 
                 <div className="mt-4">
-                  <p className="text-xs text-zinc-600">
-                    <span className="font-bold">Illustrative scenario index:</span> <span className="font-mono text-zinc-900">{selectedVM.riskProfile.interventionPriority} / 100</span>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-5xl font-extrabold text-[#052e1a] font-mono tracking-tighter">
+                      {selectedVM.riskProfile.interventionPriority}
+                    </span>
+                    <span className="text-lg text-zinc-400 font-mono">/ 100</span>
+                  </div>
+                  <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest mt-1">
+                    Illustrative Intervention Priority
                   </p>
-                  <p className="text-[10px] text-zinc-500 mt-0.5">Stored mock value &mdash; not calculated or calibrated.</p>
+                  <p className="text-[10px] text-zinc-400 font-mono mt-1">
+                    Stored demo output &middot; not field validated
+                  </p>
+                </div>
+                
+                <div className="bg-[#f8faf9] border border-[#e8f4ed] p-4 rounded-xl mt-4">
+                  <p className="text-sm text-[#052e1a] font-medium leading-relaxed">
+                    Synthetic egg activity is rising alongside local microclimate conditions → review nearby breeding sources and assign a field assessment.
+                  </p>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 mt-4">
-                <button
-                  onClick={() => onZoneSelect(selectedVM.parentZoneId)}
-                  className="py-2.5 bg-[#e8f4ed] hover:bg-[#cad5ce] text-[#052e1a] text-xs font-bold rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer"
-                >
-                  <span>Zone Analysis</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  onClick={() => onAssignIntervention && onAssignIntervention(selectedVM.parentZoneId, selectedVM.parentZoneName)}
-                  disabled={Boolean(activeIntervention)}
-                  className={`py-2.5 text-xs font-bold rounded-lg flex items-center justify-center gap-1 transition-colors ${
-                    activeIntervention
-                      ? 'bg-zinc-100 text-zinc-400 cursor-not-allowed'
-                      : 'bg-[#052e1a] hover:bg-[#0b5a31] text-white shadow-xs cursor-pointer'
-                  }`}
-                >
-                  <span>{activeIntervention ? 'Assigned' : 'Assign Zone Task'}</span>
-                </button>
+              <div className="mt-4 pt-4 border-t border-zinc-200/60">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 block mb-3">
+                  Recommended Next Step
+                </span>
+                <p className="text-sm font-medium text-zinc-800 mb-4">{selectedVM.riskProfile.actionRequired || "Review nearby breeding sources and assign a field assessment."}</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <button
+                    onClick={() => onAssignIntervention && onAssignIntervention(selectedVM.parentZoneId, selectedVM.parentZoneName)}
+                    disabled={Boolean(activeIntervention)}
+                    className={`py-3 text-xs font-bold rounded-lg flex items-center justify-center gap-1 transition-colors ${
+                      activeIntervention
+                        ? 'bg-zinc-100 text-zinc-400 cursor-not-allowed border border-zinc-200'
+                        : 'bg-[#052e1a] hover:bg-[#0b5a31] text-white shadow-xs cursor-pointer'
+                    }`}
+                  >
+                    <span>{activeIntervention ? 'ASSIGNED' : 'REVIEW & ASSIGN'}</span>
+                  </button>
+                  <button
+                    onClick={() => onZoneSelect(selectedVM.parentZoneId)}
+                    className="py-3 bg-white border border-zinc-200 hover:bg-zinc-50 text-zinc-800 text-xs font-bold rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer"
+                  >
+                    <span>OPEN FULL ANALYSIS</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -351,45 +366,11 @@ export default function RiskMap({
                       <span className="text-xs font-bold text-zinc-900">{selectedVM.device?.lastSync ?? 'Not available'}</span>
                     </div>
                   </div>
-                  <Accordion title="Risk Evidence" id="risk-evidence">
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between p-2.5 rounded-lg border border-zinc-100 bg-zinc-50/50">
-                        <span className="text-xs text-zinc-500">Mock Growth</span>
-                        <span className={`text-xs font-bold ${getTrendBucket(selectedVM.riskProfile.eggActivityChange) === 'Rapid' ? 'text-red-600' : 'text-[#052e1a]'}`}>
-                          {selectedVM.riskProfile.eggActivityChange}
-                        </span>
-                      </div>
-                      <div className="flex items-center justify-between p-2.5 rounded-lg border border-zinc-100 bg-zinc-50/50">
-                        <span className="text-xs text-zinc-500">Weekly Count</span>
-                        <span className="text-xs font-bold text-zinc-800">{selectedVM.riskProfile.syntheticEggActivity}</span>
-                      </div>
-                      <div className="flex items-center justify-between p-2.5 rounded-lg border border-zinc-100 bg-zinc-50/50 group relative cursor-help">
-                        <span className="text-xs text-zinc-500">Illustrative Match Score</span>
-                        <span className="text-xs font-bold text-zinc-800">Integration pending</span>
-                      </div>
-                    </div>
-                  </Accordion>
+
                 </>
               ) : (
                 <>
-                  <Accordion title="Risk Evidence" id="risk-evidence">
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between p-2.5 rounded-lg border border-zinc-100 bg-zinc-50/50">
-                        <span className="text-xs text-zinc-500">Mock Growth</span>
-                        <span className={`text-xs font-bold ${getTrendBucket(selectedVM.riskProfile.eggActivityChange) === 'Rapid' ? 'text-red-600' : 'text-[#052e1a]'}`}>
-                          {selectedVM.riskProfile.eggActivityChange}
-                        </span>
-                      </div>
-                      <div className="flex items-center justify-between p-2.5 rounded-lg border border-zinc-100 bg-zinc-50/50">
-                        <span className="text-xs text-zinc-500">Weekly Count</span>
-                        <span className="text-xs font-bold text-zinc-800">{selectedVM.riskProfile.syntheticEggActivity}</span>
-                      </div>
-                      <div className="flex items-center justify-between p-2.5 rounded-lg border border-zinc-100 bg-zinc-50/50 group relative cursor-help">
-                        <span className="text-xs text-zinc-500">Illustrative Match Score</span>
-                        <span className="text-xs font-bold text-zinc-800">Integration pending</span>
-                      </div>
-                    </div>
-                  </Accordion>
+
                   <Accordion title="Climate Summary" id="climate-summary">
                     <div className="grid grid-cols-2 gap-3">
                       <div className="p-2.5 rounded-lg border border-zinc-100 bg-zinc-50/50">
@@ -408,13 +389,7 @@ export default function RiskMap({
                   </Accordion>
                 </>
               )}
-              <div className="p-3 bg-zinc-50 border border-zinc-200/50 rounded-lg mt-2 lg:mt-4">
-                <span className="text-[9px] font-bold uppercase tracking-wider text-zinc-400 block">
-                  Recommended Action (applies to zone)
-                </span>
-                <p className="text-xs font-bold text-zinc-800 mt-0.5">{selectedVM.riskProfile.actionRequired}</p>
-                <p className="text-[10px] text-zinc-500 mt-1">This task applies to the pilot zone, not only the selected device.</p>
-              </div>
+
             </div>
           </div>
           )}
@@ -424,11 +399,11 @@ export default function RiskMap({
       {/* Bottom Summary Strip */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4">
         <div className="bg-white p-3 lg:p-4 rounded-xl border border-zinc-200/60 shadow-xs">
-          <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">Pilot deployment</span>
+          <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">Simulated deployment</span>
           <span className="text-sm font-bold text-[#052e1a] font-mono mt-1 block">5 simulated device records</span>
         </div>
         <div className="bg-white p-3 lg:p-4 rounded-xl border border-zinc-200/60 shadow-xs">
-          <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">Risk distribution</span>
+          <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">Priority distribution</span>
           <div className="flex flex-wrap items-center gap-1.5 mt-1 text-[11px] font-mono font-bold text-zinc-700">
             <span>{riskDist.critical} Critical</span>
             <span className="text-zinc-300">&middot;</span>
@@ -440,7 +415,7 @@ export default function RiskMap({
           </div>
         </div>
         <div className="bg-white p-3 lg:p-4 rounded-xl border border-zinc-200/60 shadow-xs">
-          <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">{mapMode === 'risk' ? 'Risk View' : 'Network View'}</span>
+          <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">{mapMode === 'risk' ? 'Priority View' : 'Proposed LoRaWAN topology'}</span>
           <span className="text-sm font-bold text-[#052e1a] font-mono mt-1 block">
             {mapMode === 'risk' ? 'Current simulated device snapshot' : '1 proposed gateway · 5 direct links'}
           </span>
