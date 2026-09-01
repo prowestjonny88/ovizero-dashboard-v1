@@ -1,10 +1,8 @@
-import ScenarioPeriodLabel from "./ScenarioPeriodLabel";
 import React, { useState, useEffect, useMemo } from 'react';
 import { ZoneData, InterventionMap } from '../types';
 import { DEVICES, PILOT_NODES, PROPOSED_GATEWAYS, ZONES } from '../data';
 import GoogleRiskMap from './GoogleRiskMap';
 import { 
-  getTrendBucket, 
   getRiskDistribution, 
   getInterventionForZone,
   buildPilotNodeViewModels,
@@ -90,29 +88,7 @@ export default function RiskMap({
   const activeIntervention = selectedVM ? getInterventionForZone(selectedVM.parentZoneId, interventions) : null;
 
   const riskDist = getRiskDistribution(zones);
-  
-  const Accordion = ({ title, id, children }: { title: string, id: string, children: React.ReactNode }) => {
-    const isOpen = expandedSection === id;
-    return (
-      <div className="border border-zinc-200/60 rounded-lg overflow-hidden bg-white mb-2 lg:mb-4 lg:border-none lg:bg-transparent">
-        <button 
-          onClick={() => setExpandedSection(isOpen ? null : id)}
-          className="w-full flex justify-between items-center p-3 lg:hidden bg-zinc-50 font-semibold text-xs text-zinc-800"
-        >
-          {title}
-          {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-        </button>
-        <div className={`p-3 lg:p-0 ${isOpen ? 'block' : 'hidden lg:block'}`}>
-          <div className="hidden lg:flex items-center gap-1.5 mb-3 text-[9px] font-bold uppercase tracking-wider text-zinc-400">
-            {title}
-          </div>
-          {children}
-        </div>
-      </div>
-    );
-  };
-
-  return (
+return (
     <div className="space-y-4 max-w-7xl mx-auto pb-8 lg:pb-12 flex flex-col min-h-[calc(100vh-100px)]" id="risk-map-page-container">
       
       {/* TOOLBAR */}
@@ -250,9 +226,9 @@ export default function RiskMap({
             </div>
             
             <p className="text-[10px] text-zinc-400 mt-2 font-mono">
-              <span className="block mb-1 text-zinc-600 font-bold">Outlined area &mdash; illustrative pilot deployment envelope:</span>
-              <span className="block mb-2">The outline follows the five mock device placements and does not represent validated surveillance coverage.</span>
-              One node represents one physical OviZero monitoring device.
+              <span className="block mb-1 text-zinc-600 font-bold">Outlined area &mdash; illustrative scenario envelope:</span>
+              <span className="block mb-2">The outline follows the five simulated node placements and does not represent validated surveillance coverage.</span>
+              One map marker represents one simulated OviZero node record.
               {mapMode === 'risk' && showIllustrativeEggCount && ' Bubble size represents synthetic egg activity in this demo, not spatial mosquito density.'}
               {mapMode === 'network' && ' Gateway placement and links are illustrative and not field-validated.'}
             </p>
@@ -264,22 +240,69 @@ export default function RiskMap({
           {!selectedVM ? (
             <div className="bg-white border border-zinc-200/60 rounded-xl p-8 shadow-xs flex flex-col items-center justify-center text-center h-full min-h-[300px]">
               <MapPin className="w-8 h-8 text-zinc-300 mb-3" />
-              <h3 className="text-sm font-bold text-zinc-700">No OviZero Devices Match</h3>
-              <p className="text-[10px] text-zinc-500 mt-2 max-w-[200px] mb-4">No OviZero devices match the current risk filter.</p>
+              <h3 className="text-sm font-bold text-zinc-700">No locations match</h3>
+              <p className="text-[10px] text-zinc-500 mt-2 max-w-[200px] mb-4">No locations match the current priority filter.</p>
               <button onClick={() => setActiveFilter('ALL')} className="px-4 py-2 bg-[#052e1a] text-white text-xs font-bold rounded-lg shadow-sm hover:bg-[#0b5a31] transition-colors cursor-pointer">
                 Reset Filter
               </button>
             </div>
           ) : (
           <div className="flex flex-col">
-            {/* Compact Summary for Mobile - shown immediately below map or as top card */}
-            <div className="bg-white lg:border border-zinc-200/60 lg:rounded-xl lg:p-4 shadow-sm lg:shadow-xs mb-4">
-              <div className="mb-4">
+            {mapMode === 'network' ? (
+              <div className="bg-white lg:border border-zinc-200/60 lg:rounded-xl lg:p-4 shadow-sm lg:shadow-xs mb-4">
+                <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-2 block">
+                  Selected Node
+                </span>
+                <h3 className="text-2xl font-extrabold text-[#052e1a] tracking-tight">{selectedVM.parentZoneName}</h3>
+                <p className="text-xs text-zinc-500 mt-0.5 font-mono">Node {selectedVM.deviceId}</p>
+                
+                <div className="mt-6 pt-4 border-t border-zinc-200/60">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 block mb-3">
+                    PROPOSED LORAWAN TOPOLOGY
+                  </span>
+                  <div className="space-y-2 p-3 rounded-lg border border-[#1b7f47]/20 bg-[#f8fcf9] mb-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-zinc-500">Proposed gateway</span>
+                      <span className="text-xs font-mono font-bold text-zinc-900">{selectedVM.gateway?.id || 'N/A'}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-zinc-500">Simulated link</span>
+                      <span className="text-xs font-bold text-zinc-900">Connected / displayed</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-zinc-500">Simulated signal quality</span>
+                      <span className="text-xs font-bold text-[#1b7f47]">{selectedVM.signalQuality}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-zinc-500">Simulated battery</span>
+                      <span className="text-xs font-bold text-zinc-900">{selectedVM.device?.battery || 'N/A'}%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-zinc-500">Scenario timestamp</span>
+                      <span className="text-xs font-bold text-zinc-900">5 Aug 2026 &middot; 08:36 MYT</span>
+                    </div>
+                  </div>
+                  <p className="text-[9px] text-zinc-400 mt-3 text-center">Illustrative topology &middot; not field validated</p>
+                </div>
+                
+                <div className="mt-4">
+                   <button
+                    onClick={() => handleModeChange('risk')}
+                    className="w-full py-3 bg-white border border-zinc-200 hover:bg-zinc-50 text-zinc-800 text-xs font-bold rounded-lg flex items-center justify-center transition-colors cursor-pointer"
+                  >
+                    EXIT NETWORK TOPOLOGY
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="bg-white lg:border border-zinc-200/60 lg:rounded-xl lg:p-4 shadow-sm lg:shadow-xs mb-4">
                 <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-2 block">
                   Selected Location
                 </span>
                 <h3 className="text-2xl font-extrabold text-[#052e1a] tracking-tight">{selectedVM.parentZoneName}</h3>
-                <p className="text-xs text-zinc-500 mt-0.5 font-mono">Node {selectedVM.deviceId} &middot; {selectedVM.sublocation}</p>
+                <p className="text-xs text-zinc-500 mt-0.5 font-mono">
+                  Node {selectedVM.deviceId}{selectedVM.sublocation && selectedVM.sublocation !== selectedVM.parentZoneName ? ` · ${selectedVM.sublocation}` : ''}
+                </p>
                 
                 <div className="mt-4 flex items-center gap-2">
                   <span 
@@ -288,7 +311,7 @@ export default function RiskMap({
                   >
                     {selectedVM.riskProfile.demoPriorityBand}
                   </span>
-                  <p className="text-[10px] font-bold text-zinc-700 uppercase tracking-wider">Critical demo priority</p>
+                  <p className="text-[10px] font-bold text-zinc-700 uppercase tracking-wider">{selectedVM.riskProfile.demoPriorityBand} DEMO PRIORITY</p>
                 </div>
 
                 <div className="mt-4">
@@ -308,94 +331,86 @@ export default function RiskMap({
                 
                 <div className="bg-[#f8faf9] border border-[#e8f4ed] p-4 rounded-xl mt-4">
                   <p className="text-sm text-[#052e1a] font-medium leading-relaxed">
-                    Synthetic egg activity is rising alongside local microclimate conditions → review nearby breeding sources and assign a field assessment.
+                    Synthetic egg activity ({selectedVM.riskProfile.eggActivityChange}) and simulated local conditions place this location in the {selectedVM.riskProfile.demoPriorityBand} demo-priority band &rarr; {selectedVM.riskProfile.actionRequired ? selectedVM.riskProfile.actionRequired.charAt(0).toLowerCase() + selectedVM.riskProfile.actionRequired.slice(1) : "review nearby breeding sources and assign a field assessment."}
                   </p>
                 </div>
-              </div>
 
-              <div className="mt-4 pt-4 border-t border-zinc-200/60">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 block mb-3">
-                  Recommended Next Step
-                </span>
-                <p className="text-sm font-medium text-zinc-800 mb-4">{selectedVM.riskProfile.actionRequired || "Review nearby breeding sources and assign a field assessment."}</p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  <button
-                    onClick={() => onAssignIntervention && onAssignIntervention(selectedVM.parentZoneId, selectedVM.parentZoneName)}
-                    disabled={Boolean(activeIntervention)}
-                    className={`py-3 text-xs font-bold rounded-lg flex items-center justify-center gap-1 transition-colors ${
-                      activeIntervention
-                        ? 'bg-zinc-100 text-zinc-400 cursor-not-allowed border border-zinc-200'
-                        : 'bg-[#052e1a] hover:bg-[#0b5a31] text-white shadow-xs cursor-pointer'
-                    }`}
-                  >
-                    <span>{activeIntervention ? 'ASSIGNED' : 'REVIEW & ASSIGN'}</span>
-                  </button>
-                  <button
-                    onClick={() => onZoneSelect(selectedVM.parentZoneId)}
-                    className="py-3 bg-white border border-zinc-200 hover:bg-zinc-50 text-zinc-800 text-xs font-bold rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer"
-                  >
-                    <span>OPEN FULL ANALYSIS</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div className="lg:bg-white lg:border lg:border-zinc-200/60 lg:rounded-xl lg:p-4 lg:shadow-xs">
-              {mapMode === 'network' ? (
-                <>
-                  <div className="space-y-2 p-3 rounded-lg border border-[#1b7f47]/20 bg-[#f8fcf9] mb-4">
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs text-zinc-500">Primary gateway</span>
-                      <span className="text-xs font-mono font-bold text-zinc-900">{selectedVM.gateway?.id || 'N/A'}</span>
+                <div className="mt-6 pt-4 border-t border-zinc-200/60">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 block mb-3">
+                    WHY THIS LOCATION IS PRIORITISED
+                  </span>
+                  <div className="space-y-3">
+                    <div className="flex items-start justify-between p-3 rounded-lg border border-zinc-100 bg-zinc-50/50">
+                      <div>
+                        <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">A. EGG ACTIVITY</span>
+                        <span className="text-lg font-bold font-mono text-zinc-900 block mt-0.5">{selectedVM.riskProfile.eggActivityChange}</span>
+                        <span className="text-[10px] text-zinc-500 block mt-0.5">7-day synthetic change</span>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-[10px] font-bold text-[#052e1a] uppercase tracking-wider block">High influence</span>
+                        <span className="text-[10px] text-zinc-500 block mt-0.5">Synthetic observation</span>
+                      </div>
                     </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs text-zinc-500">Illustrative signal</span>
-                      <span className="text-xs font-bold text-[#1b7f47]">{selectedVM.signalQuality}</span>
+                    
+                    <div className="flex items-start justify-between p-3 rounded-lg border border-zinc-100 bg-zinc-50/50">
+                      <div>
+                        <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">B. LOCAL MICROCLIMATE</span>
+                        <span className="text-lg font-bold font-mono text-zinc-900 block mt-0.5">{selectedVM.riskProfile.temperature}&deg;C &middot; {selectedVM.riskProfile.humidity}% RH</span>
+                        <span className="text-[10px] text-zinc-500 block mt-0.5">Temperature and humidity context</span>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-[10px] font-bold text-[#052e1a] uppercase tracking-wider block">High influence</span>
+                        <span className="text-[10px] text-zinc-500 block mt-0.5">Simulated node context</span>
+                      </div>
                     </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs text-zinc-500">Link status</span>
-                      <span className="text-xs font-bold text-zinc-900">Simulated</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs text-zinc-500">Battery</span>
-                      <span className="text-xs font-bold text-zinc-900">{selectedVM.device?.battery || 'N/A'}%</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs text-zinc-500">Last mock update</span>
-                      <span className="text-xs font-bold text-zinc-900">{selectedVM.device?.lastSync ?? 'Not available'}</span>
+                    
+                    <div className="flex items-start justify-between p-3 rounded-lg border border-zinc-100 bg-zinc-50/50">
+                      <div>
+                        <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">C. RAINFALL CONTEXT</span>
+                        <span className="text-lg font-bold font-mono text-zinc-900 block mt-0.5">{selectedVM.riskProfile.rainfall}</span>
+                        <span className="text-[10px] text-zinc-500 block mt-0.5">External rainfall context</span>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-[10px] font-bold text-zinc-700 uppercase tracking-wider block">Moderate influence</span>
+                        <span className="text-[10px] text-zinc-500 block mt-0.5">External demo input</span>
+                      </div>
                     </div>
                   </div>
+                  <p className="text-[9px] text-zinc-400 mt-3 text-center">Illustrative factors only &middot; no validated weights &middot; human dengue case data are not connected.</p>
+                </div>
 
-                </>
-              ) : (
-                <>
-
-                  <Accordion title="Climate Summary" id="climate-summary">
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="p-2.5 rounded-lg border border-zinc-100 bg-zinc-50/50">
-                        <span className="text-[10px] text-zinc-500 block mb-0.5">Temperature</span>
-                        <span className="text-xs font-mono font-bold text-zinc-800">{selectedVM.riskProfile.temperature}°C</span>
-                      </div>
-                      <div className="p-2.5 rounded-lg border border-zinc-100 bg-zinc-50/50">
-                        <span className="text-[10px] text-zinc-500 block mb-0.5">Humidity</span>
-                        <span className="text-xs font-mono font-bold text-zinc-800">{selectedVM.riskProfile.humidity}%</span>
-                      </div>
-                      <div className="p-2.5 rounded-lg border border-zinc-100 bg-zinc-50/50 col-span-2">
-                        <span className="text-[10px] text-zinc-500 block mb-0.5">Rainfall</span>
-                        <span className="text-xs font-mono font-bold text-zinc-800">{selectedVM.riskProfile.rainfall}</span>
-                      </div>
-                    </div>
-                  </Accordion>
-                </>
-              )}
-
-            </div>
+                <div className="mt-4 pt-4 border-t border-zinc-200/60">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 block mb-3">
+                    RECOMMENDED NEXT STEP
+                  </span>
+                  <p className="text-sm font-medium text-zinc-800 mb-4">{selectedVM.riskProfile.actionRequired || "Review nearby breeding sources and assign a field assessment."}</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <button
+                      onClick={() => onAssignIntervention && onAssignIntervention(selectedVM.parentZoneId, selectedVM.parentZoneName)}
+                      disabled={Boolean(activeIntervention)}
+                      className={`py-3 text-xs font-bold rounded-lg flex items-center justify-center gap-1 transition-colors ${
+                        activeIntervention
+                          ? 'bg-zinc-100 text-zinc-400 cursor-not-allowed border border-zinc-200'
+                          : 'bg-[#052e1a] hover:bg-[#0b5a31] text-white shadow-xs cursor-pointer'
+                      }`}
+                    >
+                      <span>{activeIntervention ? 'ASSIGNED' : 'REVIEW & ASSIGN'}</span>
+                    </button>
+                    <button
+                      onClick={() => onZoneSelect(selectedVM.parentZoneId)}
+                      className="py-3 bg-white border border-zinc-200 hover:bg-zinc-50 text-zinc-800 text-xs font-bold rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer"
+                    >
+                      <span>OPEN FULL ANALYSIS</span>
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
           )}
         </div>
       </div>
-
       {/* Bottom Summary Strip */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4">
         <div className="bg-white p-3 lg:p-4 rounded-xl border border-zinc-200/60 shadow-xs">
