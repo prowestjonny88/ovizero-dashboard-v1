@@ -43,14 +43,9 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
   
   // Assign State
   const [assignedTeam, setAssignedTeam] = useState(record?.assignedTeam || 'Vector Team A');
-  const [actionType, setActionType] = useState<InterventionActionType>(record?.actionType || 'Source Reduction');
+  const [actionType, setActionType] = useState<InterventionActionType>(record?.actionType || 'Inspect breeding sources');
   const [dueDate, setDueDate] = useState(record?.dueDate || new Date(Date.now() + 86400000).toISOString().split('T')[0]);
   const [responseSla, setResponseSla] = useState(record?.responseSla || '48h');
-  
-  // On Site State
-  const [arrivalTimestamp, setArrivalTimestamp] = useState(record?.arrivalTimestamp || "2026-08-05T09:00");
-  const [locationConfirmation, setLocationConfirmation] = useState(record?.simulatedLocationConfirmation || false);
-  const [inspectionNote, setInspectionNote] = useState(record?.inspectionNote || '');
   
   // Completion State
   const [findings, setFindings] = useState(record?.findings || '');
@@ -90,11 +85,7 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
   };
 
   const handleOnSite = () => {
-    if (!arrivalTimestamp || !locationConfirmation || !inspectionNote) {
-      alert("Arrival timestamp, location confirmation, and inspection note are required.");
-      return;
-    }
-    onTransition('On Site', { arrivalTimestamp, simulatedLocationConfirmation: locationConfirmation, inspectionNote });
+    onTransition('On Site', {});
   };
 
   const handleComplete = () => {
@@ -188,13 +179,13 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
                   <div>
                     <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Action Type *</label>
                     <select value={actionType} onChange={e => setActionType(e.target.value as InterventionActionType)} className="w-full text-sm border border-zinc-200 rounded p-2">
-                      <option>Source Reduction</option>
-                      <option>Drain Inspection</option>
-                      <option>Container Removal</option>
-                      <option>Larvicide Assessment</option>
-                      <option>Resident Notification</option>
-                      <option>Targeted Fogging Assessment</option>
-                      <option>Other</option>
+                      <option value="Inspect breeding sources">Inspect breeding sources</option>
+                      <option value="Drain inspection">Drain inspection</option>
+                      <option value="Container removal / source reduction">Container removal / source reduction</option>
+                      <option value="Request larvicide assessment">Request larvicide assessment</option>
+                      <option value="Request vector-control authority assessment">Request vector-control authority assessment</option>
+                      <option value="Resident communication">Resident communication</option>
+                      <option value="Other">Other</option>
                     </select>
                   </div>
                   <div>
@@ -202,12 +193,10 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
                     <input type="date" value={dueDate} onChange={e => setDueDate(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2" />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Response SLA *</label>
-                    <select value={responseSla} onChange={e => setResponseSla(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2">
-                      <option>24h</option>
-                      <option>48h</option>
-                      <option>72h</option>
-                    </select>
+                    <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Provisional demo service target *</label>
+                    <div className="w-full text-sm border border-zinc-200 bg-zinc-50 rounded p-2 text-zinc-600 font-mono">
+                      48h
+                    </div>
                   </div>
                 </div>
                 <button onClick={handleAssign} className="px-3 py-1.5 bg-[#052e1a] text-white rounded text-xs font-bold hover:bg-[#0a4226]">
@@ -224,7 +213,7 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
                   Begin Field Action Record
                 </button>
               </div>
-            )}}
+            )}
             
             {record.status === 'On Site' && (
               <div className="space-y-3">
@@ -259,7 +248,7 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
                   Mark Action Completed
                 </button>
               </div>
-            )}}
+            )}
             
             {record.status === 'Action Completed' && (
               <div className="bg-indigo-50 p-4 rounded-xl border border-indigo-200 space-y-3">
@@ -293,6 +282,24 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
             {record.status === 'Little/no change' && (
               <div className="bg-amber-50 p-4 rounded-xl border border-amber-200">
                 <p className="text-sm font-bold text-amber-900 flex items-center gap-2"><AlertCircle size={16} /> Follow-up outcome recorded: Little/no change. Further action may be required.</p>
+              </div>
+            )}
+            
+            {record.status === 'Activity increased' && (
+              <div className="bg-orange-50 p-4 rounded-xl border border-orange-200">
+                <p className="text-sm font-bold text-orange-900 flex items-center gap-2"><AlertCircle size={16} /> Follow-up outcome recorded: Activity increased. Priority escalation recommended.</p>
+              </div>
+            )}
+            
+            {record.status === 'Not comparable' && (
+              <div className="bg-zinc-50 p-4 rounded-xl border border-zinc-200">
+                <p className="text-sm font-bold text-zinc-900 flex items-center gap-2"><Info size={16} /> Follow-up outcome recorded: Not comparable.</p>
+              </div>
+            )}
+            
+            {record.status === 'Inconclusive' && (
+              <div className="bg-zinc-50 p-4 rounded-xl border border-zinc-200">
+                <p className="text-sm font-bold text-zinc-900 flex items-center gap-2"><Info size={16} /> Follow-up outcome recorded: Inconclusive.</p>
               </div>
             )}
             

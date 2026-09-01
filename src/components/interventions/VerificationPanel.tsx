@@ -3,14 +3,13 @@ import { InterventionVerification, InterventionRecord, VerificationOutcome, Zone
 import { ShieldCheck, Activity, Calendar, User, FileText, CheckCircle, AlertCircle, ShieldAlert } from 'lucide-react';
 
 interface VerificationPanelProps {
-  zoneId: string;
-  zoneData: ZoneData;
-  record: InterventionRecord | null;
+  zone: ZoneData;
+  intervention: InterventionRecord | null;
   verification: InterventionVerification | null;
-  onVerify: (data: Partial<InterventionVerification>, finalStatus: VerificationOutcome) => void;
+  onSave: (verification: InterventionVerification) => void;
 }
 
-export default function VerificationPanel({ zoneId, zoneData, record, verification, onVerify }: VerificationPanelProps) {
+export default function VerificationPanel({ zone, intervention, verification, onSave }: VerificationPanelProps) {
   const [followUpDate, setFollowUpDate] = useState(verification?.followUpDate || new Date().toISOString().split('T')[0]);
   const [inspector, setInspector] = useState(verification?.inspector || '');
   const [afterEggCount, setAfterEggCount] = useState(verification?.after?.syntheticEggActivity?.toString() || '');
@@ -20,18 +19,18 @@ export default function VerificationPanel({ zoneId, zoneData, record, verificati
   
   const [isEditing, setIsEditing] = useState(false);
 
-  const canVerify = record?.status === 'Awaiting Verification' || 
-    record?.status === 'Activity decreased' || 
-    record?.status === 'Little/no change' ||
-    record?.status === 'Activity increased' ||
-    record?.status === 'Not comparable' ||
-    record?.status === 'Inconclusive' ||
-    record?.status === 'Escalated';
+  const canVerify = intervention?.status === 'Awaiting Verification' || 
+    intervention?.status === 'Activity decreased' || 
+    intervention?.status === 'Little/no change' ||
+    intervention?.status === 'Activity increased' ||
+    intervention?.status === 'Not comparable' ||
+    intervention?.status === 'Inconclusive' ||
+    intervention?.status === 'Escalated';
 
-  const isFinalOutcome = record && [
+  const isFinalOutcome = intervention && [
     'Activity decreased', 'Little/no change', 'Activity increased', 
     'Not comparable', 'Inconclusive', 'Escalated'
-  ].includes(record.status);
+  ].includes(intervention.status);
 
   const handleOutcome = (outcome: VerificationOutcome) => {
     if (!inspectionResult || !officerNote) {
@@ -39,12 +38,24 @@ export default function VerificationPanel({ zoneId, zoneData, record, verificati
       return;
     }
     
-    onVerify({
+    if (!intervention) return;
+    
+    onSave({
+      interventionId: intervention.id,
       followUpDate,
       inspector,
       inspectionResult,
       officerFeedback: officerNote,
       evidencePhotoName: evidenceFilename,
+      outcome,
+      before: {
+        recordedAt: new Date().toISOString(),
+        dataSource: 'Simulated',
+        syntheticEggActivity: zone.syntheticEggActivity,
+        eggActivityChange: zone.eggActivityChange,
+        scenarioIndex: zone.interventionPriority,
+        riskBand: zone.demoPriorityBand
+      },
       after: {
         recordedAt: new Date().toISOString(),
         dataSource: 'Manual Entry',
@@ -53,7 +64,7 @@ export default function VerificationPanel({ zoneId, zoneData, record, verificati
         scenarioIndex: null,
         riskBand: null
       }
-    }, outcome);
+    });
     
     setIsEditing(false);
   };
@@ -77,7 +88,7 @@ export default function VerificationPanel({ zoneId, zoneData, record, verificati
               <div className="grid grid-cols-2 gap-y-3 gap-x-4">
                 <div>
                   <span className="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-0.5">Outcome</span>
-                  <span className="text-xs font-bold text-zinc-800">{record.status}</span>
+                  <span className="text-xs font-bold text-zinc-800">{intervention.status}</span>
                 </div>
                 <div>
                   <span className="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-0.5">Date</span>
@@ -137,7 +148,7 @@ export default function VerificationPanel({ zoneId, zoneData, record, verificati
                 </button>
               )}
               {isFinalOutcome && isEditing ? (
-                <button onClick={() => handleOutcome(record!.status as VerificationOutcome)} className="px-3 py-2 bg-emerald-600 text-white rounded text-xs font-bold hover:bg-emerald-700">
+                <button onClick={() => handleOutcome(intervention!.status as VerificationOutcome)} className="px-3 py-2 bg-emerald-600 text-white rounded text-xs font-bold hover:bg-emerald-700">
                   Save Observations
                 </button>
               ) : (

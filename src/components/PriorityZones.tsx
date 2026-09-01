@@ -1,4 +1,3 @@
-import ScenarioPeriodLabel from "./ScenarioPeriodLabel";
 import React from 'react';
 import { ZoneData, InterventionMap, InterventionStatus } from '../types';
 import { getTopPriorityZones, getInterventionForZone, getPilotDisplayLocationForMetricZone } from '../utils/dashboard';
@@ -41,11 +40,10 @@ export default function PriorityZones({
           <p className="text-xs text-zinc-500 font-medium mt-1 mb-2">
             Priority ordering uses simulated scenario values and provisional interface bands.
           </p>
-          <ScenarioPeriodLabel  mode="selected-period" />
         </div>
         <div className="flex items-center gap-2 bg-zinc-50 px-3.5 py-2 rounded-lg border border-zinc-150 text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">
           <Compass className="w-4 h-4 text-zinc-400" />
-          <span>Ranked by illustrative scenario index</span>
+          <span>Ordered by illustrative intervention priority</span>
         </div>
       </section>
 
@@ -77,14 +75,15 @@ export default function PriorityZones({
             const isCritical = zone.demoPriorityBand === 'Critical' || zone.demoPriorityBand === 'High';
             const intervention = getInterventionForZone(zone.id, interventions);
             const loc = getPilotDisplayLocationForMetricZone(zone.id, PILOT_NODES, zones);
-            const displayName = loc ? `${loc.parentZone} · ${loc.sublocation}` : zone.name;
+            const displayName = (loc && loc.parentZone !== loc.sublocation) ? `${loc.parentZone} · ${loc.sublocation}` : (loc?.parentZone || zone.name);
             
             // Map internal intervention status to the 4 stages for display
             let currentStage = 'Needs review';
             if (intervention) {
               if (intervention.status === 'New Alert') currentStage = 'Needs review';
-              else if (intervention.status === 'Reviewed' || intervention.status === 'Assigned' || intervention.status === 'On Site') currentStage = 'Assigned / Field work';
-              else if (intervention.status === 'Action Completed' || intervention.status === 'Awaiting Verification') currentStage = 'Record follow-up';
+              else if (intervention.status === 'Reviewed') currentStage = 'Ready to assign';
+              else if (intervention.status === 'Assigned' || intervention.status === 'On Site') currentStage = 'Field action in progress';
+              else if (intervention.status === 'Action Completed' || intervention.status === 'Awaiting Verification') currentStage = 'Follow-up required';
               else currentStage = 'Follow-up recorded';
             }
 
