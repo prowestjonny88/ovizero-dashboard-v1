@@ -112,7 +112,6 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
             <Activity size={16} className="text-zinc-500" />
             FIELD ACTION WORKFLOW
           </h3>
-          <p className="text-xs text-zinc-500 mt-1"></p>
         </div>
         <div className={`px-3 py-1.5 rounded-lg border text-xs font-bold uppercase tracking-wider ${getStatusColor(record.status)}`}>
           {record.status}

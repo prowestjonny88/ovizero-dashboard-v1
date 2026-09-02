@@ -129,7 +129,10 @@ export const downloadPdfReport = async (
   
   const formatZoneName = (zoneId: string, fallbackName: string) => {
     const loc = getPilotDisplayLocationForMetricZone(zoneId, PILOT_NODES, payload.zones);
-    return loc ? `${loc.parentZone} · ${loc.sublocation}` : fallbackName;
+    if (loc) {
+      return loc.parentZone === loc.sublocation ? loc.parentZone : `${loc.parentZone} · ${loc.sublocation}`;
+    }
+    return fallbackName;
   };
 
   const metrics = [
@@ -189,7 +192,6 @@ export const downloadPdfReport = async (
   doc.setFont('helvetica', 'italic');
   doc.setFontSize(8);
   doc.setTextColor(mutedGray);
-  doc.text('Generated from the current OviZero dashboard state for the selected reporting period.', margin, currentY);
 
   // Page 2: Priority Zones
   doc.addPage();
@@ -218,14 +220,14 @@ export const downloadPdfReport = async (
     }
   });
 
-  // Page 3: Device Fleet
+  // Page 3: Devices
   doc.addPage();
-  addPageHeader('Device Fleet');
+  addPageHeader('Devices');
   
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(10);
   doc.setTextColor(nearBlack);
-  doc.text('Device Health Summary', margin, margin + 30);
+  doc.text('Device health', margin, margin + 30);
   
   const dh = summary.deviceHealth;
   const dhText = `Total: ${dh.total} | Low Battery: ${dh.lowBattery} | Strong Signal: ${dh.strongSignal} | Medium Signal: ${dh.mediumSignal} | Weak Signal: ${dh.weakSignal} | Maintenance: ${dh.maintenance}`;
@@ -273,11 +275,20 @@ export const downloadPdfReport = async (
     let displayName = zoneId;
     if (zone) {
       const loc = getPilotDisplayLocationForMetricZone(zone.id, PILOT_NODES, payload.zones);
-      displayName = loc ? `${loc.parentZone} · ${loc.sublocation}` : zone.name;
+      if (loc) {
+        displayName = loc.parentZone === loc.sublocation ? loc.parentZone : `${loc.parentZone} · ${loc.sublocation}`;
+      } else {
+        displayName = zone.name;
+      }
     }
+    
+    let displayStatus: string = inv.status;
+    if (displayStatus === 'Awaiting Verification') displayStatus = 'Awaiting follow-up';
+    if (displayStatus === 'Action Completed') displayStatus = 'Action Completed';
+    
     return [
       sanitizePdfText(displayName),
-      inv.status,
+      displayStatus,
       inv.assignedTeam || '-',
       inv.createdAt.split('T')[0] || '-',
       inv.timeline[inv.timeline.length - 1]?.timestamp.split('T')[0] || '-'
@@ -295,7 +306,7 @@ export const downloadPdfReport = async (
   } else {
     autoTable(doc, {
       startY: margin + 40,
-      head: [['Zone', 'Exact Status', 'Team', 'Assigned', 'Last Update']],
+      head: [['Location', 'Status', 'Team', 'Assigned', 'Last update']],
       body: interventionRows,
       theme: 'striped',
       headStyles: { fillColor: [27, 127, 71] },

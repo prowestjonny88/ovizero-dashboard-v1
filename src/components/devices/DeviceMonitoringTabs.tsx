@@ -90,7 +90,6 @@ export default function DeviceMonitoringTabs({ device }: DeviceMonitoringTabsPro
         <div>
           <div className="text-[10px] uppercase font-bold text-zinc-400 tracking-widest mb-1">Demo snapshot</div>
           <div className="text-sm font-bold text-zinc-900">{device.lastSync}</div>
-          <div className="text-xs text-zinc-500"></div>
         </div>
       </div>
 

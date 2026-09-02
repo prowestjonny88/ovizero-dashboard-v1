@@ -286,7 +286,7 @@ return (
                     onClick={() => handleModeChange('risk')}
                     className="w-full py-3 bg-white border border-zinc-200 hover:bg-zinc-50 text-zinc-800 text-xs font-bold rounded-lg flex items-center justify-center transition-colors cursor-pointer"
                   >
-                    EXIT NETWORK TOPOLOGY
+                    PRIORITY VIEW
                   </button>
                 </div>
               </div>
@@ -359,7 +359,7 @@ return (
                       <div>
                         <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">C. RAINFALL CONTEXT</span>
                         <span className="text-lg font-bold font-mono text-zinc-900 block mt-0.5">{selectedVM.riskProfile.rainfall}</span>
-                        <span className="text-[10px] text-zinc-500 block mt-0.5">External rainfall context</span>
+                        <span className="text-[10px] text-zinc-500 block mt-0.5">External demo input</span>
                       </div>
                       <div className="text-right">
                         <span className="text-[10px] font-bold text-zinc-700 uppercase tracking-wider block">Moderate influence</span>
@@ -391,7 +391,7 @@ return (
                       onClick={() => onZoneSelect(selectedVM.parentZoneId)}
                       className="py-3 bg-white border border-zinc-200 hover:bg-zinc-50 text-zinc-800 text-xs font-bold rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer"
                     >
-                      <span>OPEN FULL ANALYSIS</span>
+                      <span>OPEN FIELD ACTION</span>
                       <ArrowUpRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
@@ -405,7 +405,7 @@ return (
       {/* Bottom Summary Strip */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4">
         <div className="bg-white p-3 lg:p-4 rounded-xl border border-zinc-200/60 shadow-xs">
-          <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">Simulated deployment</span>
+          <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">Demo nodes</span>
           <span className="text-sm font-bold text-[#052e1a] font-mono mt-1 block">5 simulated device records</span>
         </div>
         <div className="bg-white p-3 lg:p-4 rounded-xl border border-zinc-200/60 shadow-xs">

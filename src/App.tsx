@@ -129,7 +129,7 @@ export default function App() {
     } catch (e) {
       console.error(e);
       setToast({
-        message: 'Report export failed.',
+        message: 'Export failed.',
         type: 'error',
       });
     } finally {
@@ -202,7 +202,7 @@ export default function App() {
       if (!allowed) {
         setToast({ message: `Invalid transition to ${status}`, type: 'error' });
       } else {
-        setToast({ message: `Intervention updated to ${status}`, type: 'success' });
+        setToast({ message: "Field action updated.", type: 'success' });
       }
     }, 0);
   };
@@ -249,16 +249,16 @@ export default function App() {
       [zoneId]: verification
     }));
 
-    setToast({ message: `Verification saved`, type: 'success' });
+    setToast({ message: "Follow-up saved.", type: 'success' });
   };
 
   const handleDiagnosticRun = (deviceId: string) => {
     setDiagnosticResult((prev) => ({
       ...prev,
-      [deviceId]: 'Simulated diagnostic completed. No live device is connected.',
+      [deviceId]: 'Demo device check complete &middot; no live device connected.',
     }));
     setToast({
-      message: `Simulated diagnostic for ${deviceId} completed. No live device is connected.`,
+      message: "Demo device check complete &middot; no live device connected.",
       type: 'info',
     });
   };
@@ -408,7 +408,7 @@ export default function App() {
         {/* Top Navbar Header */}
         <Header
           currentScreen={currentScreen}
-          activeZoneName={activeZone ? (getPilotDisplayLocationForMetricZone(activeZone.id, PILOT_NODES, dynamicZones) ? `Illustrative scenario · ${getPilotDisplayLocationForMetricZone(activeZone.id, PILOT_NODES, dynamicZones)!.sublocation}` : activeZone.name) : 'No zone selected'}
+          activeZoneName={activeZone ? (getPilotDisplayLocationForMetricZone(activeZone.id, PILOT_NODES, dynamicZones) ? getPilotDisplayLocationForMetricZone(activeZone.id, PILOT_NODES, dynamicZones)!.sublocation : activeZone.name) : 'No zone selected'}
           onExport={handleExport}
           exportingFormat={exportingFormat}
           

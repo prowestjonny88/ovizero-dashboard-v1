@@ -2,5 +2,5 @@
   "name": "OviZero",
   "description": "Simulated OviZero dashboard for mosquito surveillance, field actions, and device health.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": []
 }

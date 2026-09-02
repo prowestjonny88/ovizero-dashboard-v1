@@ -54,7 +54,7 @@ export const getPilotDisplayLocationForDevice = (
   placements: import('../types').PilotNodePlacement[]
 ): string | null => {
   const placement = placements.find(p => p.deviceId === deviceId);
-  return placement ? `Illustrative scenario · ${placement.sublocation}` : null;
+  return placement ? placement.sublocation : null;
 };
 
 export interface ZoneNodeMeta {

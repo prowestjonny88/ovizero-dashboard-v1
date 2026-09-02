@@ -47,7 +47,7 @@ export default function ZoneDetail({
 
   const getDisplayLocation = (zId: string, fallback: string) => {
     const l = getPilotDisplayLocationForMetricZone(zId, PILOT_NODES, zones);
-    return l ? `Illustrative scenario · ${l.sublocation}` : fallback;
+    return l ? l.sublocation : fallback;
   };
 
   const activeIntervention = zone ? getInterventionForZone(zone.id, interventions) : null;
@@ -99,9 +99,6 @@ export default function ZoneDetail({
               ))}
             </select>
           </div>
-          <p className="text-zinc-400 text-[10px] font-bold uppercase tracking-wider mt-1.5">
-            
-          </p>
         </div>
 
         {/* Status indicator */}
@@ -140,7 +137,7 @@ export default function ZoneDetail({
           <h3 className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest mb-2">Local Conditions</h3>
           <div className="space-y-1">
             <div className="flex justify-between text-xs text-zinc-600">
-              <span className="font-bold">Temp</span>
+              <span className="font-bold">Temperature</span>
               <span>{zone.temperature}°C</span>
             </div>
             <div className="flex justify-between text-xs text-zinc-600">

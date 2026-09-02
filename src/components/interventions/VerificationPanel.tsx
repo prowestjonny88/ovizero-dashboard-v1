@@ -35,7 +35,7 @@ export default function VerificationPanel({ zone, intervention, verification, on
 
   const handleOutcome = (outcome: VerificationOutcome) => {
     if (!followUpDate || !inspector || !inspectionResult || !officerNote) {
-      alert("Please fill in follow-up date, inspector, inspection result, and reviewer note.");
+      alert("Complete date, inspector, findings, and notes.");
       return;
     }
     
@@ -133,11 +133,11 @@ export default function VerificationPanel({ zone, intervention, verification, on
                 </div>
                 <div className="sm:col-span-2">
                   <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Field findings *</label>
-                  <textarea value={inspectionResult} onChange={e => setInspectionResult(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2 h-16" placeholder="Detailed findings..." />
+                  <textarea value={inspectionResult} onChange={e => setInspectionResult(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2 h-16" placeholder="What was found?" />
                 </div>
                 <div className="sm:col-span-2">
                   <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Notes *</label>
-                  <textarea value={officerNote} onChange={e => setOfficerNote(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2 h-16" placeholder="Officer notes..." />
+                  <textarea value={officerNote} onChange={e => setOfficerNote(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2 h-16" placeholder="Additional notes" />
                 </div>
               </div>
             </div>
