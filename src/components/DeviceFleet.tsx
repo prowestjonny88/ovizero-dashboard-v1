@@ -132,7 +132,7 @@ export default function DeviceFleet({
             {attentionCount} node{attentionCount !== 1 ? 's' : ''} need{attentionCount === 1 ? 's' : ''} attention
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className={`grid ${attentionCount === 1 ? 'grid-cols-1 max-w-xl' : 'grid-cols-1 md:grid-cols-2'} gap-4`}>
             {attentionDevices.map(device => {
               const reasons = getAttentionReasons(device);
               const pilotNode = PILOT_NODES.find(n => n.deviceId === device.id);
@@ -259,15 +259,13 @@ export default function DeviceFleet({
                   <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-400 whitespace-nowrap">Location</th>
                   <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-400 whitespace-nowrap">Battery / Power</th>
                   <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-400 whitespace-nowrap">Connectivity</th>
-                  <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-400 whitespace-nowrap">Image / Condensation</th>
                   <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-400 whitespace-nowrap">Maintenance</th>
-                  <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-400 whitespace-nowrap">Attention Reason</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-100 text-xs">
                 {filteredDevices.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="px-4 py-12 text-center text-zinc-400 font-medium">
+                    <td colSpan={5} className="px-4 py-12 text-center text-zinc-400 font-medium">
                       No matching devices found in roster
                     </td>
                   </tr>
@@ -306,9 +304,6 @@ export default function DeviceFleet({
                         <td className="px-4 py-4 whitespace-nowrap text-zinc-700">
                           {device.loraSignal}
                         </td>
-                        <td className="px-4 py-4 whitespace-nowrap text-zinc-700">
-                          {condensationDisplay}
-                        </td>
                         <td className="px-4 py-4 whitespace-nowrap">
                            <span className={`px-2 py-0.5 rounded text-[9px] font-bold font-sans uppercase tracking-widest ${
                             isMaint 
@@ -317,9 +312,6 @@ export default function DeviceFleet({
                           }`}>
                             {isMaint ? 'Maint Req' : 'Normal'}
                           </span>
-                        </td>
-                        <td className="px-4 py-4 whitespace-nowrap text-zinc-500">
-                          {reasons.length > 0 ? reasons.join(' · ') : '—'}
                         </td>
                       </tr>
                     );

@@ -17,7 +17,7 @@ export default function InterventionStatusBadge({ status }: InterventionStatusBa
 
   return (
     <span className={`inline-block px-2.5 py-1 rounded text-[9px] font-bold uppercase tracking-wider border ${getStatusColor(status)}`}>
-      {status}
+      {status === 'Action Completed' ? 'Action Logged' : status}
     </span>
   );
 }

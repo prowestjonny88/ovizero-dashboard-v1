@@ -33,7 +33,7 @@ const getTimelineLabel = (status: string) => {
       case 'New Alert': return 'Workflow started';
       case 'Reviewed': return 'Review completed';
       case 'Assigned': return 'Assigned';
-      case 'On Site': return 'Field action recorded'; // Since we simplified On Site and Action Completed
+      case 'On Site': return 'Field action started';
       case 'Action Completed': return 'Field action recorded';
       case 'Awaiting Verification': return 'Follow-up pending';
       default: return 'Follow-up recorded';
@@ -61,11 +61,10 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
 
   if (!record) {
     return (
-      <div className="bg-white rounded-xl border border-zinc-200 p-6 shadow-sm text-center">
-        <Activity size={32} className="text-zinc-400 mx-auto mb-3" />
+      <div className="bg-white rounded-xl border border-zinc-200 p-4 shadow-sm text-center">
         <h3 className="text-sm font-bold text-zinc-900 mb-1">No field action started</h3>
-        <p className="text-xs text-zinc-500 mb-4">There is no active field action for {zone.name}.</p>
-        <button onClick={onCreate} className="px-4 py-2 bg-[#052e1a] text-white rounded-lg text-sm font-bold hover:bg-[#0a4226] transition-colors">
+        <p className="text-xs text-zinc-500 mb-3">No active field action for {zone.name}.</p>
+        <button onClick={onCreate} className="px-3 py-1.5 bg-[#052e1a] text-white rounded-lg text-xs font-bold hover:bg-[#0a4226] transition-colors">
           START REVIEW
         </button>
       </div>
