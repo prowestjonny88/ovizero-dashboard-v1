@@ -91,7 +91,7 @@ return (
       <div className="bg-white border border-zinc-200/60 rounded-xl p-2 shadow-xs">
         <div className="flex flex-col gap-2">
           
-          <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-2">7-day simulated scenario &middot; 5 monitoring nodes</div>
+          <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-2">7-day demo &middot; 5 nodes</div>
 
           {/* Mode Switch & Filters */}
           <div className="flex flex-row items-center justify-between gap-4 overflow-x-auto whitespace-nowrap scrollbar-hidden snap-x w-full">
@@ -120,7 +120,7 @@ return (
                 onClick={() => handleModeChange(mapMode === 'risk' ? 'network' : 'risk')}
                 className={`px-3 py-1.5 min-h-[36px] text-xs font-bold rounded-md transition-colors border ${mapMode === 'network' ? 'bg-[#e8f4ed] text-[#052e1a] border-[#0b5a31]' : 'bg-zinc-50 text-zinc-500 border-zinc-200 hover:bg-zinc-100'}`}
               >
-                {mapMode === 'risk' ? 'Network Topology' : 'Exit Network Topology'}
+                {mapMode === 'risk' ? 'Network view' : 'Priority view'}
               </button>
             </div>
           </div>
@@ -222,11 +222,11 @@ return (
             </div>
             
             <p className="text-[10px] text-zinc-400 mt-2 font-mono">
-              <span className="block mb-1 text-zinc-600 font-bold">Outlined area &mdash; illustrative scenario envelope:</span>
-              <span className="block mb-2">The outline follows the five simulated node placements and does not represent validated surveillance coverage.</span>
-              One map marker represents one simulated OviZero node record.
-              {mapMode === 'risk' && showIllustrativeEggCount && ' Bubble size represents synthetic egg activity in this demo, not spatial mosquito density.'}
-              {mapMode === 'network' && ' Gateway placement and links are illustrative and not field-validated.'}
+              <span className="block mb-1 text-zinc-600 font-bold">Outline: five demo node placements; not validated coverage.</span>
+              <span className="block mb-1">One marker = one simulated node.</span>
+              
+              {mapMode === 'risk' && showIllustrativeEggCount &&  <span className="block">Egg bubbles show demo egg activity, not spatial density.</span>}
+              {mapMode === 'network' &&  <span className="block">Gateway and links are illustrative.</span>}
             </p>
           </div>
         </div>
@@ -263,7 +263,7 @@ return (
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-xs text-zinc-500">Simulated link</span>
-                      <span className="text-xs font-bold text-zinc-900">Connected / displayed</span>
+                      <span className="text-xs font-bold text-zinc-900">Illustrative link shown</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-xs text-zinc-500">Simulated signal quality</span>
@@ -325,11 +325,6 @@ return (
                   </p>
                 </div>
                 
-                <div className="bg-[#f8faf9] border border-[#e8f4ed] p-4 rounded-xl mt-4">
-                  <p className="text-sm text-[#052e1a] font-medium leading-relaxed">
-                    Synthetic egg activity ({selectedVM.riskProfile.eggActivityChange}) and simulated local conditions place this location in the {selectedVM.riskProfile.demoPriorityBand} demo-priority band &rarr; {selectedVM.riskProfile.actionRequired ? selectedVM.riskProfile.actionRequired.charAt(0).toLowerCase() + selectedVM.riskProfile.actionRequired.slice(1) : "review nearby breeding sources and assign a field assessment."}
-                  </p>
-                </div>
 
                 <div className="mt-6 pt-4 border-t border-zinc-200/60">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 block mb-3">
@@ -377,9 +372,9 @@ return (
 
                 <div className="mt-4 pt-4 border-t border-zinc-200/60">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 block mb-3">
-                    RECOMMENDED NEXT STEP
+                    NEXT STEP
                   </span>
-                  <p className="text-sm font-medium text-zinc-800 mb-4">{selectedVM.riskProfile.actionRequired || "Review nearby breeding sources and assign a field assessment."}</p>
+                  <p className="text-sm font-medium text-zinc-800 mb-4">{selectedVM.riskProfile.actionRequired || "Inspect nearby breeding sources."}</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <button
                       onClick={() => onAssignIntervention && onAssignIntervention(selectedVM.parentZoneId, selectedVM.parentZoneName)}

@@ -7,7 +7,7 @@ export const ZONES: ZoneData[] = [
     interventionPriority: 91,
     demoPriorityBand: 'Critical',
     eggActivityChange: '+37%',
-    actionRequired: 'Review nearby breeding sources and assign a field assessment.',
+    actionRequired: 'Inspect nearby breeding sources.',
     trigger: 'Egg activity + local microclimate context',
     syntheticEggActivity: 127,
     temperature: 32.1,
@@ -37,7 +37,7 @@ export const ZONES: ZoneData[] = [
       },
       {
         title: 'Local microclimate context',
-        description: 'Simulated temperature and humidity provide contextual information alongside synthetic egg activity.'
+        description: 'Simulated temperature and humidity context.'
       }
     ],
     provenance: {
@@ -54,7 +54,7 @@ export const ZONES: ZoneData[] = [
     interventionPriority: 87,
     demoPriorityBand: 'High',
     eggActivityChange: '+28%',
-    actionRequired: 'Review nearby breeding sources and assign a field assessment.',
+    actionRequired: 'Inspect nearby breeding sources.',
     syntheticEggActivity: 102,
     temperature: 31.8,
     humidity: 86,
@@ -92,7 +92,7 @@ export const ZONES: ZoneData[] = [
     interventionPriority: 82,
     demoPriorityBand: 'High',
     eggActivityChange: '+21%',
-    actionRequired: 'Review nearby breeding sources and assign a field assessment.',
+    actionRequired: 'Inspect nearby breeding sources.',
     syntheticEggActivity: 88,
     temperature: 31.5,
     humidity: 83,
@@ -130,7 +130,7 @@ export const ZONES: ZoneData[] = [
     interventionPriority: 74,
     demoPriorityBand: 'Elevated',
     eggActivityChange: '+14%',
-    actionRequired: 'Review nearby breeding sources and assign a field assessment.',
+    actionRequired: 'Inspect nearby breeding sources.',
     syntheticEggActivity: 69,
     temperature: 31.2,
     humidity: 79,
@@ -168,7 +168,7 @@ export const ZONES: ZoneData[] = [
     interventionPriority: 63,
     demoPriorityBand: 'Watch',
     eggActivityChange: '+5%',
-    actionRequired: 'Review nearby breeding sources and assign a field assessment.',
+    actionRequired: 'Inspect nearby breeding sources.',
     syntheticEggActivity: 41,
     temperature: 30.8,
     humidity: 77,

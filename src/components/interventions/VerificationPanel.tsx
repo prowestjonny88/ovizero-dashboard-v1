@@ -100,7 +100,7 @@ export default function VerificationPanel({ zone, intervention, verification, on
                   <span className="text-xs font-medium text-zinc-800">{verification?.inspector || '-'}</span>
                 </div>
                 <div>
-                  <span className="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-0.5">Reviewer Note</span>
+                  <span className="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-0.5">Notes</span>
                   <span className="text-xs font-medium text-zinc-800">{verification?.officerFeedback || '-'}</span>
                 </div>
               </div>
@@ -124,19 +124,19 @@ export default function VerificationPanel({ zone, intervention, verification, on
                   <input type="text" value={inspector} onChange={e => setInspector(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2" />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Demo follow-up observation</label>
-                  <input type="number" value={afterEggCount} onChange={e => setAfterEggCount(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2" placeholder="Optional synthetic egg activity" />
+                  <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Follow-up egg activity</label>
+                  <input type="number" value={afterEggCount} onChange={e => setAfterEggCount(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2" placeholder="Optional demo value" />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Simulated Evidence Filename</label>
-                  <input type="text" value={evidenceFilename} onChange={e => setEvidenceFilename(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2" placeholder="Optional" />
+                  <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Evidence file (demo)</label>
+                  <input type="text" value={evidenceFilename} onChange={e => setEvidenceFilename(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2" placeholder="Optional filename" />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Inspection Result *</label>
+                  <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Field findings *</label>
                   <textarea value={inspectionResult} onChange={e => setInspectionResult(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2 h-16" placeholder="Detailed findings..." />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Reviewer Note *</label>
+                  <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Notes *</label>
                   <textarea value={officerNote} onChange={e => setOfficerNote(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2 h-16" placeholder="Officer notes..." />
                 </div>
               </div>
@@ -150,7 +150,7 @@ export default function VerificationPanel({ zone, intervention, verification, on
               )}
               {isFinalOutcome && isEditing ? (
                 <button onClick={() => handleOutcome(intervention!.status as VerificationOutcome)} className="px-3 py-2 bg-emerald-600 text-white rounded text-xs font-bold hover:bg-emerald-700">
-                  Save Observations
+                  SAVE FOLLOW-UP
                 </button>
               ) : (
                 <>

@@ -238,11 +238,11 @@ export const buildReportLogs = (
 
   if (true) {
     staticLogs = [
-      { id: 'log-7d-1', timestamp: getDemoPastISO(0, 4), displayTime: '', tag: 'UI MOCK', message: 'Mock OZ-041 profile loaded with an illustrative egg-count value of 127.', level: 'INFO' },
-      { id: 'log-7d-2', timestamp: getDemoPastISO(2, 6), displayTime: '', tag: 'UI MOCK', message: 'OZ-077 simulated maintenance scenario flags low battery and weak signal.', level: 'WARNING' },
-      { id: 'log-7d-3', timestamp: getDemoPastISO(3, 8), displayTime: '', tag: 'UI MOCK', message: 'Proposed LoRaWAN packet schema displayed for demonstration.', level: 'INFO' },
-      { id: 'log-7d-4', timestamp: getDemoPastISO(4, 1), displayTime: '', tag: 'UI MOCK', message: 'Illustrative acoustic candidate value displayed; classifier not trained.', level: 'INFO' },
-      { id: 'log-7d-5', timestamp: getDemoPastISO(5, 2), displayTime: '', tag: 'UI MOCK', message: 'Simulated intervention record created in the current session.', level: 'INFO' }
+      { id: 'log-7d-1', timestamp: getDemoPastISO(0, 4), displayTime: '', tag: 'DEMO', message: 'OZ-041 demo profile loaded.', level: 'INFO' },
+      { id: 'log-7d-2', timestamp: getDemoPastISO(2, 6), displayTime: '', tag: 'DEMO', message: 'OZ-077 flagged for low battery and weak link.', level: 'WARNING' },
+      { id: 'log-7d-3', timestamp: getDemoPastISO(3, 8), displayTime: '', tag: 'DEMO', message: 'Proposed LoRaWAN schema shown.', level: 'INFO' },
+      { id: 'log-7d-4', timestamp: getDemoPastISO(4, 1), displayTime: '', tag: 'DEMO', message: 'Demo acoustic candidate shown.', level: 'INFO' },
+      { id: 'log-7d-5', timestamp: getDemoPastISO(5, 2), displayTime: '', tag: 'DEMO', message: 'Demo intervention record created.', level: 'INFO' }
     ];
     }
 

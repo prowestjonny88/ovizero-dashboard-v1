@@ -95,23 +95,21 @@ export default function App() {
       const dateStr = new Date().toISOString().split('T')[0];
       
       if (format === 'pdf') {
-        const filename = `ovizero-risk-report-${dateStr}.pdf`;
+        const filename = `ovizero-mosquito-surveillance-summary-${dateStr}.pdf`;
         await downloadPdfReport(payload, filename);
         setToast({
-          message: 'PDF report exported successfully.',
+          message: 'PDF exported.',
           type: 'success',
         });
       } else if (format === 'json') {
-        const filename = `ovizero-simulated-scenario-${dateStr}.json`;
+        const filename = `ovizero-demo-data-${dateStr}.json`;
         const jsonPayload = {
           simulationDisclosure: {
             isSimulated: true,
-            physicalPrototypeBuilt: false,
-            liveNetworkConnected: false,
-            modelTrained: false,
-            fieldValidated: false,
+            representsLiveDeployedNetwork: false,
+            fieldValidatedEpidemiologicalModel: false
           },
-          _disclaimer: 'OviZero simulated demo data. Do not use for physical intervention planning.',
+          _disclaimer: 'Demo dashboard data · not for operational field use.',
           ...payload
         };
         const blob = new Blob([JSON.stringify(jsonPayload, null, 2)], { type: 'application/json' });
@@ -124,7 +122,7 @@ export default function App() {
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
         setToast({
-          message: 'JSON data exported successfully.',
+          message: 'JSON exported.',
           type: 'success',
         });
       }

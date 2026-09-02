@@ -1,6 +1,6 @@
 {
-  "name": "OviZero Simulated Dashboard",
-  "description": "Concept-stage simulated dashboard demonstrating the proposed OviZero vector-monitoring, connectivity and intervention workflow.",
+  "name": "OviZero",
+  "description": "Simulated OviZero dashboard for mosquito surveillance, field actions, and device health.",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

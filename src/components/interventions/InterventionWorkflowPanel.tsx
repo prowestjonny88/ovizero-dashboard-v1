@@ -112,7 +112,7 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
             <Activity size={16} className="text-zinc-500" />
             FIELD ACTION WORKFLOW
           </h3>
-          <p className="text-xs text-zinc-500 mt-1">Status and active requirements.</p>
+          <p className="text-xs text-zinc-500 mt-1"></p>
         </div>
         <div className={`px-3 py-1.5 rounded-lg border text-xs font-bold uppercase tracking-wider ${getStatusColor(record.status)}`}>
           {record.status}
@@ -133,7 +133,7 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
                 )}
                 <div className="text-xs font-bold text-zinc-900">{getTimelineLabel(event.status)}</div>
                 <div className="text-[10px] text-zinc-500 font-mono mt-0.5">
-                  {new Date(event.timestamp).toLocaleDateString()} · Demo user
+                  {new Date(event.timestamp).toLocaleDateString()}
                 </div>
                 {event.note && (
                   <div className="mt-1 text-[10px] text-zinc-600 bg-white border border-zinc-200 rounded p-1.5 italic">
@@ -160,7 +160,7 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
                 </div>
                 <div>
                   <label className="block text-[10px] font-bold text-red-800 uppercase mb-1">Review Note *</label>
-                  <textarea value={reviewNote} onChange={e => setReviewNote(e.target.value)} className="w-full text-sm border border-red-200 rounded p-2 min-h-[60px]" placeholder="Required note..." />
+                  <textarea value={reviewNote} onChange={e => setReviewNote(e.target.value)} className="w-full text-sm border border-red-200 rounded p-2 min-h-[60px]" placeholder="Why is this location being reviewed?" />
                 </div>
                 <button onClick={handleReview} className="px-3 py-1.5 bg-red-600 text-white rounded text-xs font-bold hover:bg-red-700 transition-colors">
                   COMPLETE REVIEW
@@ -212,9 +212,9 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
             {record.status === 'Assigned' && (
               <div className="bg-yellow-50 p-4 rounded-xl border border-yellow-200 space-y-3">
                 <h4 className="text-sm font-bold text-yellow-900">Record Field Action</h4>
-                <div className="text-xs text-yellow-800 mb-2">Team is assigned. Record the outcome of the field visit here.</div>
+                <div className="text-xs text-yellow-800 mb-2">Team assigned. Record findings and action.</div>
                 <button onClick={handleOnSite} className="px-3 py-1.5 bg-yellow-600 text-white rounded text-xs font-bold hover:bg-yellow-700">
-                  Begin Field Action Record
+                  RECORD FIELD ACTION
                 </button>
               </div>
             )}
@@ -224,15 +224,15 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
                 <h4 className="text-sm font-bold text-zinc-900 mb-2">Record Field Action</h4>
                 <div>
                   <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Findings *</label>
-                  <textarea value={findings} onChange={e => setFindings(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2 min-h-[60px]" placeholder="Required: Detailed findings..." />
+                  <textarea value={findings} onChange={e => setFindings(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2 min-h-[60px]" placeholder="What was found?" />
                 </div>
                 <div>
                   <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Actions Performed *</label>
-                  <textarea value={actionsPerformed} onChange={e => setActionsPerformed(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2 min-h-[50px]" placeholder="Required: Actions performed..." />
+                  <textarea value={actionsPerformed} onChange={e => setActionsPerformed(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2 min-h-[50px]" placeholder="What was done?" />
                 </div>
                 <div>
                   <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Notes *</label>
-                  <textarea value={completionNotes} onChange={e => setCompletionNotes(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2 min-h-[50px]" placeholder="Required: Additional notes..." />
+                  <textarea value={completionNotes} onChange={e => setCompletionNotes(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2 min-h-[50px]" placeholder="Additional notes" />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
@@ -240,16 +240,16 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
                     <input type="date" value={followUpDate} onChange={e => setFollowUpDate(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2" />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Responsible Person *</label>
+                    <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Follow-up owner *</label>
                     <input type="text" value={verificationOwner} onChange={e => setVerificationOwner(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2" />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Simulated Evidence Filename</label>
-                  <input type="text" value={evidenceFilename} onChange={e => setEvidenceFilename(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2" placeholder="Optional" />
+                  <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Evidence file (demo)</label>
+                  <input type="text" value={evidenceFilename} onChange={e => setEvidenceFilename(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2" placeholder="Optional filename" />
                 </div>
                 <button onClick={handleComplete} className="px-3 py-1.5 bg-blue-600 text-white rounded text-xs font-bold hover:bg-blue-700">
-                  Mark Action Completed
+                  COMPLETE FIELD ACTION
                 </button>
               </div>
             )}

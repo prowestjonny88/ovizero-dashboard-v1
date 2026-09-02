@@ -32,12 +32,12 @@ export default function PriorityZones({
           <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest font-mono">Intervention Planning</span>
           <h1 className="text-xl font-extrabold text-zinc-950 tracking-tight mt-1">FIELD ACTIONS</h1>
           <p className="text-xs text-zinc-500 font-medium mt-1 mb-2">
-            Human-reviewed inspection, assignment and follow-up workflow.
+            Review, assign, record action, and follow up.
           </p>
         </div>
         <div className="flex items-center gap-2 bg-zinc-50 px-3.5 py-2 rounded-lg border border-zinc-150 text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">
           <Compass className="w-4 h-4 text-zinc-400" />
-          <span>Ordered by illustrative intervention priority</span>
+          <span>Highest demo priority first</span>
         </div>
       </section>
 
@@ -81,14 +81,14 @@ export default function PriorityZones({
               else currentStage = 'Follow-up recorded';
             }
 
-            let nextStepText = "Review the location and record a human decision.";
+            let nextStepText = "Review location and add a note.";
             if (intervention) {
-              if (intervention.status === 'New Alert') nextStepText = "Review the location and record a human decision.";
-              else if (intervention.status === 'Reviewed') nextStepText = "Assign a field team and select the field action.";
+              if (intervention.status === 'New Alert') nextStepText = "Review location and add a note.";
+              else if (intervention.status === 'Reviewed') nextStepText = "Assign team and action.";
               else if (intervention.status === 'Assigned' || intervention.status === 'On Site') nextStepText = "Record field findings and action.";
-              else if (intervention.status === 'Action Completed' || intervention.status === 'Awaiting Verification') nextStepText = "Record the follow-up observation.";
-              else if (intervention.status === 'Escalated') nextStepText = "Additional human review required.";
-              else nextStepText = "Follow-up observation recorded.";
+              else if (intervention.status === 'Action Completed' || intervention.status === 'Awaiting Verification') nextStepText = "Record follow-up observation.";
+              else if (intervention.status === 'Escalated') nextStepText = "Review again before further action.";
+              else nextStepText = "Follow-up recorded.";
             }
 
             return (

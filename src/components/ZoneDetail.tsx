@@ -56,9 +56,9 @@ export default function ZoneDetail({
     return (
       <div className="flex flex-col items-center justify-center py-32 text-center max-w-7xl mx-auto">
         <AlertTriangle className="w-10 h-10 text-zinc-300 mb-4" />
-        <h2 className="text-xl font-extrabold text-zinc-950 tracking-tight mb-2">Zone Not Found</h2>
+        <h2 className="text-xl font-extrabold text-zinc-950 tracking-tight mb-2">Location not found</h2>
         <p className="text-sm text-zinc-500 mb-6 font-medium max-w-sm">
-          The requested priority zone could not be located. It may have been resolved or re-categorized.
+          This location is unavailable.
         </p>
         <button 
           onClick={onBackToCommandCenter}
@@ -100,14 +100,14 @@ export default function ZoneDetail({
             </select>
           </div>
           <p className="text-zinc-400 text-[10px] font-bold uppercase tracking-wider mt-1.5">
-            Varied mock profile used for interface demonstration.
+            
           </p>
         </div>
 
         {/* Status indicator */}
         <div className="text-right flex flex-col items-end gap-1.5">
           <p className="text-[9px] text-zinc-400 font-bold uppercase tracking-widest mb-1.5">
-            Intervention Status
+            Field action status
           </p>
           <InterventionStatusBadge status={activeIntervention?.status} />
         </div>
@@ -116,7 +116,7 @@ export default function ZoneDetail({
       {/* Context Row */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white rounded-xl border border-zinc-200 p-5 shadow-sm">
-          <h3 className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest mb-2">Illustrative Priority</h3>
+          <h3 className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest mb-2">Illustrative Intervention Priority</h3>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-bold text-zinc-950">{zone.interventionPriority}</span>
             <span className="text-xs font-bold text-zinc-500">/ 100</span>
@@ -137,7 +137,7 @@ export default function ZoneDetail({
         </div>
 
         <div className="bg-white rounded-xl border border-zinc-200 p-5 shadow-sm">
-          <h3 className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest mb-2">Environmental Context</h3>
+          <h3 className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest mb-2">Local Conditions</h3>
           <div className="space-y-1">
             <div className="flex justify-between text-xs text-zinc-600">
               <span className="font-bold">Temp</span>
@@ -149,7 +149,7 @@ export default function ZoneDetail({
             </div>
             <div className="flex justify-between text-xs text-zinc-600">
               <div className="flex flex-col">
-                <span className="font-bold">External rainfall context</span>
+                <span className="font-bold">Rainfall</span>
                 <span className="text-[9px] text-zinc-400 mt-0.5">External demo input</span>
               </div>
               <span>{zone.rainfall}</span>

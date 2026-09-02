@@ -100,7 +100,7 @@ export default function DeviceFleet({
       <section className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-xl font-extrabold text-zinc-950 tracking-tight">DEVICES</h1>
-          <p className="text-[11px] font-medium text-zinc-500 mt-1">Simulated node-health and maintenance view.</p>
+          <p className="text-[11px] font-medium text-zinc-500 mt-1">Node health and maintenance</p>
         </div>
       </section>
 
@@ -139,7 +139,7 @@ export default function DeviceFleet({
                   </div>
                   
                   <div className="space-y-2 mb-6">
-                    <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Why:</div>
+                    <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Attention reasons</div>
                     <ul className="text-sm text-zinc-700 space-y-1 list-disc list-inside">
                       {device.battery <= 25 && <li>Battery {device.battery}%</li>}
                       {device.solarStatus === 'Low Solar' && <li>Low solar input</li>}

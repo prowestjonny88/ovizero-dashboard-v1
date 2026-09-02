@@ -58,7 +58,7 @@ export default function CommandCenter({
             Simulated mosquito-surveillance workflow
           </h2>
           <p className="text-xs text-zinc-500 mt-1">
-            Biological and environmental signals → explainable field priorities.
+            Mosquito signals and local conditions for field review.
           </p>
         </div>
 

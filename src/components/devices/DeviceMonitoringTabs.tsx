@@ -75,7 +75,7 @@ export default function DeviceMonitoringTabs({ device }: DeviceMonitoringTabsPro
         <div>
           <div className="text-[10px] uppercase font-bold text-zinc-400 tracking-widest mb-1 flex items-center gap-1.5"><Wrench className="w-3 h-3"/> Maintenance</div>
           <div className="text-sm font-bold text-zinc-900">{device.maintenanceState === 'Maintenance Required' ? 'Maintenance required' : 'Normal'}</div>
-          <div className="text-xs text-zinc-500">{device.maintenanceState === 'Maintenance Required' ? 'Demo maintenance due' : 'No maintenance flag in stored demo record'}</div>
+          <div className="text-xs text-zinc-500">{device.maintenanceState === 'Maintenance Required' ? 'Demo maintenance due' : 'No maintenance flag'}</div>
         </div>
 
         {/* Attention reason */}
@@ -86,11 +86,11 @@ export default function DeviceMonitoringTabs({ device }: DeviceMonitoringTabsPro
           </div>
         )}
         
-        {/* Scenario update */}
+        {/* Demo snapshot */}
         <div>
-          <div className="text-[10px] uppercase font-bold text-zinc-400 tracking-widest mb-1">Scenario update</div>
+          <div className="text-[10px] uppercase font-bold text-zinc-400 tracking-widest mb-1">Demo snapshot</div>
           <div className="text-sm font-bold text-zinc-900">{device.lastSync}</div>
-          <div className="text-xs text-zinc-500">Stored simulated node record</div>
+          <div className="text-xs text-zinc-500"></div>
         </div>
       </div>
 
@@ -112,7 +112,7 @@ export default function DeviceMonitoringTabs({ device }: DeviceMonitoringTabsPro
                 <div className="font-mono font-bold text-zinc-900">{record.connectivity.gatewayId}</div>
               </div>
               <div>
-                <div className="text-[10px] uppercase font-bold text-zinc-500">Mock update age</div>
+                <div className="text-[10px] uppercase font-bold text-zinc-500">Demo update age</div>
                 <div className="font-mono text-zinc-900">{record.connectivity.offlineDurationMinutes} mins</div>
               </div>
               <div>
@@ -152,7 +152,7 @@ export default function DeviceMonitoringTabs({ device }: DeviceMonitoringTabsPro
              <div className="grid grid-cols-2 gap-4">
               <div className="col-span-2">
                 <div className="text-[10px] uppercase font-bold text-zinc-500">Power Autonomy</div>
-                <div className="text-zinc-900">Power autonomy remains to be validated.</div>
+                <div className="text-zinc-900">Not validated</div>
               </div>
               <div className="col-span-2">
                 <div className="text-[10px] uppercase font-bold text-zinc-500">Containment concept</div>
