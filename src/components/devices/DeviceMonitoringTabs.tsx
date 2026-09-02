@@ -75,7 +75,7 @@ export default function DeviceMonitoringTabs({ device }: DeviceMonitoringTabsPro
         <div>
           <div className="text-[10px] uppercase font-bold text-zinc-400 tracking-widest mb-1 flex items-center gap-1.5"><Wrench className="w-3 h-3"/> Maintenance</div>
           <div className="text-sm font-bold text-zinc-900">{device.maintenanceState === 'Maintenance Required' ? 'Maintenance required' : 'Normal'}</div>
-          <div className="text-xs text-zinc-500">Demo maintenance due</div>
+          <div className="text-xs text-zinc-500">{device.maintenanceState === 'Maintenance Required' ? 'Demo maintenance due' : 'No maintenance flag in stored demo record'}</div>
         </div>
 
         {/* Attention reason */}

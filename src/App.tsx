@@ -362,6 +362,7 @@ export default function App() {
         <button 
           onClick={() => setIsMobileSidebarOpen(true)}
           className="fixed top-4 left-4 z-40 p-2 bg-white rounded-lg border border-zinc-200 shadow-sm text-black active:scale-95 transition-all"
+          aria-label="Open navigation"
         >
           <Menu className="w-5 h-5" />
         </button>
@@ -391,6 +392,7 @@ export default function App() {
                 <button
                   onClick={() => setIsMobileSidebarOpen(false)}
                   className="absolute top-4 right-4 text-[#545f73] hover:text-black transition-colors"
+                  aria-label="Close navigation"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -456,6 +458,7 @@ export default function App() {
             <button
               onClick={() => setToast(null)}
               className="text-[#cfc4c5] hover:text-white transition-colors ml-2 shrink-0"
+              aria-label="Dismiss toast"
             >
               <X className="w-4 h-4" />
             </button>

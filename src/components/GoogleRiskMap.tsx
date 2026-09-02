@@ -562,10 +562,10 @@ export default function GoogleRiskMap({
           {variant === 'full' && (
             <div className="relative z-10 w-full flex justify-between items-end pointer-events-none">
               <div className="bg-white/80 backdrop-blur-sm border border-zinc-200/60 p-2 rounded-lg shadow-xs pointer-events-auto">
-                <div className="text-[10px] font-mono text-zinc-500 font-bold mb-1">OFFLINE SCHEMATIC</div>
+                <div className="text-[10px] font-mono text-zinc-500 font-bold mb-1">SCHEMATIC MAP</div>
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></div>
-                  <span className="text-[9px] text-zinc-600">Maps API disconnected</span>
+                  <div className="w-2 h-2 rounded-full bg-amber-400"></div>
+                  <span className="text-[9px] text-zinc-600">External basemap unavailable &middot; displaying the stored illustrative layout.</span>
                 </div>
               </div>
             </div>
@@ -578,7 +578,7 @@ export default function GoogleRiskMap({
           onClick={onOpenRiskMap}
           className="absolute top-3 right-3 bg-[#052e1a] hover:bg-[#0b5a31] text-white text-[10px] font-bold px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-md transition-all z-10 cursor-pointer"
         >
-          <span>Open Full Risk Map</span>
+          <span>Open Priority Map</span>
           <ArrowUpRight className="w-3.5 h-3.5" />
         </button>
       )}

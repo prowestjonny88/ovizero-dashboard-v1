@@ -36,11 +36,11 @@ export default function Header({
       case AppScreen.RISK_MAP:
         return null; // Utility-only header for these screens
       case AppScreen.PRIORITY_ZONES:
-        return 'Intervention Priority Zones';
+        return 'Field Actions';
       case AppScreen.ZONE_DETAIL:
-        return `${activeZoneName || 'Zone'} Analysis`;
+        return `${activeZoneName || 'Location'} · Field Action`;
       case AppScreen.DEVICES:
-        return 'Device Fleet';
+        return 'Devices';
       case AppScreen.REPORTS:
         return 'Analytical Reports';
       case AppScreen.SETTINGS:
@@ -48,7 +48,7 @@ export default function Header({
       case AppScreen.EVIDENCE_VALIDATION:
         return 'Evidence & Validation';
       default:
-        return 'OviZero Risk Intelligence';
+        return 'OviZero';
     }
   };
 
@@ -70,7 +70,7 @@ export default function Header({
         )}
         <div className="flex items-center gap-1.5 text-zinc-500 font-mono">
           <MapPin className="w-3.5 h-3.5 text-[#1b7f47]" />
-          <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-700">Illustrative residential-community scenario</span>
+          <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-700">Illustrative residential-community scenario</span>
         </div>
       </div>
 
@@ -83,7 +83,7 @@ export default function Header({
             <button
               key={range.value}
               
-              className={`px-3 py-1.5 text-[9px] font-bold rounded-md transition-all uppercase tracking-wider ${
+              className={`px-3 py-1.5 text-[11px] font-bold rounded-md transition-all uppercase tracking-wider ${
                 true
                   ? 'bg-white text-black border border-zinc-200/30'
                   : 'text-zinc-400 hover:text-black'

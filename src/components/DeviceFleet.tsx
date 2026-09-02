@@ -1,7 +1,7 @@
-import ScenarioPeriodLabel from "./ScenarioPeriodLabel";
 import React, { useState, useEffect } from 'react';
 import { DeviceData } from '../types';
 import { PILOT_NODES } from '../data';
+import { getDeviceMonitoring } from '../data/deviceMonitoring';
 import DeviceMonitoringTabs from './devices/DeviceMonitoringTabs';
 import { 
   Search, 
@@ -96,10 +96,6 @@ export default function DeviceFleet({
   return (
     <div className="space-y-8 max-w-7xl mx-auto pb-12">
       
-      <div className="flex justify-end">
-        <ScenarioPeriodLabel mode="current-snapshot" />
-      </div>
-
       {/* Header */}
       <section className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
@@ -271,6 +267,13 @@ export default function DeviceFleet({
                     const locationName = pilotNode ? pilotNode.sublocation : device.location;
                     const reasons = getAttentionReasons(device);
                     
+                    const record = getDeviceMonitoring(device);
+                    const condensationDisplay = record.imaging.condensation === 'Possible' 
+                      ? 'Possible condensation' 
+                      : record.imaging.condensation === 'Detected' 
+                        ? 'Condensation detected' 
+                        : 'Clear';
+                    
                     return (
                       <tr
                         key={device.id}
@@ -292,7 +295,7 @@ export default function DeviceFleet({
                           {device.loraSignal}
                         </td>
                         <td className="px-4 py-4 whitespace-nowrap text-zinc-700">
-                          {device.id === 'OZ-077' ? 'Possible condensation' : 'Clear'}
+                          {condensationDisplay}
                         </td>
                         <td className="px-4 py-4 whitespace-nowrap">
                            <span className={`px-2 py-0.5 rounded text-[9px] font-bold font-sans uppercase tracking-widest ${

@@ -5,7 +5,6 @@ import {
   Map, 
   AlertTriangle, 
   Cpu, 
-  User,
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -78,17 +77,6 @@ export default function Sidebar({ currentScreen, onScreenChange, variant = 'desk
           );
         })}
       </nav>
-
-      {/* User profile footer */}
-      <div className="pt-6 border-t border-[#0b5a31]/60 mt-auto flex items-center gap-3">
-        <div className="w-8 h-8 rounded-full bg-[#0b5a31] border border-[#116b3a]/40 flex items-center justify-center text-white">
-          <User className="w-3.5 h-3.5" />
-        </div>
-        <div>
-          <p className="text-[11px] font-bold text-white leading-tight">System Admin</p>
-          <p className="text-[9px] text-[#cad5ce] font-medium font-mono leading-none mt-0.5">ovizero.sys</p>
-        </div>
-      </div>
     </aside>
   );
 }

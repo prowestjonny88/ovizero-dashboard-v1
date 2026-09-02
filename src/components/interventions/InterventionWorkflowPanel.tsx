@@ -42,7 +42,7 @@ const getTimelineLabel = (status: string) => {
 
 export default function InterventionWorkflowPanel({ zone, record, onCreate, onTransition }: InterventionWorkflowPanelProps) {
   // Review State
-  const [reviewerName, setReviewerName] = useState(record?.reviewerName || 'System Admin');
+  const [reviewerName, setReviewerName] = useState(record?.reviewerName || '');
   const [reviewNote, setReviewNote] = useState(record?.reviewNote || '');
   
   // Assign State
