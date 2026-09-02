@@ -5,9 +5,6 @@ import {
   Map, 
   AlertTriangle, 
   Cpu, 
-  FileText, 
-  Settings,
-  FlaskConical,
   User,
 } from 'lucide-react';
 
@@ -38,21 +35,6 @@ export default function Sidebar({ currentScreen, onScreenChange, variant = 'desk
       id: AppScreen.DEVICES,
       label: 'Devices',
       icon: Cpu,
-    },
-    {
-      id: AppScreen.EVIDENCE_VALIDATION,
-      label: 'Evidence & Validation',
-      icon: FlaskConical,
-    },
-    {
-      id: AppScreen.REPORTS,
-      label: 'Reports',
-      icon: FileText,
-    },
-    {
-      id: AppScreen.SETTINGS,
-      label: 'Settings',
-      icon: Settings,
     }
   ];
 
