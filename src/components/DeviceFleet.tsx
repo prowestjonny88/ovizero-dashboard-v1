@@ -2,7 +2,6 @@ import ScenarioPeriodLabel from "./ScenarioPeriodLabel";
 import React, { useState, useEffect } from 'react';
 import { DeviceData } from '../types';
 import { PILOT_NODES } from '../data';
-import { getDeviceHealthSummary } from '../utils/dashboard';
 import DeviceMonitoringTabs from './devices/DeviceMonitoringTabs';
 import { 
   Search, 
@@ -11,13 +10,9 @@ import {
   RefreshCw, 
   Cpu, 
   CheckCircle, 
-  Sun, 
-  Radio, 
   Terminal, 
-  Check, 
-  Droplets,
   Camera,
-  Sparkles
+  ShieldAlert
 } from 'lucide-react';
 
 interface DeviceFleetProps {
@@ -61,7 +56,6 @@ export default function DeviceFleet({
   }, [filteredDevices, selectedDeviceId]);
 
   const activeDevice = filteredDevices.find(d => d.id === selectedDeviceId) ?? null;
-  const deviceHealth = getDeviceHealthSummary(devices);
 
   const diagnosticTimerRef = React.useRef<number | null>(null);
 
@@ -83,87 +77,131 @@ export default function DeviceFleet({
     }, 800);
   };
 
+  const attentionDevices = devices.filter(d => d.maintenanceState === 'Maintenance Required');
+  const attentionCount = attentionDevices.length;
+  
+  const getAttentionReasons = (device: DeviceData) => {
+    const reasons = [];
+    if (device.battery <= 25) reasons.push('low battery');
+    if (device.solarStatus === 'Low Solar') reasons.push('low solar');
+    if (device.loraSignal === 'Weak') reasons.push('weak link');
+    if (device.diagnostics.electrodeContact === 'Attention Required') reasons.push('electrode attention');
+    
+    if (reasons.length === 0 && device.maintenanceState === 'Maintenance Required') {
+        reasons.push('maintenance required');
+    }
+    return reasons;
+  };
+
   return (
     <div className="space-y-8 max-w-7xl mx-auto pb-12">
       
       <div className="flex justify-end">
-        <ScenarioPeriodLabel  mode="current-snapshot" />
+        <ScenarioPeriodLabel mode="current-snapshot" />
       </div>
 
-      {/* 1. Overview Bento Metrics */}
-      <section className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        {/* Retry Rate */}
-        <div className="bg-white border border-zinc-200/50 rounded-xl p-5 flex flex-col justify-between shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
-          <div className="flex items-center justify-between text-zinc-400 mb-2">
-            <span className="text-[9px] font-bold uppercase tracking-widest">Retry rate</span>
-            <RefreshCw className="w-3.5 h-3.5 text-zinc-400" />
-          </div>
-          <div className="text-sm font-bold text-zinc-400 font-geist tracking-tight mt-1 mb-2">Not measured</div>
-          <span className="text-[8px] text-zinc-400 font-bold uppercase mt-auto tracking-wider">
-            Packet retransmissions
-          </span>
-        </div>
-
-        {/* Low Battery */}
-        <div className="bg-white border border-zinc-200/50 rounded-xl p-5 flex flex-col justify-between shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
-          <div className="flex items-center justify-between text-zinc-400 mb-2">
-            <span className="text-[9px] font-bold uppercase tracking-widest">Low Battery</span>
-            <Battery className="w-3.5 h-3.5 text-zinc-950" />
-          </div>
-          <div className="text-3xl font-bold text-zinc-950 font-geist tracking-tight">{deviceHealth.lowBattery}</div>
-          <span className="text-[8px] text-zinc-400 font-bold uppercase mt-3 tracking-wider">
-            Under 25% Threshold
-          </span>
-        </div>
-
-        {/* Weak Signal */}
-        <div className="bg-white border border-zinc-200/50 rounded-xl p-5 flex flex-col justify-between shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
-          <div className="flex items-center justify-between text-zinc-400 mb-2">
-            <span className="text-[9px] font-bold uppercase tracking-widest">Weak Signal</span>
-            <Wifi className="w-3.5 h-3.5 text-zinc-400" />
-          </div>
-          <div className="text-3xl font-bold text-zinc-950 font-geist tracking-tight">{devices.filter(d => d.loraSignal === 'Weak').length}</div>
-          <span className="text-[8px] text-zinc-400 font-bold uppercase mt-3 tracking-wider">
-            1 simulated weak-signal record
-          </span>
-        </div>
-
-        {/* Open Maintenance */}
-        <div className="bg-white border border-zinc-200/50 rounded-xl p-5 flex flex-col justify-between shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
-          <div className="flex items-center justify-between text-zinc-400 mb-2">
-            <span className="text-[9px] font-bold uppercase tracking-widest truncate" title="Maintenance Tickets">Open Maintenance</span>
-            <RefreshCw className="w-3.5 h-3.5 text-zinc-400" />
-          </div>
-          <div className="text-3xl font-bold text-zinc-950 font-geist tracking-tight">{devices.filter(d => d.maintenanceState === 'Maintenance Required').length}</div>
-          <span className="text-[8px] text-zinc-400 font-bold uppercase mt-3 tracking-wider">
-            1 simulated maintenance scenario
-          </span>
-        </div>
-
-        {/* Good Image Quality */}
-        <div className="bg-white border border-zinc-200/50 rounded-xl p-5 flex flex-col justify-between shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
-          <div className="flex items-center justify-between text-zinc-400 mb-2">
-            <span className="text-[9px] font-bold uppercase tracking-widest truncate" title="Image Quality">Usable-image rate</span>
-            <Camera className="w-3.5 h-3.5 text-zinc-950" />
-          </div>
-          <div className="text-sm font-bold text-zinc-400 font-geist tracking-tight mt-1 mb-2">Not measured</div>
-          <span className="text-[8px] text-zinc-400 font-bold uppercase mt-auto tracking-wider">
-            No physical image-quality rate measured
-          </span>
+      {/* Header */}
+      <section className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h1 className="text-xl font-extrabold text-zinc-950 tracking-tight">DEVICES</h1>
+          <p className="text-[11px] font-medium text-zinc-500 mt-1">Simulated node-health and maintenance view.</p>
         </div>
       </section>
 
-      {/* 2. Main content split (Table Left, side panel Right) */}
+      {/* Data Provenance Disclosure */}
+      <div className="bg-amber-50 border border-amber-200/50 rounded-lg p-4 text-xs text-amber-800">
+        Device-health values are simulated. Field durability, power autonomy, condensation control, image reliability, containment and service intervals remain to be validated.
+      </div>
+
+      {/* ATTENTION NEEDED */}
+      {attentionCount > 0 && (
+        <section className="bg-red-50/50 border border-red-100 rounded-xl p-6">
+          <div className="flex items-center gap-2 text-red-700 font-bold mb-4">
+            <ShieldAlert className="w-5 h-5" />
+            <h2 className="text-sm tracking-widest uppercase">Attention Needed</h2>
+          </div>
+          <div className="text-xs text-red-600 font-medium mb-6">
+            {attentionCount} node{attentionCount !== 1 ? 's' : ''} need{attentionCount === 1 ? 's' : ''} attention
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {attentionDevices.map(device => {
+              const reasons = getAttentionReasons(device);
+              const pilotNode = PILOT_NODES.find(n => n.deviceId === device.id);
+              const locationName = pilotNode ? pilotNode.sublocation : device.location;
+
+              return (
+                <div key={device.id} className="bg-white border border-red-200 rounded-lg p-5 shadow-sm">
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <div className="font-bold text-lg text-zinc-950">{device.id}</div>
+                      <div className="text-sm text-zinc-600">{locationName}</div>
+                    </div>
+                    <div className="bg-red-100 text-red-800 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded">
+                      Maintenance required
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2 mb-6">
+                    <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Why:</div>
+                    <ul className="text-sm text-zinc-700 space-y-1 list-disc list-inside">
+                      {device.battery <= 25 && <li>Battery {device.battery}%</li>}
+                      {device.solarStatus === 'Low Solar' && <li>Low solar input</li>}
+                      {device.loraSignal === 'Weak' && <li>Weak simulated LoRaWAN signal</li>}
+                      {device.diagnostics.electrodeContact === 'Attention Required' && <li>Electrode contact requires attention</li>}
+                    </ul>
+                  </div>
+
+                  <button 
+                    onClick={() => setSelectedDeviceId(device.id)}
+                    className="w-full sm:w-auto px-4 py-2 bg-zinc-950 hover:bg-zinc-800 text-white text-xs font-bold uppercase tracking-widest rounded-lg transition-colors"
+                  >
+                    View Node
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {/* Fleet Summary */}
+      <section className="bg-white border border-zinc-200/50 rounded-xl p-6 shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
+        <h2 className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-4">Fleet Summary</h2>
+        <div className="flex flex-wrap gap-x-8 gap-y-4">
+          <div>
+            <div className="text-2xl font-extrabold text-zinc-950">{devices.length}</div>
+            <div className="text-xs font-medium text-zinc-500">simulated nodes</div>
+          </div>
+          <div>
+            <div className="text-2xl font-extrabold text-zinc-950">{devices.length - attentionCount}</div>
+            <div className="text-xs font-medium text-zinc-500">normal</div>
+          </div>
+          {attentionCount > 0 && (
+            <div>
+              <div className="text-2xl font-extrabold text-red-600">{attentionCount}</div>
+              <div className="text-xs font-medium text-red-600">needs attention</div>
+            </div>
+          )}
+          {devices.filter(d => d.loraSignal === 'Weak').length > 0 && (
+            <div>
+              <div className="text-2xl font-extrabold text-amber-600">{devices.filter(d => d.loraSignal === 'Weak').length}</div>
+              <div className="text-xs font-medium text-amber-600">weak simulated link</div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Roster & Detail Panel */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         {/* Device Table Roster (8 columns span) */}
-        <div className="lg:col-span-8 bg-white border border-zinc-200/50 rounded-xl overflow-hidden shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
+        <div className="lg:col-span-8 bg-white border border-zinc-200/50 rounded-xl overflow-hidden shadow-[0_1px_2px_rgba(0,0,0,0.01)] flex flex-col">
           {/* Table Toolbar */}
           <div className="px-6 py-4 border-b border-zinc-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-zinc-50/50">
             <h3 className="font-bold text-xs uppercase tracking-wider text-zinc-900">Node Roster</h3>
             
             <div className="flex items-center gap-2 w-full sm:w-auto">
-              {/* Search */}
               <div className="relative flex-1 sm:flex-initial">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 w-3.5 h-3.5" />
                 <input
@@ -175,7 +213,6 @@ export default function DeviceFleet({
                 />
               </div>
 
-              {/* Status Filter buttons */}
               <div className="flex items-center border border-zinc-200/50 rounded-lg overflow-hidden bg-white">
                 <button
                   onClick={() => setStatusFilter('ALL')}
@@ -205,33 +242,34 @@ export default function DeviceFleet({
             </div>
           </div>
 
-          {/* Roster Table Layout */}
-          <div className="overflow-x-auto">
+          {/* Roster Table Layout (hidden on mobile in favor of stacked cards, or just compact table) */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-zinc-100 bg-zinc-50/20">
-                  <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-400 whitespace-nowrap">Node ID</th>
+                  <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-400 whitespace-nowrap">Node</th>
                   <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-400 whitespace-nowrap">Location</th>
-                  <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-400 whitespace-nowrap">Illustrative scenario index</th>
-                  <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-400 whitespace-nowrap">Egg Count</th>
-                  <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-400 whitespace-nowrap">Match score</th>
-                  <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-400 whitespace-nowrap">Battery</th>
-                  <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-400 whitespace-nowrap">Solar</th>
-                  <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-400 whitespace-nowrap">LoRa</th>
-                  <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-400 whitespace-nowrap text-right">Maintenance State</th>
+                  <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-400 whitespace-nowrap">Battery / Power</th>
+                  <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-400 whitespace-nowrap">Connectivity</th>
+                  <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-400 whitespace-nowrap">Image / Condensation</th>
+                  <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-400 whitespace-nowrap">Maintenance</th>
+                  <th className="px-4 py-3 text-[9px] font-bold uppercase tracking-widest text-zinc-400 whitespace-nowrap">Attention Reason</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-100 font-mono text-xs">
+              <tbody className="divide-y divide-zinc-100 text-xs">
                 {filteredDevices.length === 0 ? (
                   <tr>
-                    <td colSpan={9} className="px-4 py-12 text-center text-zinc-400 font-medium font-sans">
+                    <td colSpan={7} className="px-4 py-12 text-center text-zinc-400 font-medium">
                       No matching devices found in roster
                     </td>
                   </tr>
                 ) : (
                   filteredDevices.map((device) => {
-                    const isSelected = activeDevice.id === device.id;
+                    const isSelected = activeDevice?.id === device.id;
                     const isMaint = device.maintenanceState === 'Maintenance Required';
+                    const pilotNode = PILOT_NODES.find(n => n.deviceId === device.id);
+                    const locationName = pilotNode ? pilotNode.sublocation : device.location;
+                    const reasons = getAttentionReasons(device);
                     
                     return (
                       <tr
@@ -241,73 +279,23 @@ export default function DeviceFleet({
                           isSelected ? 'bg-zinc-50/70 border-zinc-950 font-semibold' : 'border-transparent'
                         }`}
                       >
-                        {/* Node ID */}
-                        <td className="px-4 py-4 whitespace-nowrap font-bold text-zinc-950">
+                        <td className="px-4 py-4 whitespace-nowrap font-bold text-zinc-950 font-mono">
                           {device.id}
                         </td>
-                        {/* Location name */}
-                        
-                        <td className="px-4 py-4 whitespace-nowrap font-sans font-medium text-zinc-900">
-                          {(() => {
-                            const pilotNode = PILOT_NODES.find(n => n.deviceId === device.id);
-                            return pilotNode ? (
-                              <div className="flex flex-col">
-                                <span>Illustrative residential-community scenario</span>
-                                <span className="text-[10px] text-zinc-500 font-normal">{pilotNode.sublocation}</span>
-                              </div>
-                            ) : device.location;
-                          })()}
+                        <td className="px-4 py-4 whitespace-nowrap font-medium text-zinc-900">
+                          {locationName}
                         </td>
-                        {/* Illustrative scenario index horizontal indicator */}
+                        <td className="px-4 py-4 whitespace-nowrap text-zinc-700">
+                          {device.battery}% &middot; {device.solarStatus}
+                        </td>
+                        <td className="px-4 py-4 whitespace-nowrap text-zinc-700">
+                          {device.loraSignal}
+                        </td>
+                        <td className="px-4 py-4 whitespace-nowrap text-zinc-700">
+                          {device.id === 'OZ-077' ? 'Possible condensation' : 'Clear'}
+                        </td>
                         <td className="px-4 py-4 whitespace-nowrap">
-                          <div className="flex items-center gap-2">
-                            <div className="w-8 bg-zinc-100 h-1.5 rounded-full overflow-hidden">
-                              <div 
-                                className="h-full rounded-full bg-zinc-950" 
-                                style={{ width: `${device.interventionPriorityScore}%` }}
-                              ></div>
-                            </div>
-                            <span className="font-bold text-zinc-950 font-mono">{device.interventionPriorityScore}</span>
-                          </div>
-                        </td>
-                        {/* Egg Count */}
-                        <td className="px-4 py-4 whitespace-nowrap font-bold text-zinc-950 font-mono">
-                          {device.syntheticEggActivity} eggs
-                        </td>
-                        {/* Mock Match Score */}
-                        <td className="px-4 py-4 whitespace-nowrap font-bold text-zinc-950 font-mono">
-                          Not calibrated
-                        </td>
-                        {/* Battery Level */}
-                        <td className="px-4 py-4 whitespace-nowrap">
-                          <div className="flex items-center gap-1.5">
-                            <Battery className="w-3.5 h-3.5 text-zinc-950" />
-                            <span className="text-zinc-950 font-bold font-mono">
-                              {device.battery}%
-                            </span>
-                          </div>
-                        </td>
-                        {/* Solar Status */}
-                        <td className="px-4 py-4 whitespace-nowrap">
-                          <span className={`px-1.5 py-0.5 rounded text-[8px] font-bold font-sans uppercase tracking-wider ${
-                            device.solarStatus === 'Charging'
-                              ? 'bg-zinc-100 text-zinc-900 border border-zinc-200'
-                              : device.solarStatus === 'Stable'
-                                ? 'bg-zinc-50 text-zinc-500 border border-zinc-100'
-                                : 'bg-zinc-900 text-white'
-                          }`}>
-                            {device.solarStatus}
-                          </span>
-                        </td>
-                        {/* LoRa Signal quality */}
-                        <td className="px-4 py-4 whitespace-nowrap">
-                          <span className="font-sans text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
-                            {device.loraSignal}
-                          </span>
-                        </td>
-                        {/* Status label */}
-                        <td className="px-4 py-4 whitespace-nowrap text-right">
-                          <span className={`px-2 py-0.5 rounded text-[9px] font-bold font-sans uppercase tracking-widest ${
+                           <span className={`px-2 py-0.5 rounded text-[9px] font-bold font-sans uppercase tracking-widest ${
                             isMaint 
                               ? 'bg-zinc-950 text-white border border-zinc-950' 
                               : 'bg-zinc-100 text-zinc-600 border border-zinc-200/50'
@@ -315,12 +303,66 @@ export default function DeviceFleet({
                             {isMaint ? 'Maint Req' : 'Normal'}
                           </span>
                         </td>
+                        <td className="px-4 py-4 whitespace-nowrap text-zinc-500">
+                          {reasons.length > 0 ? reasons.join(' · ') : '—'}
+                        </td>
                       </tr>
                     );
                   })
                 )}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile Stacked Cards for Roster */}
+          <div className="md:hidden flex flex-col divide-y divide-zinc-100">
+             {filteredDevices.length === 0 ? (
+                <div className="px-4 py-12 text-center text-zinc-400 font-medium">
+                  No matching devices found
+                </div>
+              ) : (
+                filteredDevices.map(device => {
+                  const pilotNode = PILOT_NODES.find(n => n.deviceId === device.id);
+                  const locationName = pilotNode ? pilotNode.sublocation : device.location;
+                  const isMaint = device.maintenanceState === 'Maintenance Required';
+                  const reasons = getAttentionReasons(device);
+
+                  return (
+                    <div key={device.id} className="p-4 bg-white" onClick={() => setSelectedDeviceId(device.id)}>
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                           <div className="font-bold text-zinc-950 font-mono text-sm">{device.id}</div>
+                           <div className="text-xs text-zinc-600 font-medium">{locationName}</div>
+                        </div>
+                         <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-widest ${
+                            isMaint 
+                              ? 'bg-zinc-950 text-white border border-zinc-950' 
+                              : 'bg-zinc-100 text-zinc-600 border border-zinc-200/50'
+                          }`}>
+                            {isMaint ? 'Maint Req' : 'Normal'}
+                        </span>
+                      </div>
+                      
+                      {reasons.length > 0 && (
+                        <div className="text-xs text-red-600 mt-2 font-medium">
+                          {reasons.join(' · ')}
+                        </div>
+                      )}
+                      
+                      <div className="grid grid-cols-2 gap-2 mt-3 text-xs text-zinc-600">
+                        <div>{device.battery}% battery</div>
+                        <div>{device.loraSignal} simulated link</div>
+                      </div>
+                      
+                      <button 
+                        className="mt-4 w-full py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-900 text-[10px] font-bold uppercase tracking-widest rounded transition-colors"
+                      >
+                        View Node
+                      </button>
+                    </div>
+                  );
+                })
+              )}
           </div>
         </div>
 
@@ -343,7 +385,7 @@ export default function DeviceFleet({
                   <div className="w-full bg-emerald-50 text-emerald-800 border border-emerald-200 p-3 rounded-lg text-xs flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 shrink-0 mt-0.5 text-emerald-600" />
                     <div>
-                      <p className="font-bold">Simulated diagnostic completed.</p>
+                      <p className="font-bold">Stored demo check completed.</p>
                       <p className="text-emerald-700/80 mt-0.5">No live device is connected.</p>
                     </div>
                   </div>
@@ -351,12 +393,12 @@ export default function DeviceFleet({
                   <button
                     onClick={() => handleRunDiagnostic(activeDevice.id)}
                     disabled={diagnosticRunningId === activeDevice.id}
-                    className="w-full bg-zinc-950 text-white font-bold text-[10px] uppercase tracking-widest py-3 px-4 rounded-lg hover:bg-zinc-800 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+                    className="w-full bg-zinc-100 text-zinc-700 font-bold text-[10px] uppercase tracking-widest py-3 px-4 rounded-lg hover:bg-zinc-200 disabled:opacity-50 transition-all flex items-center justify-center gap-2 border border-zinc-300/50"
                   >
                     {diagnosticRunningId === activeDevice.id ? (
-                      <><RefreshCw className="w-3.5 h-3.5 animate-spin" /> Running simulated check...</>
+                      <><RefreshCw className="w-3.5 h-3.5 animate-spin" /> Running...</>
                     ) : (
-                      <><Terminal className="w-3.5 h-3.5" /> Run Simulated Diagnostic</>
+                      <><Terminal className="w-3.5 h-3.5" /> Run Demo Device Check</>
                     )}
                   </button>
                 )}
