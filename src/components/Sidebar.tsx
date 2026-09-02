@@ -43,9 +43,7 @@ export default function Sidebar({ currentScreen, onScreenChange, variant = 'desk
       <div className="mb-10">
         <h1 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
           <span>OviZero</span>
-          <span className="text-[9px] font-mono font-normal tracking-normal px-1.5 py-0.5 rounded bg-[#0b5a31] text-[#e8f4ed] uppercase">
-            v1.0
-          </span>
+
         </h1>
         <p className="text-[9px] font-semibold text-[#cad5ce] uppercase tracking-[0.2em] mt-1.5">
           Mosquito Surveillance

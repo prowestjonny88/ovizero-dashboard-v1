@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { DeviceData } from '../types';
 import { PILOT_NODES } from '../data';
 import { getDeviceMonitoring } from '../data/deviceMonitoring';
@@ -28,6 +28,18 @@ export default function DeviceFleet({
 }: DeviceFleetProps) {
   const [selectedDeviceId, setSelectedDeviceId] = useState<string | null>(devices[0]?.id ?? null);
   const [searchQuery, setSearchQuery] = useState('');
+  
+  const detailRef = useRef<HTMLDivElement>(null);
+
+  const handleViewNode = (deviceId: string) => {
+    setSelectedDeviceId(deviceId);
+    requestAnimationFrame(() => {
+      detailRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    });
+  };
   const [statusFilter, setStatusFilter] = useState<'ALL' | 'NORMAL' | 'MAINTENANCE'>('ALL');
   const [diagnosticRunningId, setDiagnosticRunningId] = useState<string | null>(null);
 
@@ -149,7 +161,7 @@ export default function DeviceFleet({
                   </div>
 
                   <button 
-                    onClick={() => setSelectedDeviceId(device.id)}
+                    onClick={() => handleViewNode(device.id)}
                     className="w-full sm:w-auto px-4 py-2 bg-zinc-950 hover:bg-zinc-800 text-white text-xs font-bold uppercase tracking-widest rounded-lg transition-colors"
                   >
                     View Node
@@ -189,7 +201,7 @@ export default function DeviceFleet({
       </section>
 
       {/* Roster & Detail Panel */}
-      <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <section ref={detailRef} className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         {/* Device Table Roster (8 columns span) */}
         <div className="lg:col-span-8 bg-white border border-zinc-200/50 rounded-xl overflow-hidden shadow-[0_1px_2px_rgba(0,0,0,0.01)] flex flex-col">
@@ -358,6 +370,10 @@ export default function DeviceFleet({
                       </div>
                       
                       <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleViewNode(device.id);
+                        }}
                         className="mt-4 w-full py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-900 text-[10px] font-bold uppercase tracking-widest rounded transition-colors"
                       >
                         View Node

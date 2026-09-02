@@ -102,11 +102,20 @@ return (
                     <button
                       key={filter}
                       onClick={() => setActiveFilter(filter as 'ALL' | 'Critical' | 'High' | 'Elevated' | 'Watch')}
-                      className={`px-4 py-1.5 min-h-[36px] text-xs font-bold rounded-lg transition-colors border ${
-                        activeFilter === filter
-                          ? 'bg-zinc-800 text-white border-zinc-800 shadow-sm'
-                          : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-50'
-                      }`}
+                      className={`px-4 py-1.5 min-h-[36px] text-xs font-bold rounded-lg transition-colors border`}
+                      style={
+                        filter === 'ALL'
+                          ? {
+                              backgroundColor: activeFilter === 'ALL' ? '#18181b' : '#ffffff',
+                              color: activeFilter === 'ALL' ? '#ffffff' : '#52525b',
+                              borderColor: activeFilter === 'ALL' ? '#18181b' : '#e4e4e7'
+                            }
+                          : {
+                              backgroundColor: activeFilter === filter ? getRiskBorderColor(filter) : getRiskColor(filter),
+                              color: activeFilter === filter ? '#ffffff' : getRiskBorderColor(filter),
+                              borderColor: getRiskBorderColor(filter)
+                            }
+                      }
                     >
                       {filter}
                     </button>
@@ -181,10 +190,10 @@ return (
           {/* Map Legend */}
           <div id="risk-map-legend" className={`bg-white border border-zinc-200/60 rounded-xl p-3 shadow-xs ${showLegend ? 'block' : 'hidden lg:block'}`}>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[10px] font-medium text-zinc-600">
-              <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full border border-[#ef4444] bg-[#ffffff]"></div> Critical priority</div>
-              <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full border border-[#f97316] bg-[#ffffff]"></div> High priority</div>
-              <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full border border-[#f59e0b] bg-[#ffffff]"></div> Elevated priority</div>
-              <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full border border-[#22c55e] bg-[#ffffff]"></div> Watch location</div>
+              <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full border" style={{ backgroundColor: getRiskColor('Critical'), borderColor: getRiskBorderColor('Critical') }}></div> Critical priority</div>
+              <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full border" style={{ backgroundColor: getRiskColor('High'), borderColor: getRiskBorderColor('High') }}></div> High priority</div>
+              <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full border" style={{ backgroundColor: getRiskColor('Elevated'), borderColor: getRiskBorderColor('Elevated') }}></div> Elevated priority</div>
+              <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full border" style={{ backgroundColor: getRiskColor('Watch'), borderColor: getRiskBorderColor('Watch') }}></div> Watch location</div>
               
               {mapMode === 'risk' && showIllustrativeEggCount && (
                 <>
@@ -346,7 +355,7 @@ return (
                     <div className="flex items-start justify-between p-3 rounded-lg border border-zinc-100 bg-zinc-50/50">
                       <div>
                         <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">B. LOCAL MICROCLIMATE</span>
-                        <span className="text-lg font-bold font-mono text-zinc-900 block mt-0.5">{selectedVM.riskProfile.temperature}&deg;C &middot; {selectedVM.riskProfile.humidity}% RH</span>
+                        <span className="text-base md:text-lg font-bold font-mono text-zinc-900 block mt-0.5 whitespace-nowrap">{selectedVM.riskProfile.temperature}&deg;C &middot; {selectedVM.riskProfile.humidity}% RH</span>
                         <span className="text-[10px] text-zinc-500 block mt-0.5">Temperature and humidity context</span>
                       </div>
                       <div className="text-right">
@@ -409,15 +418,19 @@ return (
           <span className="text-sm font-bold text-[#052e1a] font-mono mt-1 block">5 simulated device records</span>
         </div>
         <div className="bg-white p-3 lg:p-4 rounded-xl border border-zinc-200/60 shadow-xs">
-          <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">Priority distribution</span>
-          <div className="flex flex-wrap items-center gap-1.5 mt-1 text-[11px] font-mono font-bold text-zinc-700">
-            <span>{riskDist.critical} Critical</span>
-            <span className="text-zinc-300">&middot;</span>
-            <span>{riskDist.high} High</span>
-            <span className="text-zinc-300">&middot;</span>
-            <span>{riskDist.elevated} Elevated</span>
-            <span className="text-zinc-300">&middot;</span>
-            <span>{riskDist.watch} Watch</span>
+          <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block mb-1">Priority distribution</span>
+          <div className="flex flex-wrap items-center gap-1.5">
+            {[
+              { label: 'Critical', count: riskDist.critical },
+              { label: 'High', count: riskDist.high },
+              { label: 'Elevated', count: riskDist.elevated },
+              { label: 'Watch', count: riskDist.watch }
+            ].map(item => (
+              <div key={item.label} className="flex items-center gap-1.5 px-2 py-0.5 rounded border" style={{ backgroundColor: getRiskColor(item.label), borderColor: getRiskBorderColor(item.label), color: getRiskBorderColor(item.label) }}>
+                <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: getRiskBorderColor(item.label) }}></div>
+                <span className="text-[10px] font-bold font-mono tracking-wider">{item.count} {item.label}</span>
+              </div>
+            ))}
           </div>
         </div>
         <div className="bg-white p-3 lg:p-4 rounded-xl border border-zinc-200/60 shadow-xs">
