@@ -52,10 +52,6 @@ export default function Header({
     }
   };
 
-  const dateRanges = [
-    { label: '7D', value: '7d' },
-  ];
-
   const titleText = getHeaderTitle();
 
   return (
@@ -80,19 +76,9 @@ export default function Header({
         {/* Date Selector Pills */}
         {PERIOD_DRIVEN_SCREENS.has(currentScreen as AppScreen) && (
           <div className="flex items-center bg-zinc-50 p-0.5 rounded-lg border border-zinc-200/40">
-            {dateRanges.map((range) => (
-            <button
-              key={range.value}
-              
-              className={`px-3 py-1.5 text-[11px] font-bold rounded-md transition-all uppercase tracking-wider ${
-                true
-                  ? 'bg-white text-black border border-zinc-200/30'
-                  : 'text-zinc-400 hover:text-black'
-              }`}
-            >
-              {range.label}
-            </button>
-          ))}
+            <span className="px-3 py-1.5 text-[11px] font-bold rounded-md uppercase tracking-wider bg-white text-black border border-zinc-200/30 shadow-xs">
+              7D
+            </span>
           </div>
         )}
 

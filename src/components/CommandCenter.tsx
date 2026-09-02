@@ -152,7 +152,7 @@ export default function CommandCenter({
               <div className="flex items-center gap-2 mb-1.5">
                 <span className="text-[9px] font-bold text-zinc-500 uppercase tracking-wider w-16">High</span>
                 <div className="flex-1 h-1.5 bg-zinc-200 rounded-full overflow-hidden">
-                  <div className="h-full bg-zinc-500 rounded-full w-[75%]"></div>
+                  <div className="h-full bg-zinc-500 rounded-full w-[80%]"></div>
                 </div>
               </div>
               <p className="text-[9px] text-zinc-400 font-medium">Simulated node context</p>
