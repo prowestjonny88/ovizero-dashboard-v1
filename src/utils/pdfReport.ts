@@ -7,7 +7,7 @@ export const downloadPdfReport = async (
   payload: DashboardExportPayload,
   filename: string
 ): Promise<void> => {
-  const [{ jsPDF }, { autoTable }] = await Promise.all([
+  const [{ jsPDF }, { default: autoTable }] = await Promise.all([
     import('jspdf'),
     import('jspdf-autotable')
   ]);
@@ -34,100 +34,59 @@ export const downloadPdfReport = async (
   };
 
   const sanitizePdfText = (text: string) => {
-    return text.replace(/[\u2018\u2019]/g, "'")
-               .replace(/[\u201C\u201D]/g, '"')
-               .replace(/[\u2013\u2014]/g, '-')
-               .replace(/\u2026/g, '...')
-               .replace(/\u00A0/g, ' ');
+    if (!text) return '';
+    return text.replace(/[‘’]/g, "'")
+               .replace(/[“”]/g, '"')
+               .replace(/[–—]/g, '-')
+               .replace(/…/g, '...')
+               .replace(/ /g, ' ');
   };
 
-  let pageNumber = 1;
   const margin = 14;
   const pageWidth = doc.internal.pageSize.width;
-  
-  const addPageHeader = (title: string = 'OviZero · Mosquito Surveillance Summary') => {
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(14);
-    doc.setTextColor(primaryGreen);
-    doc.text('OviZero', margin, margin + 5);
-    
-    doc.setFontSize(12);
-    doc.setTextColor(nearBlack);
-    doc.text(title, margin, margin + 12);
-    
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(8);
-    doc.setTextColor(criticalRed);
-    const splitDisclaimer = doc.splitTextToSize('SIMULATED SCENARIO · NO LIVE DEVICES — Synthetic/demo values; not a live deployed network or field-validated epidemiological model.', pageWidth - margin * 2);
-    doc.text(splitDisclaimer, margin, margin + 17);
+  const contentWidth = pageWidth - margin * 2;
 
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(9);
-    doc.setTextColor(mutedGray);
-    const dateText = `Period: 7-Day | Location: ${payload.locationLabel}`;
-    doc.text(dateText, margin, margin + 26);
-    
-    const genDate = new Date(payload.generatedAt).toLocaleString();
-    const genText = `Exported: ${genDate}`;
-    doc.text(genText, pageWidth - margin - doc.getTextWidth(genText), margin + 26);
-    
-    doc.setDrawColor(27, 127, 71); // #1B7F47
-    doc.setLineWidth(0.5);
-    doc.line(margin, margin + 26, pageWidth - margin, margin + 26);
-  };
-
-  const addPageFooter = () => {
-    const totalPages = doc.getNumberOfPages();
-    for (let i = 1; i <= totalPages; i++) {
-      doc.setPage(i);
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(8);
-      doc.setTextColor(mutedGray);
-      
-      const genDate = new Date(payload.generatedAt).toLocaleDateString();
-      const footerTextLeft = `Exported: ${genDate} | Period: 7-Day`;
-      const footerTextRight = `Page ${i} of ${totalPages}`;
-      
-      const pageHeight = doc.internal.pageSize.height;
-      doc.text(footerTextLeft, margin, pageHeight - 10);
-      doc.text(footerTextRight, pageWidth - margin - doc.getTextWidth(footerTextRight), pageHeight - 10);
-    }
-  };
-
-  // Page 1: Executive Summary
-  addPageHeader('Executive Summary');
-  let currentY = margin + 30;
-
+  // --- PAGE 1: EXECUTIVE SUMMARY ---
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(12);
+  doc.setFontSize(18);
+  doc.setTextColor(primaryGreen);
+  doc.text('OviZero', margin, margin + 5);
+  
+  doc.setFontSize(14);
   doc.setTextColor(nearBlack);
-  doc.text('Overview', margin, currentY);
-  currentY += 8;
-
-  const summary = payload.summaries;
+  doc.text('Mosquito Surveillance Summary', margin, margin + 12);
   
-  // Create a pseudo-grid for cards
-  const cardWidth = (pageWidth - margin * 2 - 10) / 3;
-  const cardHeight = 20;
-  
-  const drawMetricCard = (x: number, y: number, title: string, value: string) => {
-    doc.setDrawColor(228, 228, 231); // border-gray #E4E4E7
-    doc.setFillColor(250, 250, 250);
-    doc.roundedRect(x, y, cardWidth, cardHeight, 2, 2, 'FD');
-    
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(8);
-    doc.setTextColor(mutedGray);
-    doc.text(title.toUpperCase(), x + 4, y + 6);
-    
-    doc.setFontSize(14);
-    doc.setTextColor(nearBlack);
-    doc.text(value, x + 4, y + 16);
-  };
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10);
+  doc.setTextColor(mutedGray);
+  doc.text('Simulated mosquito-surveillance workflow', margin, margin + 18);
 
+  // Disclosure callout
+  doc.setDrawColor(253, 230, 138); // amber-200
+  doc.setFillColor(254, 252, 232); // yellow-50
+  doc.roundedRect(margin, margin + 22, contentWidth, 14, 1.5, 1.5, 'FD');
+  
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(8);
+  doc.setTextColor(217, 119, 6); // amber-600
+  doc.text('SIMULATED SCENARIO · NO LIVE DEVICES', margin + 4, margin + 27);
+  
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(113, 113, 122);
+  doc.text('Synthetic/demo values; not a live deployed network or field-validated epidemiological model.', margin + 4, margin + 32);
+
+  // Metadata
+  const dateStr = new Date(payload.generatedAt).toLocaleString();
+  doc.setFontSize(8);
+  doc.setTextColor(mutedGray);
+  doc.text(`7-day demo  |  Illustrative residential-community scenario  |  Exported: ${dateStr}`, margin, margin + 42);
+
+  let currentY = margin + 52;
+
+  // HERO CARD
   const rankedZones = getTopPriorityZones(payload.zones, payload.zones.length);
-  const topRiskScore = rankedZones.length > 0 ? rankedZones[0].interventionPriority.toString() : 'N/A';
-  
+  const topZone = rankedZones[0];
+
   const formatZoneName = (zoneId: string, fallbackName: string) => {
     const loc = getPilotDisplayLocationForMetricZone(zoneId, PILOT_NODES, payload.zones);
     if (loc) {
@@ -135,152 +94,249 @@ export const downloadPdfReport = async (
     }
     return fallbackName;
   };
-
-    const finalFollowUpStatuses = new Set([
-    'Activity decreased',
-    'Little/no change',
-    'Activity increased',
-    'Not comparable',
-    'Inconclusive',
-    'Escalated'
-  ]);
-  const followUpRecordedCount = Object.values(payload.interventions).filter(i => finalFollowUpStatuses.has(i.status)).length;
-  const metrics = [
-    { title: 'Top-priority location', value: rankedZones.length > 0 ? sanitizePdfText(formatZoneName(rankedZones[0].id, rankedZones[0].name)) : 'None' },
-    { title: 'Illustrative intervention priority', value: topRiskScore },
-    { title: 'Simulated nodes', value: payload.devices.length.toString() },
-    { title: 'High-priority locations', value: (summary.riskDistribution.critical + summary.riskDistribution.high).toString() },
-    { title: 'Active field actions', value: summary.interventions.active.toString() },
-    { title: 'Follow-up recorded', value: followUpRecordedCount.toString() }
-  ];
-
-  for (let i = 0; i < metrics.length; i++) {
-    const row = Math.floor(i / 3);
-    const col = i % 3;
-    const x = margin + col * (cardWidth + 5);
-    const y = currentY + row * (cardHeight + 5);
-    drawMetricCard(x, y, metrics[i].title, metrics[i].value);
-  }
   
-  currentY += 2 * (cardHeight + 5) + 10;
+  const topZoneName = topZone ? sanitizePdfText(formatZoneName(topZone.id, topZone.name)) : 'N/A';
+  const topScore = topZone ? topZone.interventionPriority.toString() : 'N/A';
+  const topBand = topZone ? topZone.demoPriorityBand : 'N/A';
 
+  const heroHeight = 60;
+  doc.setDrawColor(228, 228, 231);
+  doc.setFillColor(255, 255, 255);
+  doc.roundedRect(margin, currentY, contentWidth, heroHeight, 2, 2, 'FD');
+
+  // Hero Left: Priority
   doc.setFont('helvetica', 'bold');
+  doc.setFontSize(8);
+  doc.setTextColor(mutedGray);
+  doc.text('TOP-PRIORITY LOCATION', margin + 6, currentY + 8);
+  
   doc.setFontSize(12);
   doc.setTextColor(nearBlack);
-  doc.text('Demo priority bands', margin, currentY);
-  currentY += 8;
+  doc.text(topZoneName, margin + 6, currentY + 14);
 
-  const risks = [
-    { label: 'Critical', value: summary.riskDistribution.critical },
-    { label: 'High', value: summary.riskDistribution.high },
-    { label: 'Elevated', value: summary.riskDistribution.elevated },
-    { label: 'Watch/Stable', value: summary.riskDistribution.watch }
+  doc.setFontSize(7);
+  doc.setTextColor(getRiskColor(topBand));
+  doc.text(topBand.toUpperCase(), margin + 6, currentY + 20);
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(32);
+  doc.setTextColor(primaryGreen);
+  doc.text(topScore, margin + 6, currentY + 34);
+  
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10);
+  doc.setTextColor(mutedGray);
+  doc.text('/ 100', margin + 22, currentY + 34);
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(8);
+  doc.setTextColor(nearBlack);
+  doc.text('Illustrative Intervention Priority', margin + 6, currentY + 44);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(7.5);
+  doc.setTextColor(mutedGray);
+  doc.text('Stored demo output · not field validated', margin + 6, currentY + 49);
+
+  // Hero Right: Drivers
+  const rightX = margin + 90;
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(8);
+  doc.setTextColor(mutedGray);
+  doc.text('WHAT SHAPED THIS DEMO PRIORITY', rightX, currentY + 8);
+  
+  if (topZone) {
+      // row 1: Egg activity
+      doc.setFontSize(8);
+      doc.setTextColor(nearBlack);
+      doc.text('Egg activity', rightX, currentY + 14);
+      doc.text(sanitizePdfText(topZone.eggActivityChange), rightX + 80, currentY + 14, { align: 'right' });
+      
+      doc.setFontSize(7.5);
+      doc.setTextColor(mutedGray);
+      doc.text('HIGH', rightX, currentY + 18);
+      doc.setDrawColor(212, 212, 216);
+      doc.setFillColor(113, 113, 122);
+      doc.roundedRect(rightX + 15, currentY + 16, 50, 2, 1, 1, 'FD');
+      doc.roundedRect(rightX + 15, currentY + 16, 40, 2, 1, 1, 'F'); // 80%
+      doc.text('Synthetic observation', rightX, currentY + 22);
+
+      // row 2: Local microclimate
+      doc.setFontSize(8);
+      doc.setTextColor(nearBlack);
+      doc.text('Local microclimate', rightX, currentY + 28);
+      doc.text(sanitizePdfText(`${topZone.temperature}°C · ${topZone.humidity}% RH`), rightX + 80, currentY + 28, { align: 'right' });
+      
+      doc.setFontSize(7.5);
+      doc.setTextColor(mutedGray);
+      doc.text('HIGH', rightX, currentY + 32);
+      doc.setDrawColor(212, 212, 216);
+      doc.setFillColor(113, 113, 122);
+      doc.roundedRect(rightX + 15, currentY + 30, 50, 2, 1, 1, 'FD');
+      doc.roundedRect(rightX + 15, currentY + 30, 40, 2, 1, 1, 'F'); // 80%
+      doc.text('Simulated node context', rightX, currentY + 36);
+
+      // row 3: Rainfall context
+      doc.setFontSize(8);
+      doc.setTextColor(nearBlack);
+      doc.text('Rainfall context', rightX, currentY + 42);
+      doc.text(sanitizePdfText(topZone.rainfall), rightX + 80, currentY + 42, { align: 'right' });
+      
+      doc.setFontSize(7.5);
+      doc.setTextColor(mutedGray);
+      doc.text('MODERATE', rightX, currentY + 46);
+      doc.setDrawColor(212, 212, 216);
+      doc.setFillColor(161, 161, 170); 
+      doc.roundedRect(rightX + 22, currentY + 44, 43, 2, 1, 1, 'FD');
+      doc.roundedRect(rightX + 22, currentY + 44, 24, 2, 1, 1, 'F'); // 55%
+      doc.text('External demo input', rightX, currentY + 50);
+  }
+  
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(7.5);
+  doc.setTextColor(mutedGray);
+  doc.text('Illustrative factors only · no validated weights', rightX, currentY + 56);
+
+  currentY += heroHeight + 10;
+
+  // PRIORITY DISTRIBUTION
+  const distWidth = (contentWidth - 15) / 4;
+  const summary = payload.summaries || {
+    riskDistribution: { critical: 0, high: 0, elevated: 0, watch: 0 }
+  };
+  
+  const bands = [
+    { label: 'Critical', val: summary.riskDistribution.critical, color: criticalRed, bg: [254, 242, 242] },
+    { label: 'High', val: summary.riskDistribution.high, color: highOrange, bg: [255, 237, 213] },
+    { label: 'Elevated', val: summary.riskDistribution.elevated, color: elevatedAmber, bg: [254, 243, 199] },
+    { label: 'Watch', val: summary.riskDistribution.watch, color: watchGreen, bg: [240, 253, 244] }
   ];
 
-  for (let i = 0; i < risks.length; i++) {
-    const x = margin + i * (cardWidth + 5);
-    const y = currentY;
-    
-    // Use narrower width (4 items)
-    const riskCardWidth = (pageWidth - margin * 2 - 15) / 4;
-    
+  bands.forEach((b, i) => {
+    const x = margin + i * (distWidth + 5);
     doc.setDrawColor(228, 228, 231);
-    doc.setFillColor(255, 255, 255);
-    doc.roundedRect(margin + i * (riskCardWidth + 5), y, riskCardWidth, cardHeight, 2, 2, 'FD');
+    doc.setFillColor(b.bg[0], b.bg[1], b.bg[2]);
+    doc.roundedRect(x, currentY, distWidth, 16, 1.5, 1.5, 'FD');
     
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(8);
-    doc.setTextColor(mutedGray);
-    doc.text(risks[i].label.toUpperCase(), margin + i * (riskCardWidth + 5) + 4, y + 6);
+    doc.setTextColor(b.color);
+    doc.text(b.label.toUpperCase(), x + 4, currentY + 6);
     
-    doc.setFontSize(14);
+    doc.setFontSize(12);
     doc.setTextColor(nearBlack);
-    doc.text(risks[i].value.toString(), margin + i * (riskCardWidth + 5) + 4, y + 16);
-  }
-  currentY += cardHeight + 15;
+    doc.text(b.val.toString(), x + 4, currentY + 13);
+  });
+  
+  currentY += 16 + 10;
 
-  doc.setFont('helvetica', 'italic');
-  doc.setFontSize(8);
-  doc.setTextColor(mutedGray);
-
-  // Page 2: Priority Zones
-  doc.addPage();
-  addPageHeader('Priority Locations');
+  // TOP PRIORITY LOCATIONS
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(10);
+  doc.setTextColor(nearBlack);
+  doc.text('Top Priority Locations', margin, currentY);
+  currentY += 4;
   
   autoTable(doc, {
-    startY: margin + 30,
-    head: [['Rank', 'Location', 'Priority', 'Demo band', '7-day egg change', 'Demo eggs', 'Temp', 'Humidity', 'Next step']],
-    body: rankedZones.map((z, i) => [
+    startY: currentY,
+    head: [['Rank', 'Location', 'Priority', 'Demo band', '7-day egg change']],
+    body: rankedZones.slice(0, 3).map((z, i) => [
       i + 1,
       sanitizePdfText(formatZoneName(z.id, z.name)),
       z.interventionPriority,
       z.demoPriorityBand,
-      z.eggActivityChange,
-      z.syntheticEggActivity,
-      `${z.temperature}°C`,
-      `${z.humidity}%`,
+      sanitizePdfText(z.eggActivityChange)
+    ]),
+    theme: 'plain',
+    headStyles: { fillColor: [244, 244, 245], textColor: [113, 113, 122], fontStyle: 'bold', fontSize: 8 },
+    styles: { fontSize: 8, font: 'helvetica', cellPadding: 3, textColor: [24, 24, 27] },
+    alternateRowStyles: { fillColor: [250, 250, 250] },
+    margin: { left: margin, right: margin }
+  });
+
+  // --- PAGE 2: OPERATIONAL SNAPSHOT ---
+  doc.addPage();
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(14);
+  doc.setTextColor(nearBlack);
+  doc.text('Operational Snapshot', margin, margin + 8);
+  
+  doc.setFontSize(10);
+  doc.text('Priority Locations', margin, margin + 18);
+  
+  autoTable(doc, {
+    startY: margin + 22,
+    head: [['Location', 'Priority', 'Demo band', '7-day egg change', 'Local conditions', 'Next step']],
+    body: rankedZones.map(z => [
+      sanitizePdfText(formatZoneName(z.id, z.name)),
+      z.interventionPriority,
+      z.demoPriorityBand,
+      sanitizePdfText(z.eggActivityChange),
+      sanitizePdfText(`${z.temperature}°C · ${z.humidity}% RH`),
       sanitizePdfText(z.actionRequired)
     ]),
-    theme: 'striped',
-    headStyles: { fillColor: [27, 127, 71] },
-    margin: { top: margin + 30, left: margin, right: margin, bottom: 20 },
-    styles: { fontSize: 8, font: 'helvetica' },
-    columnStyles: {
-      8: { cellWidth: 'auto' }
+    theme: 'plain',
+    headStyles: { fillColor: [244, 244, 245], textColor: [113, 113, 122], fontStyle: 'bold', fontSize: 8 },
+    styles: { fontSize: 8, font: 'helvetica', cellPadding: 3, textColor: [24, 24, 27] },
+    margin: { left: margin, right: margin },
+    didParseCell: function (data: any) {
+      if (data.section === 'body') {
+        const band = data.row.raw[2];
+        if (band === 'Critical') {
+            data.cell.styles.fillColor = [254, 242, 242]; 
+        } else if (band === 'High') {
+            data.cell.styles.fillColor = [255, 237, 213]; 
+        } else if (band === 'Elevated') {
+            data.cell.styles.fillColor = [254, 243, 199]; 
+        } else if (band === 'Watch' || band === 'Stable') {
+            data.cell.styles.fillColor = [240, 253, 244]; 
+        }
+      }
     }
   });
 
-  // Page 3: Devices
-  doc.addPage();
-  addPageHeader('Devices');
-  
+  const lastTableY = (doc as any).lastAutoTable.finalY + 12;
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(10);
   doc.setTextColor(nearBlack);
-  doc.text('Device health', margin, margin + 30);
+  doc.text('Device Health', margin, lastTableY);
   
-  const dh = summary.deviceHealth;
-  const dhText = `Total: ${dh.total} | Low Battery: ${dh.lowBattery} | Strong Signal: ${dh.strongSignal} | Medium Signal: ${dh.mediumSignal} | Weak Signal: ${dh.weakSignal} | Maintenance: ${dh.maintenance}`;
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
   doc.setTextColor(mutedGray);
-  doc.text(dhText, margin, margin + 35);
   
+  const dh = payload.summaries?.deviceHealth || { maintenance: 0, weakSignal: 0 };
+  const dhText = `${payload.devices.length} simulated nodes  |  ${dh.maintenance} needs attention  |  ${dh.weakSignal} weak simulated link`;
+  doc.text(dhText, margin, lastTableY + 5);
+
   autoTable(doc, {
-    startY: margin + 40,
-    head: [['Node', 'Location', 'Battery', 'Solar', 'Signal', 'Last update', 'Maintenance']],
+    startY: lastTableY + 8,
+    head: [['Node', 'Location', 'Battery / Power', 'Connectivity', 'Maintenance']],
     body: payload.devices.map(d => [
       d.id,
       sanitizePdfText(getPilotDisplayLocationForDevice(d.id, PILOT_NODES) || d.location),
-      `${d.battery}%`,
-      d.solarStatus,
+      `${d.battery}% · ${d.solarStatus}`,
       d.loraSignal,
-      d.lastSync,
       d.maintenanceState
     ]),
-    theme: 'striped',
-    headStyles: { fillColor: [27, 127, 71] },
-    margin: { top: margin + 40, left: margin, right: margin, bottom: 20 },
-    styles: { fontSize: 7, font: 'helvetica' }
+    theme: 'plain',
+    headStyles: { fillColor: [244, 244, 245], textColor: [113, 113, 122], fontStyle: 'bold', fontSize: 8 },
+    styles: { fontSize: 8, font: 'helvetica', cellPadding: 3, textColor: [24, 24, 27] },
+    alternateRowStyles: { fillColor: [250, 250, 250] },
+    margin: { left: margin, right: margin },
+    didParseCell: function(data: any) {
+        if (data.section === 'body') {
+            const maintenance = data.row.raw[4];
+            if (maintenance !== 'Good') {
+                data.cell.styles.fillColor = [254, 242, 242]; 
+                data.cell.styles.textColor = [220, 38, 38];
+            }
+        }
+    }
   });
 
-  // Page 4: Interventions
-  doc.addPage();
-  addPageHeader('Field Actions');
-  
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(10);
-  doc.setTextColor(nearBlack);
-  doc.text('Summary', margin, margin + 30);
-  
-  const iv = summary.interventions;
-  const ivText = `Total: ${iv.total} | Active: ${iv.active} | Awaiting follow-up: ${iv.awaitingVerification} | Follow-up recorded: ${followUpRecordedCount} | Needs attention: ${(iv.noEffect + iv.escalated)}`;
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(8);
-  doc.setTextColor(mutedGray);
-  doc.text(ivText, margin, margin + 35);
-
-  const interventionRows = Object.entries(payload.interventions).map(([zoneId, inv]) => {
+  const finalTableY = (doc as any).lastAutoTable.finalY + 12;
+  const interventionRows = Object.entries(payload.interventions || {}).map(([zoneId, inv]) => {
     const zone = payload.zones.find(z => z.id === zoneId);
     let displayName = zoneId;
     if (zone) {
@@ -293,58 +349,78 @@ export const downloadPdfReport = async (
     }
     
     let displayStatus: string = getInterventionDisplayStatus(inv.status);
-    
+    let displayStage = displayStatus;
+    if (['New Alert', 'Reviewed', 'Assigned'].includes(inv.status)) displayStage = 'Preparation';
+    else if (inv.status === 'On Site') displayStage = 'Active field';
+    else if (['Action Completed', 'Awaiting Verification'].includes(inv.status)) displayStage = 'Follow-up required';
+    else displayStage = 'Closed';
+
     return [
       sanitizePdfText(displayName),
-      displayStatus,
-      inv.assignedTeam || '-',
-      inv.createdAt.split('T')[0] || '-',
-      inv.timeline[inv.timeline.length - 1]?.timestamp.split('T')[0] || '-'
+      sanitizePdfText(displayStage),
+      sanitizePdfText(displayStatus),
+      sanitizePdfText(inv.assignedTeam || '-'),
+      sanitizePdfText(inv.timeline[inv.timeline.length - 1]?.timestamp.split('T')[0] || '-')
     ];
   });
 
   if (interventionRows.length === 0) {
-    doc.setDrawColor(228, 228, 231);
-    doc.setFillColor(250, 250, 250);
-    doc.roundedRect(margin, margin + 40, pageWidth - margin * 2, 20, 2, 2, 'FD');
     doc.setFont('helvetica', 'italic');
-    doc.setFontSize(9);
+    doc.setFontSize(8);
     doc.setTextColor(mutedGray);
-    doc.text('No intervention records are available for the current session.', margin + 5, margin + 52);
+    doc.text('Field actions: None recorded in this session.', margin, finalTableY);
   } else {
+    // --- PAGE 3: FIELD ACTIONS (CONDITIONAL) ---
+    doc.addPage();
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(14);
+    doc.setTextColor(nearBlack);
+    doc.text('Field Actions', margin, margin + 8);
+    
     autoTable(doc, {
-      startY: margin + 40,
-      head: [['Location', 'Status', 'Team', 'Assigned', 'Last update']],
+      startY: margin + 15,
+      head: [['Location', 'Stage', 'Status', 'Team', 'Last update']],
       body: interventionRows,
-      theme: 'striped',
-      headStyles: { fillColor: [27, 127, 71] },
-      margin: { top: margin + 40, left: margin, right: margin, bottom: 20 },
-      styles: { fontSize: 8, font: 'helvetica' }
+      theme: 'plain',
+      headStyles: { fillColor: [244, 244, 245], textColor: [113, 113, 122], fontStyle: 'bold', fontSize: 8 },
+      styles: { fontSize: 8, font: 'helvetica', cellPadding: 3, textColor: [24, 24, 27] },
+      alternateRowStyles: { fillColor: [250, 250, 250] },
+      margin: { left: margin, right: margin }
     });
+
+    const followUpRecordedCount = Object.values(payload.interventions).filter(i => {
+        return ['Activity decreased', 'Little/no change', 'Activity increased', 'Not comparable', 'Inconclusive', 'Escalated'].includes(i.status);
+    }).length;
+
+    if (followUpRecordedCount > 0) {
+        const afterActionsY = (doc as any).lastAutoTable.finalY + 12;
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        doc.setTextColor(nearBlack);
+        doc.text('FOLLOW-UP', margin, afterActionsY);
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(mutedGray);
+        doc.text(`${followUpRecordedCount} follow-up observations recorded.`, margin, afterActionsY + 6);
+    }
   }
 
-  // Next Page: Activity Logs
-  doc.addPage();
-  addPageHeader('Activity Logs');
+  // Footer on all pages
+  const totalPagesExp = '{total_pages_count_string}';
+  const pageCount = doc.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(mutedGray);
+    doc.text('OviZero · Demo summary', margin, doc.internal.pageSize.height - 10);
+    doc.text(`Page ${i} of ${totalPagesExp}`, pageWidth - margin, doc.internal.pageSize.height - 10, { align: 'right' });
+  }
 
-  autoTable(doc, {
-    startY: margin + 30,
-    head: [['Time', 'Tag', 'Level', 'Activity']],
-    body: payload.reportLogs.map(l => [
-      l.displayTime,
-      l.tag,
-      l.level,
-      sanitizePdfText(l.message)
-    ]),
-    theme: 'striped',
-    headStyles: { fillColor: [27, 127, 71] },
-    margin: { top: margin + 30, left: margin, right: margin, bottom: 20 },
-    styles: { fontSize: 8, font: 'helvetica' },
-    columnStyles: {
-      3: { cellWidth: 'auto' }
-    }
-  });
+  if (typeof doc.putTotalPages === 'function') {
+      doc.putTotalPages(totalPagesExp);
+  }
 
-  addPageFooter();
   doc.save(filename);
 };
