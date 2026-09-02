@@ -65,105 +65,104 @@ export default function CommandCenter({
       </div>
 
       {/* 2. Dominant Priority Hero */}
-      <section className="bg-white rounded-2xl border border-zinc-200/80 shadow-sm overflow-hidden">
-        <div className="p-8 md:p-10 flex flex-col md:flex-row gap-8 md:gap-12 items-start md:items-center border-b border-zinc-100">
-          
-          <div className="flex-1 space-y-6">
-            <div>
-              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-2 block">
-                Highest-Priority Location
+      <section className="bg-white rounded-2xl border border-zinc-200/80 shadow-sm overflow-hidden flex flex-col md:flex-row">
+        {/* Left Column: Decision / Priority */}
+        <div className="w-full md:w-3/5 p-8 md:p-10 flex flex-col justify-center space-y-6">
+          <div>
+            <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-2 block">
+              Highest-Priority Location
+            </span>
+            <div className="flex flex-wrap items-center gap-3">
+              <h2 className="text-2xl md:text-3xl font-extrabold text-[#052e1a] tracking-tight">
+                {peakZone.name}
+              </h2>
+              <span 
+                className="px-2.5 py-1 rounded-md text-[10px] font-bold font-mono uppercase tracking-wider border"
+                style={{ 
+                  backgroundColor: getRiskColor(peakZone.demoPriorityBand), 
+                  color: getRiskBorderColor(peakZone.demoPriorityBand),
+                  borderColor: getRiskBorderColor(peakZone.demoPriorityBand)
+                }}
+              >
+                {peakZone.demoPriorityBand}
               </span>
-              <div className="flex flex-wrap items-center gap-3">
-                <h2 className="text-2xl md:text-3xl font-extrabold text-[#052e1a] tracking-tight">
-                  {peakZone.name}
-                </h2>
-                <span 
-                  className="px-2.5 py-1 rounded-md text-[10px] font-bold font-mono uppercase tracking-wider border"
-                  style={{ 
-                    backgroundColor: getRiskColor(peakZone.demoPriorityBand), 
-                    color: getRiskBorderColor(peakZone.demoPriorityBand),
-                    borderColor: getRiskBorderColor(peakZone.demoPriorityBand)
-                  }}
-                >
-                  {peakZone.demoPriorityBand}
-                </span>
-              </div>
             </div>
+          </div>
 
+          <div>
+            <div className="flex items-baseline gap-2">
+              <span className="text-5xl font-extrabold text-[#052e1a] font-mono tracking-tighter">
+                {peakZone.interventionPriority}
+              </span>
+              <span className="text-lg text-zinc-400 font-mono">/ 100</span>
+            </div>
+            <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest mt-1">
+              Illustrative Intervention Priority
+            </p>
+            <p className="text-[10px] text-zinc-400 font-mono mt-1">
+              Stored demo output · not field validated
+            </p>
+          </div>
+          
+          <div className="flex flex-wrap items-center gap-3 pt-2">
+            <button
+              onClick={onOpenRiskMap}
+              className="bg-[#052e1a] hover:bg-[#0b5a31] text-white px-5 py-2.5 rounded-lg text-xs font-bold transition-colors flex items-center gap-2 cursor-pointer"
+            >
+              <span>VIEW ON PRIORITY MAP</span>
+              <ArrowUpRight className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => onZoneSelect(peakZone.id)}
+              className="bg-zinc-100 hover:bg-zinc-200 text-zinc-800 px-5 py-2.5 rounded-lg text-xs font-bold transition-colors cursor-pointer border border-zinc-200"
+            >
+              <span>REVIEW &amp; ASSIGN</span>
+            </button>
+          </div>
+        </div>
+        
+        {/* Right Column: Why this location is prioritised */}
+        <div className="w-full md:w-2/5 bg-zinc-50/50 p-8 md:p-10 border-t md:border-t-0 md:border-l border-zinc-200/60 flex flex-col justify-center">
+          <h3 className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-6">
+            Why this location is prioritised
+          </h3>
+          
+          <div className="space-y-6">
             <div>
-              <div className="flex items-baseline gap-2">
-                <span className="text-5xl font-extrabold text-[#052e1a] font-mono tracking-tighter">
-                  {peakZone.interventionPriority}
-                </span>
-                <span className="text-lg text-zinc-400 font-mono">/ 100</span>
+              <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block mb-1">
+                Egg Activity
+              </span>
+              <div className="text-xl font-bold font-mono text-zinc-900">
+                {peakZone.eggActivityChange}
               </div>
-              <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest mt-1">
-                Illustrative Intervention Priority
-              </p>
-              <p className="text-[10px] text-zinc-400 font-mono mt-1">
-                Stored demo output · not field validated
-              </p>
-            </div>
-
-            <div className="bg-[#f8faf9] border border-[#e8f4ed] p-4 rounded-xl">
-              <p className="text-sm md:text-base text-[#052e1a] font-medium leading-relaxed">
-                Synthetic egg activity is rising alongside local microclimate conditions → review nearby breeding sources and assign a field assessment.
+              <p className="text-[10px] text-zinc-400 font-medium mt-0.5">
+                7-day synthetic change
               </p>
             </div>
             
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <button
-                onClick={onOpenRiskMap}
-                className="bg-[#052e1a] hover:bg-[#0b5a31] text-white px-5 py-2.5 rounded-lg text-xs font-bold transition-colors flex items-center gap-2 cursor-pointer"
-              >
-                <span>VIEW ON PRIORITY MAP</span>
-                <ArrowUpRight className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => onZoneSelect(peakZone.id)}
-                className="bg-zinc-100 hover:bg-zinc-200 text-zinc-800 px-5 py-2.5 rounded-lg text-xs font-bold transition-colors cursor-pointer border border-zinc-200"
-              >
-                <span>REVIEW & ASSIGN</span>
-              </button>
+            <div>
+              <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block mb-1">
+                Local Conditions
+              </span>
+              <div className="text-xl font-bold font-mono text-zinc-900">
+                {peakZone.temperature}°C · {peakZone.humidity}% RH
+              </div>
+              <p className="text-[10px] text-zinc-400 font-medium mt-0.5">
+                Simulated node context
+              </p>
             </div>
-          </div>
-          
-        </div>
-
-        {/* 3. Supporting Observations */}
-        <div className="bg-zinc-50/50 p-6 md:px-10 flex flex-col md:flex-row gap-6 divide-y md:divide-y-0 md:divide-x divide-zinc-200/60">
-          <div className="flex-1 space-y-1">
-            <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block">
-              Egg Activity
-            </span>
-            <div className="text-xl font-bold font-mono text-zinc-900">
-              {peakZone.eggActivityChange}
+            
+            <div>
+              <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block mb-1">
+                Rainfall Context
+              </span>
+              <div className="text-xl font-bold font-mono text-zinc-900">
+                {peakZone.rainfall}
+              </div>
+              <p className="text-[10px] text-zinc-400 font-medium mt-0.5">
+                External demo input
+              </p>
             </div>
-            <p className="text-[10px] text-zinc-400 font-medium">
-              Synthetic · 7-day change
-            </p>
-          </div>
-          <div className="flex-1 md:pl-6 space-y-1 pt-4 md:pt-0">
-            <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block">
-              Temperature / Humidity
-            </span>
-            <div className="text-xl font-bold font-mono text-zinc-900">
-              {peakZone.temperature}°C · {peakZone.humidity}%
-            </div>
-            <p className="text-[10px] text-zinc-400 font-medium">
-              Simulated node context
-            </p>
-          </div>
-          <div className="flex-1 md:pl-6 space-y-1 pt-4 md:pt-0">
-            <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block">
-              Rainfall Context
-            </span>
-            <div className="text-xl font-bold font-mono text-zinc-900">
-              {peakZone.rainfall}
-            </div>
-            <p className="text-[10px] text-zinc-400 font-medium">
-              External demo input
-            </p>
           </div>
         </div>
       </section>
