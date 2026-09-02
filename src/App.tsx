@@ -255,10 +255,10 @@ export default function App() {
   const handleDiagnosticRun = (deviceId: string) => {
     setDiagnosticResult((prev) => ({
       ...prev,
-      [deviceId]: 'Demo device check complete &middot; no live device connected.',
+      [deviceId]: 'Demo device check complete · no live device connected.',
     }));
     setToast({
-      message: "Demo device check complete &middot; no live device connected.",
+      message: "Demo device check complete · no live device connected.",
       type: 'info',
     });
   };

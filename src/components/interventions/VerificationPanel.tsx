@@ -170,7 +170,7 @@ export default function VerificationPanel({ zone, intervention, verification, on
                     Inconclusive
                   </button>
                   <button onClick={() => handleOutcome('Escalated')} className="px-3 py-2 bg-[#052e1a] text-white rounded text-xs font-bold hover:bg-[#0a4226]">
-                    Escalated
+                    Escalate for review
                   </button>
                 </>
               )}

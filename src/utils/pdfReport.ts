@@ -135,13 +135,22 @@ export const downloadPdfReport = async (
     return fallbackName;
   };
 
+    const finalFollowUpStatuses = new Set([
+    'Activity decreased',
+    'Little/no change',
+    'Activity increased',
+    'Not comparable',
+    'Inconclusive',
+    'Escalated'
+  ]);
+  const followUpRecordedCount = Object.values(payload.interventions).filter(i => finalFollowUpStatuses.has(i.status)).length;
   const metrics = [
     { title: 'Top-priority location', value: rankedZones.length > 0 ? sanitizePdfText(formatZoneName(rankedZones[0].id, rankedZones[0].name)) : 'None' },
     { title: 'Illustrative intervention priority', value: topRiskScore },
     { title: 'Simulated nodes', value: payload.devices.length.toString() },
     { title: 'High-priority locations', value: (summary.riskDistribution.critical + summary.riskDistribution.high).toString() },
     { title: 'Active field actions', value: summary.interventions.active.toString() },
-    { title: 'Follow-up recorded', value: summary.interventions.verified.toString() }
+    { title: 'Follow-up recorded', value: followUpRecordedCount.toString() }
   ];
 
   for (let i = 0; i < metrics.length; i++) {

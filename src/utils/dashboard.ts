@@ -167,7 +167,7 @@ export const buildReportLogs = (
     if (zone) {
       const loc = getPilotDisplayLocationForMetricZone(zone.id, PILOT_NODES, zones);
       if (loc) {
-        displayName = `${loc.parentZone} · ${loc.sublocation}`;
+        displayName = loc.parentZone === loc.sublocation ? loc.parentZone : `${loc.parentZone} · ${loc.sublocation}`;
       }
     }
     
@@ -177,41 +177,56 @@ export const buildReportLogs = (
     
     switch (inv.status) {
       case 'New Alert':
-        message = `Simulated intervention alert created for ${displayName}.`;
+        message = `Field review opened: ${displayName}.`;
         timestamp = inv.createdAt;
         break;
       case 'Reviewed':
-        message = `Simulated intervention alert reviewed by ${inv.reviewerName || 'Reviewer'}.`;
+        message = `Review completed: ${displayName}.`;
         timestamp = inv.reviewedAt || inv.createdAt;
         break;
       case 'Assigned':
-        message = `Simulated task assigned to ${inv.assignedTeam || 'Vector Control Team'} for ${displayName}.`;
+        message = `Assigned to ${inv.assignedTeam || 'field team'}: ${displayName}.`;
         timestamp = inv.assignedAt || inv.createdAt;
         break;
       case 'On Site':
-        message = `Simulated field-team status updated to On Site for ${displayName}.`;
+        message = `Field action started: ${displayName}.`;
         timestamp = inv.onSiteAt || inv.assignedAt || inv.createdAt;
         break;
       case 'Action Completed':
-        message = `Simulated action record marked Action Completed for ${displayName}; follow-up verification is still required.`;
+        message = `Field action recorded: ${displayName}.`;
         timestamp = inv.actionCompletedAt || inv.assignedAt || inv.createdAt;
         break;
       case 'Awaiting Verification':
-        message = `Simulated action record is awaiting follow-up verification.`;
+        message = `Follow-up pending: ${displayName}.`;
         timestamp = inv.actionCompletedAt || inv.assignedAt || inv.createdAt;
         break;
       case 'Activity decreased':
-        message = `Simulated follow-up outcome recorded: Activity decreased.`;
+        message = `Follow-up recorded: Activity decreased.`;
         timestamp = inv.closedAt || inv.createdAt;
         level = 'SUCCESS';
         break;
       case 'Little/no change':
-        message = `Simulated follow-up outcome recorded: Little/no change.`;
+        message = `Follow-up recorded: Little/no change.`;
         timestamp = inv.closedAt || inv.createdAt;
         level = 'WARNING';
         break;
+      case 'Activity increased':
+        message = `Follow-up recorded: Activity increased.`;
+        timestamp = inv.closedAt || inv.createdAt;
+        level = 'WARNING';
+        break;
+      case 'Not comparable':
+        message = `Follow-up recorded: Not comparable.`;
+        timestamp = inv.closedAt || inv.createdAt;
+        level = 'INFO';
+        break;
+      case 'Inconclusive':
+        message = `Follow-up recorded: Inconclusive.`;
+        timestamp = inv.closedAt || inv.createdAt;
+        level = 'INFO';
+        break;
       case 'Escalated':
-        message = `Simulated follow-up outcome recorded: Escalated.`;
+        message = `Follow-up recorded: Escalated for review.`;
         timestamp = inv.closedAt || inv.createdAt;
         level = 'ERROR';
         break;
