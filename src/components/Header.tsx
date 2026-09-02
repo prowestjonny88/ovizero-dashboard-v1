@@ -70,7 +70,8 @@ export default function Header({
         )}
         <div className="flex items-center gap-1.5 text-zinc-500 font-mono">
           <MapPin className="w-3.5 h-3.5 text-[#1b7f47]" />
-          <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-700">Illustrative residential-community scenario</span>
+          <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-700 hidden sm:inline">Illustrative residential-community scenario</span>
+          <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-700 sm:hidden">Demo scenario</span>
         </div>
       </div>
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { getInterventionDisplayStatus } from '../utils/interventionWorkflow';
 import { ZoneData, InterventionMap } from '../types';
 import { getTopPriorityZones, getInterventionForZone, getPilotDisplayLocationForMetricZone } from '../utils/dashboard';
 import { PILOT_NODES } from '../data';
@@ -115,7 +116,7 @@ export default function PriorityZones({
                     <div className="mb-3">
                       <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest block mb-0.5">Current Stage</span>
                       <span className="text-xs font-bold text-[#052e1a] bg-[#e8f4ed] px-2 py-0.5 rounded-sm inline-block">{currentStage}</span>
-                      {intervention && <span className="text-[9px] text-zinc-500 block mt-1">Status: {intervention.status}</span>}
+                      {intervention && <span className="text-[9px] text-zinc-500 block mt-1">Status: {getInterventionDisplayStatus(intervention.status)}</span>}
                     </div>
                     <div>
                       <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest block mb-0.5">Assigned Team</span>

@@ -277,7 +277,19 @@ export const buildDashboardExportPayload = (
     generatedAt: new Date().toISOString(),
     
     locationLabel,
-    zones,
+    zones: (zones.map(z => ({
+      id: z.id,
+      name: z.name,
+      interventionPriority: z.interventionPriority,
+      demoPriorityBand: z.demoPriorityBand,
+      eggActivityChange: z.eggActivityChange,
+      syntheticEggActivity: z.syntheticEggActivity,
+      temperature: z.temperature,
+      humidity: z.humidity,
+      rainfall: z.rainfall,
+      actionRequired: z.actionRequired,
+      provenance: z.provenance
+    })) as unknown) as ZoneData[],
     devices,
     interventions,
     reportLogs: buildReportLogs( zones, interventions),

@@ -29,8 +29,6 @@ import { getRiskDistribution, getDeviceHealthSummary, getInterventionSummary, bu
 import { downloadPdfReport } from './utils/pdfReport';
 import { ALLOWED_INTERVENTION_TRANSITIONS } from './utils/interventionWorkflow';
 
-export const BUILD_ID = 'mentor-handoff-final-v29';
-console.info(`OviZero build: ${BUILD_ID}`);
 
 export default function App() {
 

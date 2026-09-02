@@ -1,4 +1,5 @@
 import { DashboardExportPayload } from '../types';
+import { getInterventionDisplayStatus } from './interventionWorkflow';
 import { getTopPriorityZones, getPilotDisplayLocationForMetricZone, getPilotDisplayLocationForDevice } from './dashboard';
 import { PILOT_NODES } from '../data';
 
@@ -273,7 +274,7 @@ export const downloadPdfReport = async (
   doc.text('Summary', margin, margin + 30);
   
   const iv = summary.interventions;
-  const ivText = `Total: ${iv.total} | Active: ${iv.active} | Awaiting follow-up: ${iv.awaitingVerification} | Follow-up recorded: ${iv.verified} | Needs attention: ${(iv.noEffect + iv.escalated)}`;
+  const ivText = `Total: ${iv.total} | Active: ${iv.active} | Awaiting follow-up: ${iv.awaitingVerification} | Follow-up recorded: ${followUpRecordedCount} | Needs attention: ${(iv.noEffect + iv.escalated)}`;
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
   doc.setTextColor(mutedGray);
@@ -291,9 +292,7 @@ export const downloadPdfReport = async (
       }
     }
     
-    let displayStatus: string = inv.status;
-    if (displayStatus === 'Awaiting Verification') displayStatus = 'Awaiting follow-up';
-    if (displayStatus === 'Action Completed') displayStatus = 'Action Completed';
+    let displayStatus: string = getInterventionDisplayStatus(inv.status);
     
     return [
       sanitizePdfText(displayName),

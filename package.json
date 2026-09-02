@@ -1,6 +1,6 @@
 {
   "name": "ovizero-prototype",
-  "description": "OviZero Prototype (Build: mentor-handoff-final-v29)",
+  "description": "OviZero simulated mosquito-surveillance dashboard",
   "private": true,
   "version": "0.0.0",
   "type": "module",

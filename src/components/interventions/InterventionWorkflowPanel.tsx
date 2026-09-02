@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ZoneData, InterventionRecord, InterventionStatus, InterventionTransitionPayload, InterventionActionType } from '../../types';
 import { AlertCircle, CheckCircle, Info, Activity, Clock, ShieldAlert } from 'lucide-react';
 import { DEMO_SNAPSHOT_AT } from '../../utils/dashboard';
+import { getInterventionDisplayStatus, getStatusColor as getSharedStatusColor } from '../../utils/interventionWorkflow';
 
 interface InterventionWorkflowPanelProps {
   zone: ZoneData;
@@ -10,23 +11,6 @@ interface InterventionWorkflowPanelProps {
   onTransition: (status: InterventionStatus, payload: InterventionTransitionPayload) => void;
 }
 
-const getStatusColor = (status: InterventionStatus) => {
-  switch (status) {
-    case 'New Alert': return 'text-red-700 bg-red-50 border-red-200';
-    case 'Reviewed': return 'text-amber-700 bg-amber-50 border-amber-200';
-    case 'Assigned': return 'text-yellow-700 bg-yellow-50 border-yellow-200';
-    case 'On Site': return 'text-blue-700 bg-blue-50 border-blue-200';
-    case 'Action Completed': return 'text-indigo-700 bg-indigo-50 border-indigo-200';
-    case 'Awaiting Verification': return 'text-purple-700 bg-purple-50 border-purple-200';
-    case 'Activity decreased': return 'text-emerald-700 bg-emerald-50 border-emerald-200';
-    case 'Little/no change': return 'text-rose-700 bg-rose-50 border-rose-200';
-    case 'Activity increased': return 'text-orange-700 bg-orange-50 border-orange-200';
-    case 'Not comparable': return 'text-zinc-700 bg-zinc-50 border-zinc-200';
-    case 'Inconclusive': return 'text-zinc-700 bg-zinc-50 border-zinc-200';
-    case 'Escalated': return 'text-red-700 bg-red-100 border-red-300';
-    default: return 'text-zinc-700 bg-zinc-50 border-zinc-200';
-  }
-};
 
 const getTimelineLabel = (status: string) => {
     switch (status) {
@@ -112,8 +96,8 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
             FIELD ACTION WORKFLOW
           </h3>
         </div>
-        <div className={`px-3 py-1.5 rounded-lg border text-xs font-bold uppercase tracking-wider ${getStatusColor(record.status)}`}>
-          {record.status}
+        <div className={`px-3 py-1.5 rounded-lg border text-xs font-bold uppercase tracking-wider ${getSharedStatusColor(record.status)}`}>
+          {getInterventionDisplayStatus(record.status)}
         </div>
       </div>
       
@@ -169,7 +153,7 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
             {record.status === 'Reviewed' && (
               <div className="space-y-3">
                 <h4 className="text-sm font-bold text-zinc-900 mb-2">Assign Team</h4>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Team *</label>
                     <select value={assignedTeam} onChange={e => setAssignedTeam(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2">
@@ -232,7 +216,7 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
                   <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Notes *</label>
                   <textarea value={completionNotes} onChange={e => setCompletionNotes(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2 min-h-[50px]" placeholder="Additional notes" />
                 </div>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Follow-up Due Date *</label>
                     <input type="date" value={followUpDate} onChange={e => setFollowUpDate(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2" />

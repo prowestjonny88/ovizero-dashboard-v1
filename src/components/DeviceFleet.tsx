@@ -201,7 +201,7 @@ export default function DeviceFleet({
       </section>
 
       {/* Roster & Detail Panel */}
-      <section ref={detailRef} className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         {/* Device Table Roster (8 columns span) */}
         <div className="lg:col-span-8 bg-white border border-zinc-200/50 rounded-xl overflow-hidden shadow-[0_1px_2px_rgba(0,0,0,0.01)] flex flex-col">
@@ -378,7 +378,7 @@ export default function DeviceFleet({
         </div>
 
         {/* Right Detail Panel (4 columns span) */}
-        <div className="lg:col-span-4 bg-white border border-zinc-200/50 rounded-xl overflow-hidden shadow-[0_1px_2px_rgba(0,0,0,0.01)] flex flex-col sticky top-24">
+        <div ref={detailRef} className="lg:col-span-4 bg-white border border-zinc-200/50 rounded-xl overflow-hidden shadow-[0_1px_2px_rgba(0,0,0,0.01)] flex flex-col lg:sticky lg:top-24 scroll-mt-28">
           {!activeDevice ? (
             <div className="p-8 flex flex-col items-center justify-center text-center h-[520px]">
               <Cpu className="w-8 h-8 text-zinc-300 mb-3" />
@@ -388,7 +388,7 @@ export default function DeviceFleet({
               </p>
             </div>
           ) : (
-            <div className="flex-1 flex flex-col max-h-[80vh] overflow-y-auto">
+            <div className="flex-1 flex flex-col lg:max-h-[80vh] lg:overflow-y-auto">
               <DeviceMonitoringTabs device={activeDevice} />
               
               <div className="p-4 border-t border-zinc-100 bg-zinc-50 mt-auto">

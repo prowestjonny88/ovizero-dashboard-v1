@@ -39,3 +39,9 @@ export const getStatusColor = (status: InterventionStatus): string => {
     default: return 'bg-gray-100 text-gray-800 border-gray-200';
   }
 };
+
+export const getInterventionDisplayStatus = (status: InterventionStatus): string => {
+  if (status === 'Action Completed') return 'Action Logged';
+  if (status === 'Awaiting Verification') return 'Awaiting follow-up';
+  return status;
+};

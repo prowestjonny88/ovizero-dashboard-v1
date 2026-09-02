@@ -78,8 +78,8 @@ export default function RiskMap({
   }, [filteredNodes, selectedDeviceId]);
 
   const selectedVM = useMemo(() => 
-    viewModels.find(vm => vm.deviceId === selectedDeviceId) ?? null
-  , [viewModels, selectedDeviceId]);
+    filteredNodes.find(vm => vm.deviceId === selectedDeviceId) ?? filteredNodes[0] ?? null
+  , [filteredNodes, selectedDeviceId]);
 
   const activeIntervention = selectedVM ? getInterventionForZone(selectedVM.parentZoneId, interventions) : null;
 
@@ -394,7 +394,7 @@ return (
                           : 'bg-[#052e1a] hover:bg-[#0b5a31] text-white shadow-xs cursor-pointer'
                       }`}
                     >
-                      <span>{activeIntervention ? 'ASSIGNED' : 'REVIEW & ASSIGN'}</span>
+                      <span>{activeIntervention ? 'ACTION OPEN' : 'REVIEW & ASSIGN'}</span>
                     </button>
                     <button
                       onClick={() => onZoneSelect(selectedVM.parentZoneId)}
