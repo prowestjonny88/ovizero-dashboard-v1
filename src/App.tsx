@@ -24,7 +24,6 @@ import Reports from './components/Reports';
 import EvidenceValidation from './components/EvidenceValidation';
 import Settings from './components/Settings';
 import { CheckCircle, Info, X, Menu } from 'lucide-react';
-import SimulationBanner from './components/SimulationBanner';
 import { getRiskDistribution, getDeviceHealthSummary, getInterventionSummary, buildDashboardExportPayload, getPilotDisplayLocationForMetricZone, DEMO_SNAPSHOT_AT } from './utils/dashboard';
 import { downloadPdfReport } from './utils/pdfReport';
 import { ALLOWED_INTERVENTION_TRANSITIONS } from './utils/interventionWorkflow';
@@ -102,12 +101,6 @@ export default function App() {
       } else if (format === 'json') {
         const filename = `ovizero-demo-data-${dateStr}.json`;
         const jsonPayload = {
-          simulationDisclosure: {
-            isSimulated: true,
-            representsLiveDeployedNetwork: false,
-            fieldValidatedEpidemiologicalModel: false
-          },
-          _disclaimer: 'Demo dashboard data · not for operational field use.',
           ...payload
         };
         const blob = new Blob([JSON.stringify(jsonPayload, null, 2)], { type: 'application/json' });
@@ -412,8 +405,6 @@ export default function App() {
           
           
         />
-
-        <SimulationBanner />
 
         {/* Dynamic page contents with transition animation */}
         <main className="p-4 lg:p-8 flex-1 flex flex-col">

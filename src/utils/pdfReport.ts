@@ -61,27 +61,13 @@ export const downloadPdfReport = async (
   doc.setTextColor(mutedGray);
   doc.text('Mosquito-surveillance workflow', margin, margin + 18);
 
-  // Disclosure callout
-  doc.setDrawColor(253, 230, 138); // amber-200
-  doc.setFillColor(254, 252, 232); // yellow-50
-  doc.roundedRect(margin, margin + 22, contentWidth, 14, 1.5, 1.5, 'FD');
-  
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(8);
-  doc.setTextColor(217, 119, 6); // amber-600
-  doc.text('SCENARIO DATA · NO LIVE DEVICES', margin + 4, margin + 27);
-  
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(113, 113, 122);
-  doc.text('Not a live deployed network or field-validated epidemiological model.', margin + 4, margin + 32);
-
   // Metadata
   const dateStr = new Date(payload.generatedAt).toLocaleString();
   doc.setFontSize(8);
   doc.setTextColor(mutedGray);
-  doc.text(`7-day view  |  Residential-community scenario  |  Exported: ${dateStr}`, margin, margin + 42);
+  doc.text(`7-day view  |  Residential-community scenario  |  Exported: ${dateStr}`, margin, margin + 26);
 
-  let currentY = margin + 52;
+  let currentY = margin + 36;
 
   // HERO CARD
   const rankedZones = getTopPriorityZones(payload.zones, payload.zones.length);

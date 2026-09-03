@@ -116,11 +116,6 @@ export default function DeviceFleet({
         </div>
       </section>
 
-      {/* Data Provenance Disclosure */}
-      <div className="bg-amber-50 border border-amber-200/50 rounded-lg p-4 text-xs text-amber-800">
-        Field durability, power autonomy, condensation control, image reliability, containment and service intervals remain to be validated.
-      </div>
-
       {/* ATTENTION NEEDED */}
       {attentionCount > 0 && (
         <section className="bg-red-50/50 border border-red-100 rounded-xl p-6">
