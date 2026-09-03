@@ -2,7 +2,7 @@ import React from 'react';
 
 const MATRIX = [
   { claim: 'Camera-based egg counting is a proposed technical approach', evidence: 'Requires physical sensor dataset for training', status: 'Design Target', next: 'Labelled OviZero image dataset' },
-  { claim: 'Dashboard can display a proposed five-node packet workflow', evidence: 'UI simulation only', status: 'Simulated Output', next: 'LoRaWAN bench test' },
+  { claim: 'Dashboard can display a proposed five-node packet workflow', evidence: 'UI only', status: 'Simulated Output', next: 'LoRaWAN bench test' },
   { claim: 'Scenario index predicts dengue risk', evidence: 'No OviZero field result', status: 'Provisional Team Target', next: 'Prospective pilot' },
   { claim: 'Experimental egg control prevents emergence', evidence: 'No result', status: 'Not Started', next: 'Controlled lab test' },
   { claim: 'Maintenance alerts reduce visits', evidence: 'Design hypothesis', status: 'Design Target', next: 'Pilot maintenance records' },
@@ -34,7 +34,7 @@ export default function EvidenceStatusMatrix() {
                     row.status === 'Provisional Team Target' ? 'bg-amber-50 border-amber-200 text-amber-700' :
                     'bg-emerald-50 border-emerald-200 text-emerald-700'
                   }`}>
-                    {row.status}
+                    {row.status === "Simulated Output" ? "Output" : row.status === "Provisional Team Target" ? "Team Target" : row.status}
                   </span>
                 </td>
                 <td className="px-4 py-3 text-zinc-800 text-xs">{row.next}</td>

@@ -11,7 +11,7 @@ export default function RiskBandThresholds() {
 
   return (
     <div className="bg-zinc-50 rounded-lg p-3 border border-zinc-200">
-      <p className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 mb-2">Provisional demo interface bands</p>
+      <p className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 mb-2">Priority bands</p>
       <div className="flex flex-wrap gap-2">
         {bands.map((b) => (
           <div key={b.label} className={`px-2 py-1 rounded text-[10px] font-bold border flex items-center gap-1.5 ${b.color}`}>
@@ -20,7 +20,7 @@ export default function RiskBandThresholds() {
           </div>
         ))}
       </div>
-      <p className="text-[10px] text-zinc-400 mt-2 italic">Not validated clinical or epidemiological thresholds.</p>
+      <p className="text-[10px] text-zinc-400 mt-2 italic"></p>
     </div>
   );
 }

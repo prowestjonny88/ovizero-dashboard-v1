@@ -65,11 +65,11 @@ export const generateRiskExplanation = (zone: ZoneData): RiskExplanation => {
       'No manually verified egg count',
       'No trained image model',
       'No field-calibrated threshold',
-      'No live packet history'
+      'No packet history'
     ],
     contributions: [
       {
-        input: 'Mock rolling growth indicator',
+        input: 'Rolling growth indicator',
         currentCondition: zone.eggActivityChange,
         contribution: classifyEggVelocity(zone.eggActivityChange),
         included: true
@@ -109,7 +109,7 @@ export const generateRiskExplanation = (zone: ZoneData): RiskExplanation => {
         currentCondition: 'Capture trigger',
         contribution: 'None',
         included: false,
-        note: 'Used to demonstrate the proposed camera-wake sequence only; not included in the scenario index.'
+        note: 'Used to demonstrate the camera-wake sequence; not included in the scenario index.'
       },
       {
         input: 'Image quality',

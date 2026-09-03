@@ -5,7 +5,7 @@ import { Layers, MonitorSmartphone, Cpu, Binary, Volume2, Radio, MapPin, FlaskCo
 
 const MATURITY_ITEMS = [
   { area: 'Concept', status: 'Developed', icon: Layers },
-  { area: 'Dashboard', status: 'Mock-up available', icon: MonitorSmartphone },
+  { area: 'Dashboard', status: 'Available', icon: MonitorSmartphone },
   { area: 'Physical hardware', status: 'Not built', icon: Cpu },
   { area: 'MEMS microphone', status: 'Not built', icon: Volume2 },
   { area: 'Acoustic trigger classifier', status: 'Not trained', icon: Volume2 },
@@ -15,7 +15,7 @@ const MATURITY_ITEMS = [
   { area: 'End-to-end trigger workflow', status: 'Not tested', icon: FlaskConical },
   { area: 'LoRaWAN integration', status: 'Not started', icon: Radio },
   { area: 'Field validation', status: 'Not started', icon: MapPin },
-  { area: 'Experimental egg-control', status: 'Not validated', icon: FlaskConical },
+  { area: 'Experimental egg-control', status: 'Pending', icon: FlaskConical },
 ];
 
 
@@ -24,8 +24,8 @@ export default function ProjectMaturity() {
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
       {MATURITY_ITEMS.map((item, idx) => {
         const Icon = item.icon;
-        const isDeveloped = item.status === 'Developed' || item.status === 'Mock-up available';
-        const isNotStarted = item.status === 'Not built' || item.status === 'Not trained' || item.status.includes('Not started') || item.status === 'Not validated';
+        const isDeveloped = item.status === 'Developed' || item.status === 'Available';
+        const isNotStarted = item.status === 'Not built' || item.status === 'Not trained' || item.status.includes('Not started') || item.status === 'Pending';
         
         const bgColor = isDeveloped ? 'bg-emerald-50 border-emerald-200' : isNotStarted ? 'bg-zinc-50 border-zinc-200' : 'bg-blue-50 border-blue-200';
         const iconColor = isDeveloped ? 'text-emerald-600' : isNotStarted ? 'text-zinc-400' : 'text-blue-600';

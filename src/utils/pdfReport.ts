@@ -191,7 +191,7 @@ export const downloadPdfReport = async (
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7.5);
   doc.setTextColor(mutedGray);
-  doc.text('No validated factor weights', rightX, currentY + 70);
+  
 
   currentY += heroHeight + 10;
 

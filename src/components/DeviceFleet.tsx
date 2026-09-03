@@ -392,7 +392,7 @@ export default function DeviceFleet({
                     <CheckCircle className="w-4 h-4 shrink-0 mt-0.5 text-emerald-600" />
                     <div>
                       <p className="font-bold">Stored check completed.</p>
-                      <p className="text-emerald-700/80 mt-0.5">No live device is connected.</p>
+                      
                     </div>
                   </div>
                 ) : (

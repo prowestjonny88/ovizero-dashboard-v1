@@ -179,7 +179,7 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
                     <input type="date" value={dueDate} onChange={e => setDueDate(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2" />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Provisional demo service target *</label>
+                    <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Service target *</label>
                     <div className="w-full text-sm border border-zinc-200 bg-zinc-50 rounded p-2 text-zinc-600 font-mono">
                       48h
                     </div>
@@ -227,7 +227,7 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
                   </div>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Evidence file (demo)</label>
+                  <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Evidence file</label>
                   <input type="text" value={evidenceFilename} onChange={e => setEvidenceFilename(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2" placeholder="Optional filename" />
                 </div>
                 <button onClick={handleComplete} className="px-3 py-1.5 bg-blue-600 text-white rounded text-xs font-bold hover:bg-blue-700">
@@ -254,7 +254,7 @@ export default function InterventionWorkflowPanel({ zone, record, onCreate, onTr
                 <p className="text-sm font-bold text-purple-900 mb-1 flex items-center gap-2"><Clock size={16} /> Action logged. Follow-up observation is pending.</p>
                 <div className="p-3 bg-white border border-purple-100 rounded-lg text-xs text-zinc-600 flex items-start gap-2">
                   <Info size={14} className="text-purple-500 shrink-0 mt-0.5" />
-                  <p>Completing an action does not automatically lower the illustrative intervention priority or mark the issue resolved. Follow-up observation is required.</p>
+                  <p>Completing an action does not automatically lower the intervention priority or mark the issue resolved. Follow-up observation is required.</p>
                 </div>
               </div>
             )}

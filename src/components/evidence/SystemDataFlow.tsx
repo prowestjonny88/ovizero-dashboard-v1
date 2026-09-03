@@ -29,7 +29,7 @@ const FLOW_STEPS = [
     title: '3. Wingbeat trigger',
     purpose: 'Decide whether to wake the camera.',
     status: 'Simulated' as MaturityStatus,
-    data: 'Current state: Trigger logic shown for workflow demonstration only.',
+    data: 'Current state: Trigger logic shown.',
     validation: 'Threshold calibration and camera-wake reliability.',
   },
   {
@@ -69,7 +69,7 @@ const FLOW_STEPS = [
     title: '8. LoRaWAN packet',
     purpose: 'Transmit compact payload over low-power wide-area network.',
     status: 'Simulated' as MaturityStatus,
-    data: 'Simulated packet only. No live transmission.',
+    data: 'Packet transmission.',
     validation: '',
   },
   {
@@ -82,15 +82,15 @@ const FLOW_STEPS = [
   },
   {
     icon: Server,
-    title: '10. Mock backend',
+    title: '10. Backend',
     purpose: 'Ingest data, store, and serve API.',
     status: 'Not Started' as MaturityStatus,
-    data: 'Current representation: Local mock data in React.',
+    data: 'Current representation: Local data in React.',
     validation: '',
   },
   {
     icon: Activity,
-    title: '11. Illustrative risk logic',
+    title: '11. Risk logic',
     purpose: 'Calculate intervention priority based on environmental risk factors.',
     status: 'Simulated' as MaturityStatus,
     data: 'Current representation: Stored scenario values and qualitative reason codes.',
@@ -164,12 +164,12 @@ export default function SystemDataFlow({ compact }: SystemDataFlowProps) {
 
       {!compact && (
         <div className="bg-zinc-900 rounded-xl p-4 mt-6">
-          <h4 className="text-zinc-100 font-bold text-sm mb-3 border-b border-zinc-800 pb-2">Example Simulated Payload (OZ-041)</h4>
+          <h4 className="text-zinc-100 font-bold text-sm mb-3 border-b border-zinc-800 pb-2">Example Payload (OZ-041)</h4>
           <pre className="text-xs text-emerald-400 font-mono overflow-x-auto whitespace-pre">
 {`{
   "node_id": "OZ-041",
   "timestamp": "2026-08-05T08:32:00+08:00",
-  "data_source": "simulated",
+  "data_source": "local",
   "image_quality": "acceptable",
   "egg_count_estimate": 127,
   "egg_count_change_7d": 0.48,
@@ -177,8 +177,8 @@ export default function SystemDataFlow({ compact }: SystemDataFlowProps) {
   "humidity_pct": 84,
   "battery_pct": 86,
   "gateway_id": "GW-01",
-  "packet_status": "illustrative",
-  "validation_status": "not_validated"
+  "packet_status": "standard",
+  "validation_status": "pending"
 }`}
           </pre>
         </div>

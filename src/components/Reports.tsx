@@ -54,7 +54,7 @@ export default function Reports({
             {getRangeLabel()} Risk Scenario Report
           </h1>
           <p className="text-xs text-zinc-500 font-medium mt-1 mb-2">
-            Selected-period scenario and mock activity.
+            Selected-period scenario activity.
           </p>
           <ScenarioPeriodLabel  mode="selected-period" />
         </div>
@@ -83,7 +83,7 @@ export default function Reports({
           <span className="text-[8px] font-bold text-zinc-400 uppercase tracking-widest block mb-2">Device records</span>
           <div>
             <span className="text-2xl font-bold text-zinc-950 font-geist leading-tight">{activeNodesCount}</span>
-            <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider font-mono mt-1 block">mock records</span>
+            <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider font-mono mt-1 block">records</span>
           </div>
         </div>
 
@@ -156,7 +156,7 @@ export default function Reports({
                     <span className="font-bold font-mono text-xs text-zinc-900">{zone.interventionPriority}/100</span>
                   </div>
                   <div className="text-right hidden sm:block">
-                    <span className="text-[8px] font-bold text-zinc-400 uppercase tracking-widest block">Mock Growth</span>
+                    <span className="text-[8px] font-bold text-zinc-400 uppercase tracking-widest block">Growth</span>
                     <span className="font-mono text-xs text-zinc-900">{zone.eggActivityChange}</span>
                   </div>
                   <ChevronRight className="w-4 h-4 text-zinc-400 group-hover:text-zinc-900 transition-colors" />
@@ -171,7 +171,7 @@ export default function Reports({
         <div className="lg:col-span-5 bg-white rounded-xl border border-zinc-200/50 shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
           <div className="p-5 border-b border-zinc-100 bg-zinc-50/50 flex justify-between items-center">
             <h3 className="font-bold text-xs uppercase tracking-wider text-zinc-900">Device Diagnostics Summary</h3>
-            <span className="text-[9px] font-bold uppercase tracking-wider text-zinc-400 font-mono">Mock connectivity state</span>
+            <span className="text-[9px] font-bold uppercase tracking-wider text-zinc-400 font-mono">Connectivity state</span>
           </div>
 
           <div className="p-5 space-y-4">

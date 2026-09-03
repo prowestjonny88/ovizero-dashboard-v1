@@ -231,7 +231,7 @@ return (
             </div>
             
             <p className="text-[10px] text-zinc-400 mt-2 font-mono">
-              <span className="block mb-1 text-zinc-600 font-bold">Outline: five node placements; not validated coverage.</span>
+              <span className="block mb-1 text-zinc-600 font-bold">One marker = one node.</span>
               <span className="block mb-1">One marker = one node.</span>
               
               {mapMode === 'risk' && showIllustrativeEggCount &&  <span className="block">Egg bubbles show egg activity, not spatial density.</span>}
@@ -287,7 +287,7 @@ return (
                       <span className="text-xs font-bold text-zinc-900">5 Aug 2026 &middot; 08:36 MYT</span>
                     </div>
                   </div>
-                  <p className="text-[9px] text-zinc-400 mt-3 text-center">Topology &middot; not field validated</p>
+                  <p className="text-[9px] text-zinc-400 mt-3 text-center">Topology</p>
                 </div>
                 
                 <div className="mt-4">
@@ -384,7 +384,7 @@ return (
                       </div>
                     </div>
                   </div>
-                  <p className="text-[9px] text-zinc-400 mt-3 text-center">No validated factor weights &middot; human dengue case data are not connected.</p>
+                  <p className="text-[9px] text-zinc-400 mt-3 text-center">Human dengue case data are not connected.</p>
                 </div>
 
                 <div className="mt-4 pt-4 border-t border-zinc-200/60">

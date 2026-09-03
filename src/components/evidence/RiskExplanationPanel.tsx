@@ -20,7 +20,7 @@ export default function RiskExplanationPanel({ zone }: RiskExplanationPanelProps
             <ShieldAlert size={16} className="text-zinc-500" />
             WHY THIS RISK BAND?
           </h3>
-          <p className="text-xs text-zinc-500 mt-1">Stored illustrative scenario index explanation</p>
+          <p className="text-xs text-zinc-500 mt-1">Scenario index explanation</p>
         </div>
         <div 
           className="px-3 py-1.5 rounded-lg font-bold border shadow-xs"
@@ -39,11 +39,11 @@ export default function RiskExplanationPanel({ zone }: RiskExplanationPanelProps
           <div>
             <div className="text-xs text-zinc-500 font-medium mb-1">Scenario Index</div>
             <div className="font-mono text-xl font-bold text-zinc-900">{explanation.scenarioIndex} / 100</div>
-            <div className="text-[10px] text-zinc-400">Stored mock value</div>
+            <div className="text-[10px] text-zinc-400">Stored value</div>
           </div>
           <div>
             <div className="text-xs text-zinc-500 font-medium mb-1">Calculation Type</div>
-            <div className="text-sm font-bold text-zinc-800">{explanation.calculationType}</div>
+            <div className="text-sm font-bold text-zinc-800">{explanation.calculationType === "Stored Mock Scenario" ? "Stored Scenario" : explanation.calculationType}</div>
             <div className="text-[10px] text-zinc-500">Model: {explanation.modelVersion}</div>
           </div>
           <div>
@@ -63,10 +63,10 @@ export default function RiskExplanationPanel({ zone }: RiskExplanationPanelProps
 
         <div>
           <h4 className="text-xs font-bold text-zinc-800 uppercase tracking-wider mb-1 flex items-center gap-2">
-            <FileBarChart size={14} /> Illustrative Contributions
+            <FileBarChart size={14} /> Contributions
           </h4>
           <p className="text-xs text-zinc-500 mb-3 italic">
-            Provisional demo interpretation rules — not validated model weights.
+            Interpretation rules.
           </p>
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">
@@ -74,7 +74,7 @@ export default function RiskExplanationPanel({ zone }: RiskExplanationPanelProps
                 <tr>
                   <th className="px-3 py-2 font-medium">Input</th>
                   <th className="px-3 py-2 font-medium">Current condition</th>
-                  <th className="px-3 py-2 font-medium">Illustrative contribution</th>
+                  <th className="px-3 py-2 font-medium">Contribution</th>
                   <th className="px-3 py-2 font-medium text-center">Included?</th>
                 </tr>
               </thead>

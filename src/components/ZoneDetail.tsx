@@ -113,7 +113,7 @@ export default function ZoneDetail({
       {/* Context Row */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white rounded-xl border border-zinc-200 p-5 shadow-sm">
-          <h3 className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest mb-2">Illustrative Intervention Priority</h3>
+          <h3 className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest mb-2">Intervention Priority</h3>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-bold text-zinc-950">{zone.interventionPriority}</span>
             <span className="text-xs font-bold text-zinc-500">/ 100</span>
@@ -122,14 +122,14 @@ export default function ZoneDetail({
         </div>
         
         <div className="bg-white rounded-xl border border-zinc-200 p-5 shadow-sm">
-          <h3 className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest mb-2">Synthetic egg activity</h3>
+          <h3 className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest mb-2">Egg activity</h3>
           <div className="flex items-center gap-2">
             <span className="text-2xl font-bold text-zinc-950">{zone.syntheticEggActivity}</span>
-            <span className="text-sm font-bold text-zinc-500">demo eggs</span>
+            <span className="text-sm font-bold text-zinc-500">eggs</span>
           </div>
           <div className="flex items-center gap-1 mt-1 text-xs font-bold text-zinc-600">
             <TrendingUp className="w-3.5 h-3.5" />
-            <span>{zone.eggActivityChange} &middot; 7-day synthetic change</span>
+            <span>{zone.eggActivityChange} &middot; 7-day change</span>
           </div>
         </div>
 
@@ -147,7 +147,6 @@ export default function ZoneDetail({
             <div className="flex justify-between text-xs text-zinc-600">
               <div className="flex flex-col">
                 <span className="font-bold">Rainfall</span>
-                <span className="text-[9px] text-zinc-400 mt-0.5">External demo input</span>
               </div>
               <span>{zone.rainfall}</span>
             </div>

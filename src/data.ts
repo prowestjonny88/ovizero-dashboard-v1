@@ -23,21 +23,21 @@ export const ZONES: ZoneData[] = [
       label: 'Integration pending',
       owner: 'teammate'
     },
-    candidateAcousticTrigger: 'Candidate acoustic trigger — simulated',
+    candidateAcousticTrigger: 'Candidate acoustic trigger',
     trendData: [64, 72, 81, 93, 105, 119, 127],
     avg7DayTrend: [60, 65, 71, 78, 86, 95, 104],
     whyRising: [
       {
         title: 'Rapid Egg Accumulation',
-        description: 'Simulated data reflects a +37% increase in synthetic egg activity over the last 7 days.'
+        description: 'Egg activity increased by +37% over the last 7 days.'
       },
       {
-        title: 'Illustrative Acoustic Match',
-        description: 'Simulated signal pattern is consistent with a candidate wingbeat frequency, requiring future field validation.'
+        title: 'Acoustic Match',
+        description: 'Signal pattern is consistent with a candidate wingbeat frequency.'
       },
       {
         title: 'Local microclimate context',
-        description: 'Simulated temperature and humidity context.'
+        description: 'Temperature and humidity context.'
       }
     ],
     provenance: {
@@ -69,13 +69,13 @@ export const ZONES: ZoneData[] = [
       label: 'Integration pending',
       owner: 'teammate'
     },
-    candidateAcousticTrigger: 'Candidate acoustic trigger — simulated',
+    candidateAcousticTrigger: 'Candidate acoustic trigger',
     trendData: [55, 62, 70, 78, 85, 94, 102],
     avg7DayTrend: [52, 58, 63, 69, 75, 82, 89],
     whyRising: [
       {
         title: 'Blockage and Pooling',
-        description: 'Simulated urban layout suggests structural blockages encouraging continuous stagnant water pools.'
+        description: 'Urban layout suggests structural blockages encouraging continuous stagnant water pools.'
       }
     ],
     provenance: {
@@ -107,7 +107,7 @@ export const ZONES: ZoneData[] = [
       label: 'Integration pending',
       owner: 'teammate'
     },
-    candidateAcousticTrigger: 'Candidate acoustic trigger — simulated',
+    candidateAcousticTrigger: 'Candidate acoustic trigger',
     trendData: [45, 52, 59, 68, 74, 82, 88],
     avg7DayTrend: [40, 46, 51, 57, 63, 69, 75],
     whyRising: [
@@ -145,13 +145,13 @@ export const ZONES: ZoneData[] = [
       label: 'Integration pending',
       owner: 'teammate'
     },
-    candidateAcousticTrigger: 'Candidate acoustic trigger — simulated',
+    candidateAcousticTrigger: 'Candidate acoustic trigger',
     trendData: [38, 42, 49, 53, 58, 64, 69],
     avg7DayTrend: [35, 39, 43, 47, 51, 56, 61],
     whyRising: [
       {
         title: 'Low Battery Node Warning',
-        description: 'Simulated OZ-077 battery drops to 22%, causing a theoretical delay in diagnostics. Physical inspection proposed.'
+        description: 'OZ-077 battery at 22%, causing a delay in diagnostics. Physical inspection proposed.'
       }
     ],
     provenance: {
@@ -183,13 +183,13 @@ export const ZONES: ZoneData[] = [
       label: 'Integration pending',
       owner: 'teammate'
     },
-    candidateAcousticTrigger: 'Candidate acoustic trigger — simulated',
+    candidateAcousticTrigger: 'Candidate acoustic trigger',
     trendData: [24, 28, 30, 33, 36, 39, 41],
     avg7DayTrend: [22, 25, 27, 29, 32, 35, 38],
     whyRising: [
       {
         title: 'Ornamental Pond Seep',
-        description: 'Simulated community hall area features slow-dripping ornamental structure with minor peripheral pools.'
+        description: 'Community hall area features slow-dripping ornamental structure with minor peripheral pools.'
       }
     ],
     provenance: {

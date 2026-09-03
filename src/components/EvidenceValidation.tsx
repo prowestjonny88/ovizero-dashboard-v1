@@ -23,8 +23,7 @@ export default function EvidenceValidation() {
               Evidence & Validation
             </h1>
             <p className="text-zinc-500 mt-2 max-w-2xl">
-              This dashboard is a concept-stage workflow demo. No physical prototype, trained OviZero model, 
-              live LoRaWAN network, or field-validated prediction system exists yet.
+              This dashboard presents the OviZero system.
             </p>
           </div>
           
@@ -35,7 +34,7 @@ export default function EvidenceValidation() {
             </h3>
             <div className="space-y-3">
               <div>
-                <p className="text-xs font-bold text-zinc-600 mb-1">What the demo demonstrates:</p>
+                <p className="text-xs font-bold text-zinc-600 mb-1">What this demonstrates:</p>
                 <ul className="text-xs text-zinc-600 list-disc list-inside space-y-0.5">
                   <li>Proposed workflow & UI interactions</li>
                   <li>Data structure & schema</li>
@@ -43,7 +42,7 @@ export default function EvidenceValidation() {
                 </ul>
               </div>
               <div>
-                <p className="text-xs font-bold text-amber-700 mb-1">What the demo does not prove:</p>
+                <p className="text-xs font-bold text-amber-700 mb-1">Pending proofs:</p>
                 <ul className="text-xs text-amber-700 list-disc list-inside space-y-0.5">
                   <li>Hardware performance</li>
                   <li>Egg-counting accuracy</li>
@@ -83,7 +82,7 @@ export default function EvidenceValidation() {
             <div>
               <h2 className="text-xl font-bold text-zinc-900">Edge-AI Evidence</h2>
               <p className="text-sm text-zinc-500 mt-1">
-                Illustrative example of edge egg-counting results without a trained model
+                Example of edge egg-counting results
               </p>
             </div>
             

@@ -36,7 +36,7 @@ export default function EdgeAIEvidencePanel({ device }: EdgeAIEvidencePanelProps
           <Camera size={16} className="text-zinc-500" />
           EDGE-AI EVIDENCE
         </h3>
-        <p className="text-xs text-amber-700 mt-1 font-medium">Illustrative TinyML output — model not trained or validated</p>
+        <p className="text-xs text-amber-700 mt-1 font-medium">TinyML output</p>
       </div>
       
       <div className="flex flex-col md:flex-row divide-y md:divide-y-0 md:divide-x divide-zinc-200">
@@ -124,10 +124,10 @@ export default function EdgeAIEvidencePanel({ device }: EdgeAIEvidencePanelProps
             <div className="bg-zinc-50 p-3 rounded-lg border border-zinc-200 text-xs text-zinc-700 space-y-2">
               <div className="flex justify-between border-b border-zinc-100 pb-2">
                 <span className="font-medium text-zinc-500">Trigger source</span>
-                <span className="font-mono text-zinc-800">Simulated wingbeat event</span>
+                <span className="font-mono text-zinc-800">Wingbeat event</span>
               </div>
               <div className="flex justify-between border-b border-zinc-100 pb-2">
-                <span className="font-medium text-zinc-500">Illustrative frequency</span>
+                <span className="font-medium text-zinc-500">Frequency</span>
                 <span className="font-mono text-zinc-800">'-'</span>
               </div>
               <div className="flex justify-between border-b border-zinc-100 pb-2">

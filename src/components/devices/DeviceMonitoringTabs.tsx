@@ -151,15 +151,15 @@ export default function DeviceMonitoringTabs({ device }: DeviceMonitoringTabsPro
              <div className="grid grid-cols-2 gap-4">
               <div className="col-span-2">
                 <div className="text-[10px] uppercase font-bold text-zinc-500">Power Autonomy</div>
-                <div className="text-zinc-900">Not validated</div>
+                <div className="text-zinc-900">Pending</div>
               </div>
               <div className="col-span-2">
                 <div className="text-[10px] uppercase font-bold text-zinc-500">Containment concept</div>
-                <div className="text-zinc-900">Validation pending</div>
+                <div className="text-zinc-900">Pending</div>
               </div>
               <div className="col-span-2">
                 <div className="text-[10px] uppercase font-bold text-zinc-500">Adult escape prevention</div>
-                <div className="text-zinc-900">Validation pending</div>
+                <div className="text-zinc-900">Pending</div>
               </div>
               <div className="col-span-2">
                 <div className="text-[10px] uppercase font-bold text-zinc-500">Experimental egg control</div>

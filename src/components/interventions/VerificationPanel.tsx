@@ -125,10 +125,10 @@ export default function VerificationPanel({ zone, intervention, verification, on
                 </div>
                 <div>
                   <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Follow-up egg activity</label>
-                  <input type="number" value={afterEggCount} onChange={e => setAfterEggCount(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2" placeholder="Optional demo value" />
+                  <input type="number" value={afterEggCount} onChange={e => setAfterEggCount(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2" placeholder="Optional value" />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Evidence file (demo)</label>
+                  <label className="block text-[10px] font-bold text-zinc-600 uppercase mb-1">Evidence file</label>
                   <input type="text" value={evidenceFilename} onChange={e => setEvidenceFilename(e.target.value)} className="w-full text-sm border border-zinc-200 rounded p-2" placeholder="Optional filename" />
                 </div>
                 <div className="sm:col-span-2">

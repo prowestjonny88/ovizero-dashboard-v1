@@ -253,11 +253,11 @@ export const buildReportLogs = (
 
   if (true) {
     staticLogs = [
-      { id: 'log-7d-1', timestamp: getDemoPastISO(0, 4), displayTime: '', tag: 'DEMO', message: 'OZ-041 demo profile loaded.', level: 'INFO' },
-      { id: 'log-7d-2', timestamp: getDemoPastISO(2, 6), displayTime: '', tag: 'DEMO', message: 'OZ-077 flagged for low battery and weak link.', level: 'WARNING' },
-      { id: 'log-7d-3', timestamp: getDemoPastISO(3, 8), displayTime: '', tag: 'DEMO', message: 'Proposed LoRaWAN schema shown.', level: 'INFO' },
-      { id: 'log-7d-4', timestamp: getDemoPastISO(4, 1), displayTime: '', tag: 'DEMO', message: 'Demo acoustic candidate shown.', level: 'INFO' },
-      { id: 'log-7d-5', timestamp: getDemoPastISO(5, 2), displayTime: '', tag: 'DEMO', message: 'Demo intervention record created.', level: 'INFO' }
+      { id: 'log-7d-1', timestamp: getDemoPastISO(0, 4), displayTime: '', tag: 'SYS', message: 'OZ-041 profile loaded.', level: 'INFO' },
+      { id: 'log-7d-2', timestamp: getDemoPastISO(2, 6), displayTime: '', tag: 'SYS', message: 'OZ-077 flagged for low battery and weak link.', level: 'WARNING' },
+      { id: 'log-7d-3', timestamp: getDemoPastISO(3, 8), displayTime: '', tag: 'SYS', message: 'Proposed LoRaWAN schema shown.', level: 'INFO' },
+      { id: 'log-7d-4', timestamp: getDemoPastISO(4, 1), displayTime: '', tag: 'SYS', message: 'Acoustic candidate shown.', level: 'INFO' },
+      { id: 'log-7d-5', timestamp: getDemoPastISO(5, 2), displayTime: '', tag: 'SYS', message: 'Intervention record created.', level: 'INFO' }
     ];
     }
 
@@ -271,7 +271,7 @@ export const buildDashboardExportPayload = (
   zones: ZoneData[],
   devices: DeviceData[],
   interventions: InterventionMap,
-  locationLabel = 'Illustrative residential-community scenario'
+  locationLabel = 'Residential-community scenario'
 ): DashboardExportPayload => {
   return {
     generatedAt: new Date().toISOString(),

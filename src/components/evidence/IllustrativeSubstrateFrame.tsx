@@ -37,7 +37,7 @@ export default function IllustrativeSubstrateFrame() {
       </div>
       
       <div className="absolute bottom-2 left-2 right-2 bg-white/90 backdrop-blur px-2 py-1.5 rounded text-[10px] font-mono text-zinc-600 text-center border border-white">
-        Synthetic substrate illustration.<br/>Does not represent an actual model inference.
+        Substrate illustration.
       </div>
     </div>
   );

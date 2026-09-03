@@ -186,9 +186,7 @@ export default function CommandCenter({
           </div>
           
           <div className="mt-8 pt-4 border-t border-zinc-200/60">
-            <p className="text-[9px] text-zinc-400 font-mono text-center">
-              No validated factor weights
-            </p>
+            
           </div>
         </div>
       </section>

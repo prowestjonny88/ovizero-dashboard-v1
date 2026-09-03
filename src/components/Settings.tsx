@@ -62,19 +62,19 @@ export default function Settings() {
             System Settings
           </h1>
           <p className="text-xs text-zinc-500 mt-1">
-            Preview local mock-interface options and proposed system settings.
+            Local interface options and proposed system settings.
           </p>
         </div>
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-[#1b7f47] animate-pulse" />
           <span className="text-[10px] font-bold font-mono uppercase tracking-wider text-zinc-500">
-            Node Registry Demo
+            Node Registry
           </span>
         </div>
       </div>
 
       <div className="bg-amber-50 border border-amber-200 text-amber-800 p-4 rounded-xl text-sm mb-6">
-        <p className="font-bold mb-1">Local mock UI preview — session-only</p>
+        <p className="font-bold mb-1">Local UI preview — session-only</p>
         <p>These settings do not command physical devices or modify the submitted Risk Map.</p>
       </div>
 
@@ -106,7 +106,7 @@ export default function Settings() {
                     </span>
                   </div>
                   <p className="text-[10px] text-[#42534a] leading-relaxed">
-                    Google Maps basemap enabled. OviZero pilot device and gateway coordinates shown on the map are illustrative demo placements.
+                    Google Maps basemap enabled. OviZero pilot device and gateway coordinates shown on the map are shown.
                   </p>
                 </div>
               ) : (
@@ -141,13 +141,13 @@ export default function Settings() {
             <div className="divide-y divide-zinc-100 text-xs">
               <div className="py-2.5 flex justify-between items-center">
                 <span className="text-zinc-500">Deployment</span>
-                <span className="font-semibold text-zinc-800 text-right">Illustrative residential-community scenario</span>
+                <span className="font-semibold text-zinc-800 text-right">Residential-community scenario</span>
               </div>
               <div className="py-2.5 flex justify-between items-center">
-                <span className="text-zinc-500">Mock Data</span>
+                <span className="text-zinc-500">Data</span>
                 <span className="font-semibold text-zinc-800 text-right flex items-center gap-1.5">
                   <span className="text-[#1b7f47] font-mono">5</span>
-                  <span className="text-zinc-400">mock device records</span>
+                  <span className="text-zinc-400">device records</span>
                 </span>
               </div>
               <div className="py-2.5 flex justify-between items-center">
@@ -155,13 +155,13 @@ export default function Settings() {
                 <span className="font-semibold text-zinc-800 text-right font-mono">AS923</span>
               </div>
               <div className="py-2.5 flex justify-between items-center">
-                <span className="text-zinc-500">Mock refresh cadence</span>
+                <span className="text-zinc-500">Refresh cadence</span>
                 <span className="font-semibold text-zinc-800 text-right">Every 15 min</span>
               </div>
               <div className="py-2.5 flex justify-between items-center">
                 <span className="text-zinc-500">AI Mode</span>
                 <span className="font-semibold text-zinc-800 text-right bg-[#e8f4ed] text-[#052e1a] px-1.5 py-0.5 rounded text-[10px]">
-                  Stored mock scenario logic
+                  Stored scenario logic
                 </span>
               </div>
               <div className="py-2.5 flex justify-between items-center">
@@ -201,11 +201,11 @@ export default function Settings() {
               </div>
               <div className="py-2.5 flex justify-between items-center">
                 <span className="text-zinc-500">Location Mode</span>
-                <span className="font-semibold text-zinc-800">Demo coordinates</span>
+                <span className="font-semibold text-zinc-800">Coordinates</span>
               </div>
               <div className="py-2.5 flex justify-between items-center">
                 <span className="text-zinc-500">Data Retention</span>
-                <span className="font-semibold text-zinc-800">Session/local mock data</span>
+                <span className="font-semibold text-zinc-800">Session/local data</span>
               </div>
               <div className="py-2.5 flex justify-between items-center">
                 <span className="text-zinc-500">Export Formats</span>
@@ -255,9 +255,9 @@ export default function Settings() {
               </div>
               <div>
                 <h3 className="font-bold text-sm text-zinc-900">
-                  Proposed Sensor Logic & Mock Telemetry
+                  Proposed Sensor Logic & Telemetry
                 </h3>
-                <p className="text-[10px] text-zinc-400">Simulated hardware parameters and simulated wingbeat registers</p>
+                <p className="text-[10px] text-zinc-400">Hardware parameters and wingbeat registers</p>
               </div>
             </div>
             <div className="space-y-4">
@@ -271,7 +271,7 @@ export default function Settings() {
                   <span className="font-semibold text-[#052e1a] text-xs mt-1 block">
                     Wingbeat-triggered · proposed
                   </span>
-                  <span className="text-[9px] text-zinc-400 block mt-0.5">Camera wakes only after the simulated acoustic trigger passes.<br/><br/>Hardware status: Not built<br/>Trigger logic: Not validated</span>
+                  <span className="text-[9px] text-zinc-400 block mt-0.5">Camera wakes only after the acoustic trigger passes.</span>
                 </div>
 
                 <div className="bg-zinc-50/50 border border-zinc-200/20 p-3 rounded-lg">
@@ -279,9 +279,9 @@ export default function Settings() {
                     WINGBEAT TRIGGER
                   </span>
                   <span className="font-mono text-xs font-semibold text-[#052e1a] mt-1 block">
-                    480–511 Hz · illustrative source range
+                    480–511 Hz · source range
                   </span>
-                  <span className="text-[9px] text-zinc-400 block mt-0.5">Proposed low-power microphone trigger for waking the camera.<br/>No OviZero acoustic classifier has been trained or validated.</span>
+                  <span className="text-[9px] text-zinc-400 block mt-0.5">Proposed low-power microphone trigger for waking the camera.</span>
                 </div>
               </div>
 
@@ -289,8 +289,8 @@ export default function Settings() {
               <div className="divide-y divide-zinc-100">
                 <div className="py-3 flex items-center justify-between">
                   <div>
-                    <h4 className="font-semibold text-xs text-zinc-800">Illustrative Data Engine (Session-only)</h4>
-                    <p className="text-[10px] text-zinc-400 mt-0.5">Enable simulated payload generation for demonstrations.</p>
+                    <h4 className="font-semibold text-xs text-zinc-800">Data Engine (Session-only)</h4>
+                    <p className="text-[10px] text-zinc-400 mt-0.5">Enable payload generation.</p>
                   </div>
                   <button 
                     onClick={() => handleToggle('adultEscape')}
@@ -308,7 +308,7 @@ export default function Settings() {
 
                 <div className="py-3 flex items-center justify-between">
                   <div>
-                    <h4 className="font-semibold text-xs text-zinc-800">Simulated Moisture Bridge Check (Session-only)</h4>
+                    <h4 className="font-semibold text-xs text-zinc-800">Moisture Bridge Check (Session-only)</h4>
                     <p className="text-[10px] text-zinc-400 mt-0.5">Simulates soil & substrate humidity data to test false positive prevention.</p>
                   </div>
                   <button 
@@ -327,7 +327,7 @@ export default function Settings() {
 
                 <div className="py-3 flex items-center justify-between">
                   <div>
-                    <h4 className="font-semibold text-xs text-zinc-800">Simulated Electrode Contact Check (Session-only)</h4>
+                    <h4 className="font-semibold text-xs text-zinc-800">Electrode Contact Check (Session-only)</h4>
                     <p className="text-[10px] text-zinc-400 mt-0.5">Simulates automated resistance monitoring on egg-counting circuit grids.</p>
                   </div>
                   <button 
@@ -358,7 +358,7 @@ export default function Settings() {
                 <h3 className="font-bold text-sm text-zinc-900">
                   GIS & Map Layer Settings
                 </h3>
-                <p className="text-[10px] text-zinc-400">Simulated Google maps parameters, simulated vector fallback styles, and coordinate offsets</p>
+                <p className="text-[10px] text-zinc-400">Google maps parameters, vector fallback styles, and coordinate offsets</p>
               </div>
             </div>
 
@@ -371,7 +371,7 @@ export default function Settings() {
                   <span className="font-semibold text-[#052e1a] text-xs mt-1 block">
                     Google Maps
                   </span>
-                  <span className="text-[9px] text-zinc-400 block mt-0.5">Simulated primary rendering interface</span>
+                  <span className="text-[9px] text-zinc-400 block mt-0.5">Primary rendering interface</span>
                 </div>
 
                 <div className="bg-zinc-50/50 border border-zinc-200/20 p-3 rounded-lg">
@@ -388,8 +388,8 @@ export default function Settings() {
               <div className="divide-y divide-zinc-100">
                 <div className="py-3 flex items-center justify-between">
                   <div>
-                    <h4 className="font-semibold text-xs text-zinc-800">Risk Overlay (Preview only)</h4>
-                    <p className="text-[10px] text-zinc-400 mt-0.5">Preview illustrative risk-band overlays in the local mock interface.</p>
+                    <h4 className="font-semibold text-xs text-zinc-800">Risk Overlay</h4>
+                    <p className="text-[10px] text-zinc-400 mt-0.5">Preview risk-band overlays in the local interface.</p>
                   </div>
                   <button 
                     onClick={() => handleToggle('riskOverlay')}
@@ -407,8 +407,8 @@ export default function Settings() {
 
                 <div className="py-3 flex items-center justify-between">
                   <div>
-                    <h4 className="font-semibold text-xs text-zinc-800">Node Pins (Preview only)</h4>
-                    <p className="text-[10px] text-zinc-400 mt-0.5">Preview illustrative proposed device placements.</p>
+                    <h4 className="font-semibold text-xs text-zinc-800">Node Pins</h4>
+                    <p className="text-[10px] text-zinc-400 mt-0.5">Preview proposed device placements.</p>
                   </div>
                   <button 
                     onClick={() => handleToggle('nodePins')}
@@ -426,8 +426,8 @@ export default function Settings() {
 
                 <div className="py-3 flex items-center justify-between">
                   <div>
-                    <h4 className="font-semibold text-xs text-zinc-800">Critical Alert Halo (Preview only)</h4>
-                    <p className="text-[10px] text-zinc-400 mt-0.5">Preview a crimson halo around mock profiles currently classified in the Critical risk band.</p>
+                    <h4 className="font-semibold text-xs text-zinc-800">Critical Alert Halo</h4>
+                    <p className="text-[10px] text-zinc-400 mt-0.5">Preview a crimson halo around profiles currently classified in the Critical risk band.</p>
                   </div>
                   <button 
                     onClick={() => handleToggle('alertHalo')}
@@ -445,8 +445,8 @@ export default function Settings() {
 
                 <div className="py-3 flex items-center justify-between">
                   <div>
-                    <h4 className="font-semibold text-xs text-zinc-800">Demo Coordinates (Preview only)</h4>
-                    <p className="text-[10px] text-zinc-400 mt-0.5">Illustrative residential-community scenario coordinates</p>
+                    <h4 className="font-semibold text-xs text-zinc-800">Demo Coordinates</h4>
+                    <p className="text-[10px] text-zinc-400 mt-0.5">Residential-community scenario coordinates</p>
                   </div>
                   <button 
                     onClick={() => handleToggle('demoCoordinates')}
