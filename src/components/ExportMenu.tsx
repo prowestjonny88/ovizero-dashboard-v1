@@ -47,7 +47,7 @@ const ExportMenu: React.FC<ExportMenuProps> = ({ onExport, exportingFormat, clas
             <FileText className="w-4 h-4 text-emerald-600" />
             <div>
               <div className="font-bold">PDF Summary</div>
-              <div className="text-[10px] text-zinc-500">Demo summary</div>
+              <div className="text-[10px] text-zinc-500">Summary report</div>
             </div>
           </button>
           <button
@@ -60,7 +60,7 @@ const ExportMenu: React.FC<ExportMenuProps> = ({ onExport, exportingFormat, clas
             <FileJson className="w-4 h-4 text-blue-600" />
             <div>
               <div className="font-bold">JSON Data</div>
-              <div className="text-[10px] text-zinc-500">Structured demo data</div>
+              <div className="text-[10px] text-zinc-500">Structured data</div>
             </div>
           </button>
         </div>
