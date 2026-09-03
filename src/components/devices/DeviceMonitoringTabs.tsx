@@ -137,37 +137,6 @@ export default function DeviceMonitoringTabs({ device }: DeviceMonitoringTabsPro
             </div>
           </div>
         )}
-
-        <button 
-          onClick={() => setExpandedSection(expandedSection === 'limits' ? 'none' : 'limits')}
-          className="w-full flex items-center justify-between p-4 bg-zinc-50 hover:bg-zinc-100 transition-colors text-left border-t border-zinc-100"
-        >
-          <span className="text-xs font-bold text-zinc-900 uppercase tracking-widest">Validation limits</span>
-          {expandedSection === 'limits' ? <ChevronDown className="w-4 h-4 text-zinc-500"/> : <ChevronRight className="w-4 h-4 text-zinc-500"/>}
-        </button>
-
-        {expandedSection === 'limits' && (
-          <div className="p-4 bg-white space-y-4 text-sm">
-             <div className="grid grid-cols-2 gap-4">
-              <div className="col-span-2">
-                <div className="text-[10px] uppercase font-bold text-zinc-500">Power Autonomy</div>
-                <div className="text-zinc-900">Pending</div>
-              </div>
-              <div className="col-span-2">
-                <div className="text-[10px] uppercase font-bold text-zinc-500">Containment concept</div>
-                <div className="text-zinc-900">Pending</div>
-              </div>
-              <div className="col-span-2">
-                <div className="text-[10px] uppercase font-bold text-zinc-500">Adult escape prevention</div>
-                <div className="text-zinc-900">Pending</div>
-              </div>
-              <div className="col-span-2">
-                <div className="text-[10px] uppercase font-bold text-zinc-500">Experimental egg control</div>
-                <div className="text-zinc-900">Phase 2 / planned lab validation</div>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
 
     </div>

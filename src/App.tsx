@@ -99,7 +99,7 @@ export default function App() {
           type: 'success',
         });
       } else if (format === 'json') {
-        const filename = `ovizero-demo-data-${dateStr}.json`;
+        const filename = `ovizero-data-${dateStr}.json`;
         const jsonPayload = {
           ...payload
         };

@@ -185,9 +185,6 @@ export default function CommandCenter({
             </div>
           </div>
           
-          <div className="mt-8 pt-4 border-t border-zinc-200/60">
-            
-          </div>
         </div>
       </section>
 
