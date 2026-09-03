@@ -91,7 +91,7 @@ return (
       <div className="bg-white border border-zinc-200/60 rounded-xl p-2 shadow-xs">
         <div className="flex flex-col gap-2">
           
-          <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-2">7-day demo &middot; 5 nodes</div>
+          <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-2">7-day view &middot; 5 nodes</div>
 
           {/* Mode Switch & Filters */}
           <div className="flex flex-row items-center justify-between gap-4 overflow-x-auto whitespace-nowrap scrollbar-hidden snap-x w-full">
@@ -142,7 +142,7 @@ return (
                 aria-pressed={showIllustrativeEggCount}
                 className={`px-4 py-2 min-h-[40px] rounded-full text-xs font-bold transition-colors shrink-0 border ${showIllustrativeEggCount ? 'bg-[#e8f4ed] text-[#052e1a] border-[#0b5a31]' : 'bg-zinc-50 text-zinc-500 border-zinc-200'}`}
               >
-                Synthetic egg activity
+                Egg activity
               </button>
             )}
             {mapMode === 'network' && (
@@ -204,9 +204,9 @@ return (
                   const mid = counts[Math.floor(counts.length / 2)];
                   return (
                     <> 
-                       <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full border border-[#2C7F79] bg-[#3BA7A0] opacity-30"></div> {min} synthetic eggs</div>
-                       <div className="flex items-center gap-1.5"><div className="w-3.5 h-3.5 rounded-full border border-[#2C7F79] bg-[#3BA7A0] opacity-30"></div> {mid} synthetic eggs</div>
-                       <div className="flex items-center gap-1.5"><div className="w-5 h-5 rounded-full border border-[#2C7F79] bg-[#3BA7A0] opacity-30"></div> {max} synthetic eggs</div>
+                       <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full border border-[#2C7F79] bg-[#3BA7A0] opacity-30"></div> {min} eggs</div>
+                       <div className="flex items-center gap-1.5"><div className="w-3.5 h-3.5 rounded-full border border-[#2C7F79] bg-[#3BA7A0] opacity-30"></div> {mid} eggs</div>
+                       <div className="flex items-center gap-1.5"><div className="w-5 h-5 rounded-full border border-[#2C7F79] bg-[#3BA7A0] opacity-30"></div> {max} eggs</div>
                     </>
                   );
                 })()}
@@ -218,7 +218,7 @@ return (
                     <div className="w-3 h-3 border border-[#1b7f47] rounded-full flex items-center justify-center bg-[#e8f4ed]"><div className="w-0.5 h-1.5 bg-[#1b7f47] rounded-sm"></div></div> 
                     Proposed gateway
                   </div>
-                  <div className="flex items-center gap-1.5"><div className="w-4 h-0 border-t-2 border-dashed border-[#1b7f47] opacity-60"></div> Simulated LoRaWAN link</div>
+                  <div className="flex items-center gap-1.5"><div className="w-4 h-0 border-t-2 border-dashed border-[#1b7f47] opacity-60"></div> LoRaWAN link</div>
                   {showSignalQuality && (
                      <>
                        <div className="flex items-center gap-1.5"><div className="px-1.5 py-0.5 rounded shadow-sm border border-[#1b7f47]/20 bg-[#ffffff] text-[#1b7f47] font-bold text-[9px]">Strong</div></div>
@@ -231,11 +231,11 @@ return (
             </div>
             
             <p className="text-[10px] text-zinc-400 mt-2 font-mono">
-              <span className="block mb-1 text-zinc-600 font-bold">Outline: five demo node placements; not validated coverage.</span>
-              <span className="block mb-1">One marker = one simulated node.</span>
+              <span className="block mb-1 text-zinc-600 font-bold">Outline: five node placements; not validated coverage.</span>
+              <span className="block mb-1">One marker = one node.</span>
               
-              {mapMode === 'risk' && showIllustrativeEggCount &&  <span className="block">Egg bubbles show demo egg activity, not spatial density.</span>}
-              {mapMode === 'network' &&  <span className="block">Gateway and links are illustrative.</span>}
+              {mapMode === 'risk' && showIllustrativeEggCount &&  <span className="block">Egg bubbles show egg activity, not spatial density.</span>}
+              {mapMode === 'network' &&  <span className="block">Gateway and links shown.</span>}
             </p>
           </div>
         </div>
@@ -271,15 +271,15 @@ return (
                       <span className="text-xs font-mono font-bold text-zinc-900">{selectedVM.gateway?.id || 'N/A'}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-xs text-zinc-500">Simulated link</span>
-                      <span className="text-xs font-bold text-zinc-900">Illustrative link shown</span>
+                      <span className="text-xs text-zinc-500">Link</span>
+                      <span className="text-xs font-bold text-zinc-900">Link shown</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-xs text-zinc-500">Simulated signal quality</span>
+                      <span className="text-xs text-zinc-500">Signal quality</span>
                       <span className="text-xs font-bold text-[#1b7f47]">{selectedVM.signalQuality}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-xs text-zinc-500">Simulated battery</span>
+                      <span className="text-xs text-zinc-500">Battery</span>
                       <span className="text-xs font-bold text-zinc-900">{selectedVM.device?.battery || 'N/A'}%</span>
                     </div>
                     <div className="flex justify-between items-center">
@@ -287,7 +287,7 @@ return (
                       <span className="text-xs font-bold text-zinc-900">5 Aug 2026 &middot; 08:36 MYT</span>
                     </div>
                   </div>
-                  <p className="text-[9px] text-zinc-400 mt-3 text-center">Illustrative topology &middot; not field validated</p>
+                  <p className="text-[9px] text-zinc-400 mt-3 text-center">Topology &middot; not field validated</p>
                 </div>
                 
                 <div className="mt-4">
@@ -316,7 +316,7 @@ return (
                   >
                     {selectedVM.riskProfile.demoPriorityBand}
                   </span>
-                  <p className="text-[10px] font-bold text-zinc-700 uppercase tracking-wider">{selectedVM.riskProfile.demoPriorityBand} DEMO PRIORITY</p>
+                  <p className="text-[10px] font-bold text-zinc-700 uppercase tracking-wider">{selectedVM.riskProfile.demoPriorityBand} PRIORITY</p>
                 </div>
 
                 <div className="mt-4">
@@ -327,11 +327,9 @@ return (
                     <span className="text-lg text-zinc-400 font-mono">/ 100</span>
                   </div>
                   <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest mt-1">
-                    Illustrative Intervention Priority
+                    Intervention Priority
                   </p>
-                  <p className="text-[10px] text-zinc-400 font-mono mt-1">
-                    Stored demo output &middot; not field validated
-                  </p>
+                  
                 </div>
                 
 
@@ -344,39 +342,49 @@ return (
                       <div>
                         <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">A. EGG ACTIVITY</span>
                         <span className="text-lg font-bold font-mono text-zinc-900 block mt-0.5">{selectedVM.riskProfile.eggActivityChange}</span>
-                        <span className="text-[10px] text-zinc-500 block mt-0.5">7-day synthetic change</span>
+                        <span className="text-[10px] text-zinc-500 block mt-0.5">7-day change</span>
                       </div>
                       <div className="text-right">
                         <span className="text-[10px] font-bold text-[#052e1a] uppercase tracking-wider block">High influence</span>
-                        <span className="text-[10px] text-zinc-500 block mt-0.5">Synthetic observation</span>
+                        
                       </div>
                     </div>
                     
                     <div className="flex items-start justify-between p-3 rounded-lg border border-zinc-100 bg-zinc-50/50">
                       <div>
-                        <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">B. LOCAL MICROCLIMATE</span>
-                        <span className="text-base md:text-lg font-bold font-mono text-zinc-900 block mt-0.5 whitespace-nowrap">{selectedVM.riskProfile.temperature}&deg;C &middot; {selectedVM.riskProfile.humidity}% RH</span>
-                        <span className="text-[10px] text-zinc-500 block mt-0.5">Temperature and humidity context</span>
+                        <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">B. TEMPERATURE</span>
+                        <span className="text-base md:text-lg font-bold font-mono text-zinc-900 block mt-0.5 whitespace-nowrap">{selectedVM.riskProfile.temperature}&deg;C</span>
+                        <span className="text-[10px] text-zinc-500 block mt-0.5">Temperature context</span>
                       </div>
                       <div className="text-right">
                         <span className="text-[10px] font-bold text-[#052e1a] uppercase tracking-wider block">High influence</span>
-                        <span className="text-[10px] text-zinc-500 block mt-0.5">Simulated node context</span>
                       </div>
                     </div>
                     
                     <div className="flex items-start justify-between p-3 rounded-lg border border-zinc-100 bg-zinc-50/50">
                       <div>
-                        <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">C. RAINFALL CONTEXT</span>
+                        <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">C. HUMIDITY</span>
+                        <span className="text-base md:text-lg font-bold font-mono text-zinc-900 block mt-0.5 whitespace-nowrap">{selectedVM.riskProfile.humidity}% RH</span>
+                        <span className="text-[10px] text-zinc-500 block mt-0.5">Humidity context</span>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-[10px] font-bold text-[#052e1a] uppercase tracking-wider block">High influence</span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start justify-between p-3 rounded-lg border border-zinc-100 bg-zinc-50/50">
+                      <div>
+                        <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">D. RAINFALL CONTEXT</span>
                         <span className="text-lg font-bold font-mono text-zinc-900 block mt-0.5">{selectedVM.riskProfile.rainfall}</span>
-                        <span className="text-[10px] text-zinc-500 block mt-0.5">External demo input</span>
+                        
                       </div>
                       <div className="text-right">
                         <span className="text-[10px] font-bold text-zinc-700 uppercase tracking-wider block">Moderate influence</span>
-                        <span className="text-[10px] text-zinc-500 block mt-0.5">External demo input</span>
+                        
                       </div>
                     </div>
                   </div>
-                  <p className="text-[9px] text-zinc-400 mt-3 text-center">Illustrative factors only &middot; no validated weights &middot; human dengue case data are not connected.</p>
+                  <p className="text-[9px] text-zinc-400 mt-3 text-center">No validated factor weights &middot; human dengue case data are not connected.</p>
                 </div>
 
                 <div className="mt-4 pt-4 border-t border-zinc-200/60">
@@ -414,8 +422,8 @@ return (
       {/* Bottom Summary Strip */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4">
         <div className="bg-white p-3 lg:p-4 rounded-xl border border-zinc-200/60 shadow-xs">
-          <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">Demo nodes</span>
-          <span className="text-sm font-bold text-[#052e1a] font-mono mt-1 block">5 simulated device records</span>
+          <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">Nodes</span>
+          <span className="text-sm font-bold text-[#052e1a] font-mono mt-1 block">5 monitoring nodes</span>
         </div>
         <div className="bg-white p-3 lg:p-4 rounded-xl border border-zinc-200/60 shadow-xs">
           <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block mb-1">Priority distribution</span>
@@ -436,7 +444,7 @@ return (
         <div className="bg-white p-3 lg:p-4 rounded-xl border border-zinc-200/60 shadow-xs">
           <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">{mapMode === 'risk' ? 'Priority View' : 'Proposed LoRaWAN topology'}</span>
           <span className="text-sm font-bold text-[#052e1a] font-mono mt-1 block">
-            {mapMode === 'risk' ? 'Current simulated device snapshot' : '1 proposed gateway · 5 direct links'}
+            {mapMode === 'risk' ? 'Current device snapshot' : '1 proposed gateway · 5 direct links'}
           </span>
         </div>
       </div>

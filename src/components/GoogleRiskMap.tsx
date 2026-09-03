@@ -565,7 +565,7 @@ export default function GoogleRiskMap({
                 <div className="text-[10px] font-mono text-zinc-500 font-bold mb-1">SCHEMATIC MAP</div>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-amber-400"></div>
-                  <span className="text-[9px] text-zinc-600">External basemap unavailable &middot; displaying the stored illustrative layout.</span>
+                  <span className="text-[9px] text-zinc-600">External basemap unavailable &middot; displaying the stored layout.</span>
                 </div>
               </div>
             </div>

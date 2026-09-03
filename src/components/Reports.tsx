@@ -51,10 +51,10 @@ export default function Reports({
         <div>
           <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest font-mono">Statistical Audit & Analytics</span>
           <h1 className="text-xl font-extrabold text-zinc-950 tracking-tight mt-1">
-            {getRangeLabel()} Illustrative Risk Scenario Report
+            {getRangeLabel()} Risk Scenario Report
           </h1>
           <p className="text-xs text-zinc-500 font-medium mt-1 mb-2">
-            Selected-period simulated scenario and mock activity.
+            Selected-period scenario and mock activity.
           </p>
           <ScenarioPeriodLabel  mode="selected-period" />
         </div>
@@ -74,13 +74,13 @@ export default function Reports({
                 return loc ? `${loc.parentZone} · ${loc.sublocation}` : topZone.name;
               })() : 'None'}
             </span>
-            <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider font-mono mt-1 block">Illustrative scenario index: {topZone?.interventionPriority}</span>
+            <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider font-mono mt-1 block">Scenario index: {topZone?.interventionPriority}</span>
           </div>
         </div>
 
-        {/* Simulated device records */}
+        {/* Device records */}
         <div className="bg-white p-5 rounded-xl border border-zinc-200/50 flex flex-col justify-between shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
-          <span className="text-[8px] font-bold text-zinc-400 uppercase tracking-widest block mb-2">Simulated device records</span>
+          <span className="text-[8px] font-bold text-zinc-400 uppercase tracking-widest block mb-2">Device records</span>
           <div>
             <span className="text-2xl font-bold text-zinc-950 font-geist leading-tight">{activeNodesCount}</span>
             <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider font-mono mt-1 block">mock records</span>
@@ -105,15 +105,15 @@ export default function Reports({
           </div>
         </div>
 
-        {/* Illustrative Risk Scenario Report */}
+        {/* Risk Scenario Report */}
         <div className={`p-5 rounded-xl border flex flex-col justify-between shadow-[0_1px_2px_rgba(0,0,0,0.01)] ${
           highPriorityCount > 0 ? 'bg-zinc-50 border-zinc-300' : 'bg-white border-zinc-200/50'
         }`}>
-          <span className="text-[8px] font-bold text-zinc-400 uppercase tracking-widest block mb-2">Illustrative Risk Scenario Report</span>
+          <span className="text-[8px] font-bold text-zinc-400 uppercase tracking-widest block mb-2">Risk Scenario Report</span>
           <div>
             <span className="text-2xl font-bold text-zinc-950 font-geist leading-tight">{highPriorityCount}</span>
             <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider font-mono mt-1 block">
-              Simulated High Risks
+              High Risks
             </span>
           </div>
         </div>
@@ -146,7 +146,7 @@ export default function Reports({
                   </span>
                   <div>
                     <h4 className="font-bold text-xs text-zinc-900 group-hover:underline">{displayName}</h4>
-                    <p className="text-[9px] text-zinc-400 uppercase font-bold tracking-wider mt-0.5">Illustrative candidate signal &mdash; not classified</p>
+                    <p className="text-[9px] text-zinc-400 uppercase font-bold tracking-wider mt-0.5">Candidate signal &mdash; not classified</p>
                   </div>
                 </div>
 
@@ -228,7 +228,7 @@ export default function Reports({
         <div className="p-5 border-b border-zinc-100 bg-zinc-50/50 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-zinc-400" />
-            <h3 className="font-bold text-xs uppercase tracking-wider text-zinc-900">Simulated Diagnostic & Intervention Activity</h3>
+            <h3 className="font-bold text-xs uppercase tracking-wider text-zinc-900">Diagnostic & Intervention Activity</h3>
           </div>
           <span className="text-[8px] font-bold uppercase tracking-wider text-zinc-400 font-mono">Audited Records</span>
         </div>

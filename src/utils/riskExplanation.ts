@@ -106,14 +106,14 @@ export const generateRiskExplanation = (zone: ZoneData): RiskExplanation => {
       },
             {
         input: 'Wingbeat trigger',
-        currentCondition: 'Simulated capture trigger',
+        currentCondition: 'Capture trigger',
         contribution: 'None',
         included: false,
         note: 'Used to demonstrate the proposed camera-wake sequence only; not included in the scenario index.'
       },
       {
         input: 'Image quality',
-        currentCondition: 'Acceptable simulated state',
+        currentCondition: 'Acceptable state',
         contribution: 'None',
         included: false,
         note: 'Supports data-quality note'

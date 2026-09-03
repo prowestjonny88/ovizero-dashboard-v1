@@ -55,7 +55,7 @@ export default function CommandCenter({
             OVERVIEW
           </h1>
           <h2 className="text-sm font-semibold text-zinc-800">
-            Simulated mosquito-surveillance workflow
+            Mosquito-surveillance workflow
           </h2>
           <p className="text-xs text-zinc-500 mt-1">
             Mosquito signals and local conditions for field review.
@@ -97,11 +97,9 @@ export default function CommandCenter({
               <span className="text-lg text-zinc-400 font-mono">/ 100</span>
             </div>
             <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest mt-1">
-              Illustrative Intervention Priority
+              Intervention Priority
             </p>
-            <p className="text-[10px] text-zinc-400 font-mono mt-1">
-              Stored demo output · not field validated
-            </p>
+            
           </div>
           
           <div className="flex flex-wrap items-center gap-3 pt-2">
@@ -124,7 +122,7 @@ export default function CommandCenter({
         {/* Right Column: Priority-Drivers Panel */}
         <div className="w-full md:w-2/5 bg-zinc-50/50 p-8 md:p-10 border-t md:border-t-0 md:border-l border-zinc-200/60 flex flex-col justify-center">
           <h3 className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-6">
-            WHAT SHAPED THIS DEMO PRIORITY
+            WHAT SHAPED THIS PRIORITY
           </h3>
           
           <div className="space-y-5">
@@ -140,14 +138,14 @@ export default function CommandCenter({
                   <div className="h-full bg-zinc-500 rounded-full w-[80%]"></div>
                 </div>
               </div>
-              <p className="text-[9px] text-zinc-400 font-medium">Synthetic observation</p>
+              
             </div>
             
-            {/* 2. Local microclimate */}
+            {/* 2. Temperature */}
             <div>
               <div className="flex justify-between items-baseline mb-1">
-                <span className="text-xs font-bold text-zinc-700">Local microclimate</span>
-                <span className="text-xs font-mono font-bold text-zinc-900">{peakZone.temperature}°C · {peakZone.humidity}% RH</span>
+                <span className="text-xs font-bold text-zinc-700">Temperature</span>
+                <span className="text-xs font-mono font-bold text-zinc-900">{peakZone.temperature}°C</span>
               </div>
               <div className="flex items-center gap-2 mb-1.5">
                 <span className="text-[9px] font-bold text-zinc-500 uppercase tracking-wider w-16">High</span>
@@ -155,7 +153,20 @@ export default function CommandCenter({
                   <div className="h-full bg-zinc-500 rounded-full w-[80%]"></div>
                 </div>
               </div>
-              <p className="text-[9px] text-zinc-400 font-medium">Simulated node context</p>
+            </div>
+
+            {/* 3. Humidity */}
+            <div>
+              <div className="flex justify-between items-baseline mb-1">
+                <span className="text-xs font-bold text-zinc-700">Humidity</span>
+                <span className="text-xs font-mono font-bold text-zinc-900">{peakZone.humidity}% RH</span>
+              </div>
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="text-[9px] font-bold text-zinc-500 uppercase tracking-wider w-16">High</span>
+                <div className="flex-1 h-1.5 bg-zinc-200 rounded-full overflow-hidden">
+                  <div className="h-full bg-zinc-500 rounded-full w-[80%]"></div>
+                </div>
+              </div>
             </div>
             
             {/* 3. Rainfall context */}
@@ -170,13 +181,13 @@ export default function CommandCenter({
                   <div className="h-full bg-zinc-400 rounded-full w-[55%]"></div>
                 </div>
               </div>
-              <p className="text-[9px] text-zinc-400 font-medium">External demo input</p>
+              
             </div>
           </div>
           
           <div className="mt-8 pt-4 border-t border-zinc-200/60">
             <p className="text-[9px] text-zinc-400 font-mono text-center">
-              Illustrative factors only · no validated weights
+              No validated factor weights
             </p>
           </div>
         </div>
@@ -194,7 +205,7 @@ export default function CommandCenter({
         </div>
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-blue-500"></span>
-          <span><strong className="text-zinc-900">{totalNodesCount}</strong> simulated nodes</span>
+          <span><strong className="text-zinc-900">{totalNodesCount}</strong> monitoring nodes</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-indigo-500"></span>

@@ -54,28 +54,28 @@ export default function DeviceMonitoringTabs({ device }: DeviceMonitoringTabsPro
         <div>
           <div className="text-[10px] uppercase font-bold text-zinc-400 tracking-widest mb-1 flex items-center gap-1.5"><Zap className="w-3 h-3"/> Power</div>
           <div className="text-sm font-bold text-zinc-900">{device.battery}% &middot; {device.solarStatus}</div>
-          <div className="text-xs text-zinc-500">Simulated node input</div>
+          <div className="text-xs text-zinc-500">Node input</div>
         </div>
 
         {/* Connectivity */}
         <div>
           <div className="text-[10px] uppercase font-bold text-zinc-400 tracking-widest mb-1 flex items-center gap-1.5"><Radio className="w-3 h-3"/> Connectivity</div>
           <div className="text-sm font-bold text-zinc-900">{device.loraSignal}</div>
-          <div className="text-xs text-zinc-500">Simulated LoRaWAN link</div>
+          <div className="text-xs text-zinc-500">LoRaWAN link</div>
         </div>
 
         {/* Imaging / Condensation */}
         <div>
           <div className="text-[10px] uppercase font-bold text-zinc-400 tracking-widest mb-1 flex items-center gap-1.5"><Camera className="w-3 h-3"/> Imaging / condensation</div>
           <div className="text-sm font-bold text-zinc-900">{record.imaging.condensation === 'Detected' ? 'Condensation detected' : (record.imaging.condensation === 'Possible' ? 'Possible condensation' : 'Clear')}</div>
-          <div className="text-xs text-zinc-500">Simulated device-health state</div>
+          <div className="text-xs text-zinc-500">Device-health state</div>
         </div>
 
         {/* Maintenance */}
         <div>
           <div className="text-[10px] uppercase font-bold text-zinc-400 tracking-widest mb-1 flex items-center gap-1.5"><Wrench className="w-3 h-3"/> Maintenance</div>
           <div className="text-sm font-bold text-zinc-900">{device.maintenanceState === 'Maintenance Required' ? 'Maintenance required' : 'Normal'}</div>
-          <div className="text-xs text-zinc-500">{device.maintenanceState === 'Maintenance Required' ? 'Demo maintenance due' : 'No maintenance flag'}</div>
+          <div className="text-xs text-zinc-500">{device.maintenanceState === 'Maintenance Required' ? 'Maintenance due' : 'No maintenance flag'}</div>
         </div>
 
         {/* Attention reason */}
@@ -86,9 +86,9 @@ export default function DeviceMonitoringTabs({ device }: DeviceMonitoringTabsPro
           </div>
         )}
         
-        {/* Demo snapshot */}
+        {/* Snapshot */}
         <div>
-          <div className="text-[10px] uppercase font-bold text-zinc-400 tracking-widest mb-1">Demo snapshot</div>
+          <div className="text-[10px] uppercase font-bold text-zinc-400 tracking-widest mb-1">Snapshot</div>
           <div className="text-sm font-bold text-zinc-900">{device.lastSync}</div>
         </div>
       </div>
@@ -111,7 +111,7 @@ export default function DeviceMonitoringTabs({ device }: DeviceMonitoringTabsPro
                 <div className="font-mono font-bold text-zinc-900">{record.connectivity.gatewayId}</div>
               </div>
               <div>
-                <div className="text-[10px] uppercase font-bold text-zinc-500">Demo update age</div>
+                <div className="text-[10px] uppercase font-bold text-zinc-500">Update age</div>
                 <div className="font-mono text-zinc-900">{record.connectivity.offlineDurationMinutes} mins</div>
               </div>
               <div>

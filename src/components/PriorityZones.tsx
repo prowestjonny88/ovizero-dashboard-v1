@@ -38,7 +38,7 @@ export default function PriorityZones({
         </div>
         <div className="flex items-center gap-2 bg-zinc-50 px-3.5 py-2 rounded-lg border border-zinc-150 text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">
           <Compass className="w-4 h-4 text-zinc-400" />
-          <span>Highest demo priority first</span>
+          <span>Highest priority first</span>
         </div>
       </section>
 
@@ -107,7 +107,7 @@ export default function PriorityZones({
                     <div className="flex items-center gap-1.5 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">
                       <span className="font-mono text-zinc-900">{zone.interventionPriority}/100</span>
                       <span className="w-1 h-1 rounded-full bg-zinc-300"></span>
-                      <span>{zone.demoPriorityBand} demo priority</span>
+                      <span>{zone.demoPriorityBand} priority</span>
                     </div>
                   </div>
                   

@@ -59,7 +59,7 @@ export const downloadPdfReport = async (
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(10);
   doc.setTextColor(mutedGray);
-  doc.text('Simulated mosquito-surveillance workflow', margin, margin + 18);
+  doc.text('Mosquito-surveillance workflow', margin, margin + 18);
 
   // Disclosure callout
   doc.setDrawColor(253, 230, 138); // amber-200
@@ -69,17 +69,17 @@ export const downloadPdfReport = async (
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
   doc.setTextColor(217, 119, 6); // amber-600
-  doc.text('SIMULATED SCENARIO · NO LIVE DEVICES', margin + 4, margin + 27);
+  doc.text('SCENARIO DATA · NO LIVE DEVICES', margin + 4, margin + 27);
   
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(113, 113, 122);
-  doc.text('Synthetic/demo values; not a live deployed network or field-validated epidemiological model.', margin + 4, margin + 32);
+  doc.text('Not a live deployed network or field-validated epidemiological model.', margin + 4, margin + 32);
 
   // Metadata
   const dateStr = new Date(payload.generatedAt).toLocaleString();
   doc.setFontSize(8);
   doc.setTextColor(mutedGray);
-  doc.text(`7-day demo  |  Illustrative residential-community scenario  |  Exported: ${dateStr}`, margin, margin + 42);
+  doc.text(`7-day view  |  Residential-community scenario  |  Exported: ${dateStr}`, margin, margin + 42);
 
   let currentY = margin + 52;
 
@@ -99,7 +99,7 @@ export const downloadPdfReport = async (
   const topScore = topZone ? topZone.interventionPriority.toString() : 'N/A';
   const topBand = topZone ? topZone.demoPriorityBand : 'N/A';
 
-  const heroHeight = 60;
+  const heroHeight = 75;
   doc.setDrawColor(228, 228, 231);
   doc.setFillColor(255, 255, 255);
   doc.roundedRect(margin, currentY, contentWidth, heroHeight, 2, 2, 'FD');
@@ -131,19 +131,18 @@ export const downloadPdfReport = async (
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
   doc.setTextColor(nearBlack);
-  doc.text('Illustrative Intervention Priority', margin + 6, currentY + 44);
+  doc.text('Intervention Priority', margin + 6, currentY + 44);
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7.5);
   doc.setTextColor(mutedGray);
-  doc.text('Stored demo output · not field validated', margin + 6, currentY + 49);
-
+  
   // Hero Right: Drivers
   const rightX = margin + 90;
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
   doc.setTextColor(mutedGray);
-  doc.text('WHAT SHAPED THIS DEMO PRIORITY', rightX, currentY + 8);
+  doc.text('WHAT SHAPED THIS PRIORITY', rightX, currentY + 8);
   
   if (topZone) {
       // row 1: Egg activity
@@ -159,13 +158,12 @@ export const downloadPdfReport = async (
       doc.setFillColor(113, 113, 122);
       doc.roundedRect(rightX + 15, currentY + 16, 50, 2, 1, 1, 'FD');
       doc.roundedRect(rightX + 15, currentY + 16, 40, 2, 1, 1, 'F'); // 80%
-      doc.text('Synthetic observation', rightX, currentY + 22);
-
-      // row 2: Local microclimate
+      
+      // row 2: Temperature
       doc.setFontSize(8);
       doc.setTextColor(nearBlack);
-      doc.text('Local microclimate', rightX, currentY + 28);
-      doc.text(sanitizePdfText(`${topZone.temperature}°C · ${topZone.humidity}% RH`), rightX + 80, currentY + 28, { align: 'right' });
+      doc.text('Temperature', rightX, currentY + 28);
+      doc.text(sanitizePdfText(`${topZone.temperature}°C`), rightX + 80, currentY + 28, { align: 'right' });
       
       doc.setFontSize(7.5);
       doc.setTextColor(mutedGray);
@@ -174,28 +172,40 @@ export const downloadPdfReport = async (
       doc.setFillColor(113, 113, 122);
       doc.roundedRect(rightX + 15, currentY + 30, 50, 2, 1, 1, 'FD');
       doc.roundedRect(rightX + 15, currentY + 30, 40, 2, 1, 1, 'F'); // 80%
-      doc.text('Simulated node context', rightX, currentY + 36);
 
-      // row 3: Rainfall context
+      // row 3: Humidity
       doc.setFontSize(8);
       doc.setTextColor(nearBlack);
-      doc.text('Rainfall context', rightX, currentY + 42);
-      doc.text(sanitizePdfText(topZone.rainfall), rightX + 80, currentY + 42, { align: 'right' });
+      doc.text('Humidity', rightX, currentY + 42);
+      doc.text(sanitizePdfText(`${topZone.humidity}% RH`), rightX + 80, currentY + 42, { align: 'right' });
       
       doc.setFontSize(7.5);
       doc.setTextColor(mutedGray);
-      doc.text('MODERATE', rightX, currentY + 46);
+      doc.text('HIGH', rightX, currentY + 46);
+      doc.setDrawColor(212, 212, 216);
+      doc.setFillColor(113, 113, 122);
+      doc.roundedRect(rightX + 15, currentY + 44, 50, 2, 1, 1, 'FD');
+      doc.roundedRect(rightX + 15, currentY + 44, 40, 2, 1, 1, 'F'); // 80%
+
+      // row 4: Rainfall context
+      doc.setFontSize(8);
+      doc.setTextColor(nearBlack);
+      doc.text('Rainfall context', rightX, currentY + 56);
+      doc.text(sanitizePdfText(topZone.rainfall), rightX + 80, currentY + 56, { align: 'right' });
+      
+      doc.setFontSize(7.5);
+      doc.setTextColor(mutedGray);
+      doc.text('MODERATE', rightX, currentY + 60);
       doc.setDrawColor(212, 212, 216);
       doc.setFillColor(161, 161, 170); 
-      doc.roundedRect(rightX + 22, currentY + 44, 43, 2, 1, 1, 'FD');
-      doc.roundedRect(rightX + 22, currentY + 44, 24, 2, 1, 1, 'F'); // 55%
-      doc.text('External demo input', rightX, currentY + 50);
+      doc.roundedRect(rightX + 22, currentY + 58, 43, 2, 1, 1, 'FD');
+      doc.roundedRect(rightX + 22, currentY + 58, 24, 2, 1, 1, 'F'); // 55%
   }
   
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7.5);
   doc.setTextColor(mutedGray);
-  doc.text('Illustrative factors only · no validated weights', rightX, currentY + 56);
+  doc.text('No validated factor weights', rightX, currentY + 70);
 
   currentY += heroHeight + 10;
 
@@ -239,7 +249,7 @@ export const downloadPdfReport = async (
   
   autoTable(doc, {
     startY: currentY,
-    head: [['Rank', 'Location', 'Priority', 'Demo band', '7-day egg change']],
+    head: [['Rank', 'Location', 'Priority', 'Priority band', '7-day egg change']],
     body: rankedZones.slice(0, 3).map((z, i) => [
       i + 1,
       sanitizePdfText(formatZoneName(z.id, z.name)),
@@ -266,13 +276,14 @@ export const downloadPdfReport = async (
   
   autoTable(doc, {
     startY: margin + 22,
-    head: [['Location', 'Priority', 'Demo band', '7-day egg change', 'Local conditions', 'Next step']],
+    head: [['Location', 'Priority', 'Priority band', '7-day egg change', 'Temperature', 'Humidity', 'Next step']],
     body: rankedZones.map(z => [
       sanitizePdfText(formatZoneName(z.id, z.name)),
       z.interventionPriority,
       z.demoPriorityBand,
       sanitizePdfText(z.eggActivityChange),
-      sanitizePdfText(`${z.temperature}°C · ${z.humidity}% RH`),
+      sanitizePdfText(`${z.temperature}°C`),
+      sanitizePdfText(`${z.humidity}% RH`),
       sanitizePdfText(z.actionRequired)
     ]),
     theme: 'plain',
@@ -306,7 +317,7 @@ export const downloadPdfReport = async (
   doc.setTextColor(mutedGray);
   
   const dh = payload.summaries?.deviceHealth || { maintenance: 0, weakSignal: 0 };
-  const dhText = `${payload.devices.length} simulated nodes  |  ${dh.maintenance} needs attention  |  ${dh.weakSignal} weak simulated link`;
+  const dhText = `${payload.devices.length} monitoring nodes  |  ${dh.maintenance} needs attention  |  ${dh.weakSignal} weak link`;
   doc.text(dhText, margin, lastTableY + 5);
 
   autoTable(doc, {
@@ -414,7 +425,7 @@ export const downloadPdfReport = async (
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
     doc.setTextColor(mutedGray);
-    doc.text('OviZero · Demo summary', margin, doc.internal.pageSize.height - 10);
+    doc.text('OviZero · Summary', margin, doc.internal.pageSize.height - 10);
     doc.text(`Page ${i} of ${totalPagesExp}`, pageWidth - margin, doc.internal.pageSize.height - 10, { align: 'right' });
   }
 

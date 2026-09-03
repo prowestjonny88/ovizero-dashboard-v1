@@ -118,7 +118,7 @@ export default function DeviceFleet({
 
       {/* Data Provenance Disclosure */}
       <div className="bg-amber-50 border border-amber-200/50 rounded-lg p-4 text-xs text-amber-800">
-        Device-health values are simulated. Field durability, power autonomy, condensation control, image reliability, containment and service intervals remain to be validated.
+        Field durability, power autonomy, condensation control, image reliability, containment and service intervals remain to be validated.
       </div>
 
       {/* ATTENTION NEEDED */}
@@ -155,7 +155,7 @@ export default function DeviceFleet({
                     <ul className="text-sm text-zinc-700 space-y-1 list-disc list-inside">
                       {device.battery <= 25 && <li>Battery {device.battery}%</li>}
                       {device.solarStatus === 'Low Solar' && <li>Low solar input</li>}
-                      {device.loraSignal === 'Weak' && <li>Weak simulated LoRaWAN signal</li>}
+                      {device.loraSignal === 'Weak' && <li>Weak LoRaWAN signal</li>}
                       {device.diagnostics.electrodeContact === 'Attention Required' && <li>Electrode contact requires attention</li>}
                     </ul>
                   </div>
@@ -179,7 +179,7 @@ export default function DeviceFleet({
         <div className="flex flex-wrap gap-x-8 gap-y-4">
           <div>
             <div className="text-2xl font-extrabold text-zinc-950">{devices.length}</div>
-            <div className="text-xs font-medium text-zinc-500">simulated nodes</div>
+            <div className="text-xs font-medium text-zinc-500">monitoring nodes</div>
           </div>
           <div>
             <div className="text-2xl font-extrabold text-zinc-950">{devices.length - attentionCount}</div>
@@ -194,7 +194,7 @@ export default function DeviceFleet({
           {devices.filter(d => d.loraSignal === 'Weak').length > 0 && (
             <div>
               <div className="text-2xl font-extrabold text-amber-600">{devices.filter(d => d.loraSignal === 'Weak').length}</div>
-              <div className="text-xs font-medium text-amber-600">weak simulated link</div>
+              <div className="text-xs font-medium text-amber-600">weak link</div>
             </div>
           )}
         </div>
@@ -358,7 +358,7 @@ export default function DeviceFleet({
                       
                       <div className="grid grid-cols-2 gap-2 mt-3 text-xs text-zinc-600">
                         <div>{device.battery}% battery</div>
-                        <div>{device.loraSignal} simulated link</div>
+                        <div>{device.loraSignal} link</div>
                       </div>
                       
                       <button 
@@ -396,7 +396,7 @@ export default function DeviceFleet({
                   <div className="w-full bg-emerald-50 text-emerald-800 border border-emerald-200 p-3 rounded-lg text-xs flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 shrink-0 mt-0.5 text-emerald-600" />
                     <div>
-                      <p className="font-bold">Stored demo check completed.</p>
+                      <p className="font-bold">Stored check completed.</p>
                       <p className="text-emerald-700/80 mt-0.5">No live device is connected.</p>
                     </div>
                   </div>
@@ -409,7 +409,7 @@ export default function DeviceFleet({
                     {diagnosticRunningId === activeDevice.id ? (
                       <><RefreshCw className="w-3.5 h-3.5 animate-spin" /> Running...</>
                     ) : (
-                      <><Terminal className="w-3.5 h-3.5" /> Run Demo Device Check</>
+                      <><Terminal className="w-3.5 h-3.5" /> Run Device Check</>
                     )}
                   </button>
                 )}
